@@ -1,0 +1,71 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\u8007876\\Documents\\GitHub\\Example.DataLibrary.DotNet\\src\\3. Delivery\\3.1-Streaming\\3.1.02-Sreaming-MarketByPrice\\3.1.02-Sreaming-MarketByPrice.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\u8007876\\Documents\\GitHub\\Example.DataLibrary.DotNet\\src\\3. Delivery\\3.1-Streaming\\3.1.02-Sreaming-MarketByPrice\\3.1.02-Sreaming-MarketByPrice.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\u8007876\\Documents\\GitHub\\Example.DataLibrary.DotNet\\src\\3. Delivery\\3.1-Streaming\\3.1.02-Sreaming-MarketByPrice\\3.1.02-Sreaming-MarketByPrice.csproj",
+        "projectName": "3.1.02-Sreaming-MarketByPrice",
+        "projectPath": "C:\\Users\\u8007876\\Documents\\GitHub\\Example.DataLibrary.DotNet\\src\\3. Delivery\\3.1-Streaming\\3.1.02-Sreaming-MarketByPrice\\3.1.02-Sreaming-MarketByPrice.csproj",
+        "packagesPath": "C:\\Users\\u8007876\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\u8007876\\Documents\\GitHub\\Example.DataLibrary.DotNet\\src\\3. Delivery\\3.1-Streaming\\3.1.02-Sreaming-MarketByPrice\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\u8007876\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Users\\u8007876\\Documents\\GitHub\\elektron-api-library-dotnet\\Refinitiv.Data.Content\\bin\\Debug": {},
+          "C:\\Users\\u8007876\\Documents\\GitHub\\elektron-api-library-dotnet\\Refinitiv.Data\\bin\\Debug": {},
+          "C:\\Users\\u8007876\\Documents\\GitHub\\elektron-api-library-dotnet\\WebSockets\\NinjaWebSockets\\Refinitiv.Data.WebSockets.NinjaWebSockets\\bin\\Debug": {},
+          "C:\\Users\\u8007876\\Documents\\GitHub\\elektron-api-library-dotnet\\WebSockets\\WebSocket-client\\Refinitiv.Data.WebSockets.Websocket-client\\bin\\Debug": {},
+          "C:\\Users\\u8007876\\Documents\\GitHub\\elektron-api-library-dotnet\\WebSockets\\WebSocket4Net\\Refinitiv.Data.WebSockets.WebSocket4Net\\bin\\Debug": {},
+          "C:\\Users\\u8007876\\Documents\\GitHub\\elektron-api-library-dotnet\\WebSockets\\WebSocketSharp\\Refinitiv.Data.WebSockets.WebSocketSharp\\bin\\Debug": {},
+          "https://www.nuget.org/api/v2/": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.202\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

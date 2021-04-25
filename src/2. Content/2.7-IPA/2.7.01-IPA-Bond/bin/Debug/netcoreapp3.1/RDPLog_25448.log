@@ -1,0 +1,58 @@
+2021-04-25 10:30:20.3986|Info|Refinitiv.Data.Log|1|Registering log system
+2021-04-25 10:30:22.1870|Info|Refinitiv.Data.Core.PlatformSessionCore|7|PlatformSession (Cloud) successfully authenticated
+2021-04-25 10:30:22.9268|Info|Refinitiv.Data.Core.PlatformSessionCore|7|Successfully retrieved 9 streaming endpoints from the service discovery.
+2021-04-25 10:31:36.2155|Warn|Refinitiv.Data.Core.PlatformSessionCore|7|HTTP request through the PlatformSession (Cloud) failed: {
+	IsSuccess: False
+	HttpStatus: {
+  "HTTPStatusCode": 504,
+  "HTTPReason": "Gateway Timeout",
+  "Contents": "<html>\r\n<head><title>504 Gateway Time-out</title></head>\r\n<body>\r\n<center><h1>504 Gateway Time-out</h1></center>\r\n</body>\r\n</html>\r\n"
+}
+	HttpHeaders: [
+  {
+    "Key": "Date",
+    "Value": [
+      "Sun, 25 Apr 2021 14:31:36 GMT"
+    ]
+  },
+  {
+    "Key": "Connection",
+    "Value": [
+      "keep-alive"
+    ]
+  },
+  {
+    "Key": "Access-Control-Allow-Origin",
+    "Value": [
+      "*"
+    ]
+  },
+  {
+    "Key": "Access-Control-Expose-Headers",
+    "Value": [
+      "content-encoding, content-length, x-tr-requestid, x-tr-correlationid"
+    ]
+  },
+  {
+    "Key": "X-Amzn-Trace-Id",
+    "Value": [
+      "Root=1-60857d0c-0b333f350498545b20f020c5"
+    ]
+  },
+  {
+    "Key": "X-Served-By",
+    "Value": [
+      "region=us-east-1; cid=bbeb6d963272485db7bb024648e16d97"
+    ]
+  },
+  {
+    "Key": "X-Tr-Requestid",
+    "Value": [
+      "c3785542-d8b1-4b6d-80fe-a53231b95c62"
+    ]
+  }
+]
+	Data: 
+}
+
+2021-04-25 10:31:49.9658|Info|Refinitiv.Data.Core.PlatformSessionCore|7|Platform PlatformSession (Cloud) is Closed

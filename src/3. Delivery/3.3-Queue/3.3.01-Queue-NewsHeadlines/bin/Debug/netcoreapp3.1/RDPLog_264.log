@@ -1,0 +1,3 @@
+2021-04-25 09:44:42.1240|Info|Refinitiv.Data.Log|1|Registering log system
+2021-04-25 09:44:46.4644|Warn|Refinitiv.Data.Core.DesktopSessionCore|7|Desktop Session proxy ping on port: 9000 failed. No connection could be made because the target machine actively refused it. - No connection could be made because the target machine actively refused it.
+2021-04-25 09:44:50.5506|Warn|Refinitiv.Data.Core.DesktopSessionCore|7|Desktop Session proxy ping on port: 9001 failed. No connection could be made because the target machine actively refused it. - No connection could be made because the target machine actively refused it.

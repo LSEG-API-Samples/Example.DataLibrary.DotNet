@@ -1,0 +1,113 @@
+2021-04-24 21:04:38.6354|Info|Refinitiv.Data.Log|1|Registering log system
+2021-04-24 21:04:39.3557|Info|Refinitiv.Data.Core.DesktopSessionCore|9|Desktop Session Successfully Authenticated
+2021-04-24 21:04:40.2835|Warn|Refinitiv.Data.Core.DesktopSessionCore|9|HTTP request through the Desktop Session failed: {
+	IsSuccess: False
+	HttpStatus: {
+  "HTTPStatusCode": 403,
+  "HTTPReason": "Forbidden",
+  "Contents": {
+    "error": {
+      "id": "7637b8a4-b2f1-4ac4-8b51-6f41780dfb0f",
+      "code": "insufficient_scope",
+      "message": "access denied. Scopes required to access the resource: [trapi.alerts.news-headlines.crud] or [trapi.alerts.news-headlines-1h.crud] or [trapi.alerts.news-headlines-24h.crud]. Missing scopes: [trapi.alerts.news-headlines.crud trapi.alerts.news-headlines-1h.crud trapi.alerts.news-headlines-24h.crud]",
+      "status": "Forbidden"
+    }
+  }
+}
+	HttpHeaders: [
+  {
+    "Key": "Access-Control-Allow-Origin",
+    "Value": [
+      "*"
+    ]
+  },
+  {
+    "Key": "X-ID",
+    "Value": [
+      "18952.172"
+    ]
+  },
+  {
+    "Key": "X-Request-ID",
+    "Value": [
+      "190ed7d6-1607-453f-a280-95f450443604"
+    ]
+  },
+  {
+    "Key": "ETag",
+    "Value": [
+      "W/\"19f-TWuymkGFdrfLdi08lrmRDbHb1Sc\""
+    ]
+  },
+  {
+    "Key": "Date",
+    "Value": [
+      "Sun, 25 Apr 2021 01:04:40 GMT"
+    ]
+  },
+  {
+    "Key": "Connection",
+    "Value": [
+      "keep-alive"
+    ]
+  }
+]
+	Data: 
+}
+
+2021-04-24 21:04:40.8078|Warn|Refinitiv.Data.Core.DesktopSessionCore|9|HTTP request through the Desktop Session failed: {
+	IsSuccess: False
+	HttpStatus: {
+  "HTTPStatusCode": 403,
+  "HTTPReason": "Forbidden",
+  "Contents": {
+    "error": {
+      "id": "2213a134-f762-4c95-ae17-1ecc3e9633cf",
+      "code": "insufficient_scope",
+      "message": "access denied. Scopes required to access the resource: [trapi.alerts.news-headlines.crud] or [trapi.alerts.news-headlines-1h.crud] or [trapi.alerts.news-headlines-24h.crud]. Missing scopes: [trapi.alerts.news-headlines.crud trapi.alerts.news-headlines-1h.crud trapi.alerts.news-headlines-24h.crud]",
+      "status": "Forbidden"
+    }
+  }
+}
+	HttpHeaders: [
+  {
+    "Key": "Access-Control-Allow-Origin",
+    "Value": [
+      "*"
+    ]
+  },
+  {
+    "Key": "X-ID",
+    "Value": [
+      "18952.173"
+    ]
+  },
+  {
+    "Key": "X-Request-ID",
+    "Value": [
+      "241adf13-d3d0-49f9-924f-ca8448d76a5f"
+    ]
+  },
+  {
+    "Key": "ETag",
+    "Value": [
+      "W/\"19f-Gvdgs9fPP1LYPcxkfa1lcAMn+MU\""
+    ]
+  },
+  {
+    "Key": "Date",
+    "Value": [
+      "Sun, 25 Apr 2021 01:04:40 GMT"
+    ]
+  },
+  {
+    "Key": "Connection",
+    "Value": [
+      "keep-alive"
+    ]
+  }
+]
+	Data: 
+}
+
+2021-04-24 21:04:40.8078|Info|Refinitiv.Data.Core.DesktopSessionCore|1|Desktop DesktopSession is Closed

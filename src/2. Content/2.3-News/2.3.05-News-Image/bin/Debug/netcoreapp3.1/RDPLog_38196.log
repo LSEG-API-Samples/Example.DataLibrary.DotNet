@@ -1,0 +1,94 @@
+2021-04-21 20:52:43.0995|Info|Refinitiv.Data.Log|1|Registering log system
+2021-04-21 20:52:44.7773|Info|Refinitiv.Data.Core.PlatformSessionCore|7|PlatformSession (Cloud) successfully authenticated
+2021-04-21 20:52:45.4584|Info|Refinitiv.Data.Core.PlatformSessionCore|7|Successfully retrieved 9 streaming endpoints from the service discovery.
+2021-04-21 20:52:46.5355|Warn|Refinitiv.Data.Core.PlatformSessionCore|7|HTTP request through the PlatformSession (Cloud) failed: {
+	IsSuccess: False
+	HttpStatus: {
+  "HTTPStatusCode": 404,
+  "HTTPReason": "Not Found",
+  "Contents": {
+    "error": {
+      "id": "f1b30c18-96ec-4c07-918f-fbad56157843",
+      "code": 721,
+      "message": "Story not found"
+    }
+  }
+}
+	HttpHeaders: [
+  {
+    "Key": "Date",
+    "Value": [
+      "Thu, 22 Apr 2021 00:52:46 GMT"
+    ]
+  },
+  {
+    "Key": "Connection",
+    "Value": [
+      "keep-alive"
+    ]
+  },
+  {
+    "Key": "Access-Control-Allow-Origin",
+    "Value": [
+      "*"
+    ]
+  },
+  {
+    "Key": "Access-Control-Expose-Headers",
+    "Value": [
+      "content-encoding, content-length, x-tr-requestid, x-tr-correlationid"
+    ]
+  },
+  {
+    "Key": "Cache-Control",
+    "Value": [
+      "no-store, must-revalidate, no-cache"
+    ]
+  },
+  {
+    "Key": "ETag",
+    "Value": [
+      "W/\"5e-I1VFrJkdcJ2E7EmM1qSm2g\""
+    ]
+  },
+  {
+    "Key": "Vary",
+    "Value": [
+      "Accept-Encoding"
+    ]
+  },
+  {
+    "Key": "X-Amzn-Trace-Id",
+    "Value": [
+      "Root=1-6080c8dd-125467f56e7d4e8378e5460e"
+    ]
+  },
+  {
+    "Key": "X-Nws-Computation",
+    "Value": [
+      "635ms"
+    ]
+  },
+  {
+    "Key": "X-Nws-Request-Id",
+    "Value": [
+      "f1b30c18-96ec-4c07-918f-fbad56157843"
+    ]
+  },
+  {
+    "Key": "X-Served-By",
+    "Value": [
+      "region=us-east-1; cid=5e65b761506b4939848b506df69a01a1"
+    ]
+  },
+  {
+    "Key": "X-Tr-Requestid",
+    "Value": [
+      "f1b30c18-96ec-4c07-918f-fbad56157843"
+    ]
+  }
+]
+	Data: 
+}
+
+2021-04-21 20:52:48.0032|Info|Refinitiv.Data.Core.PlatformSessionCore|8|Platform PlatformSession (Cloud) is Closed
