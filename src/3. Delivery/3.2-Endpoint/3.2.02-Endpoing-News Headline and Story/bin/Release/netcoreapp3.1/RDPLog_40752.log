@@ -1,4 +1,0 @@
-2021-04-24 11:54:46.3650|Info|Refinitiv.Data.Log|1|Registering log system
-2021-04-24 11:54:47.7785|Info|Refinitiv.Data.Core.PlatformSessionCore|7|PlatformSession (Cloud) successfully authenticated
-2021-04-24 11:54:48.5426|Info|Refinitiv.Data.Core.PlatformSessionCore|7|Successfully retrieved 9 streaming endpoints from the service discovery.
-2021-04-24 11:55:08.1962|Info|Refinitiv.Data.Core.PlatformSessionCore|7|Platform PlatformSession (Cloud) is Closed

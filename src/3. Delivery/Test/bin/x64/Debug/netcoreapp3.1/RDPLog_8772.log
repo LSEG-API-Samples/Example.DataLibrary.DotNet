@@ -1,2 +1,0 @@
-2021-04-20 13:36:14.1708|Info|Refinitiv.Data.Log|1|Changed min log level from: <default> to Debug for rule:
-	logNamePattern: (:All) levels: [ Info Warn Error Fatal ] appendTo: [  ]

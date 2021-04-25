@@ -1,9 +1,0 @@
-C:\Users\u8007876\Documents\GitHub\Example.DataLibrary.DotNet\src\Configuration\bin\Release\netcoreapp3.1\Configuration.deps.json
-C:\Users\u8007876\Documents\GitHub\Example.DataLibrary.DotNet\src\Configuration\bin\Release\netcoreapp3.1\Configuration.dll
-C:\Users\u8007876\Documents\GitHub\Example.DataLibrary.DotNet\src\Configuration\bin\Release\netcoreapp3.1\Configuration.pdb
-C:\Users\u8007876\Documents\GitHub\Example.DataLibrary.DotNet\src\Configuration\obj\Release\netcoreapp3.1\Configuration.AssemblyInfoInputs.cache
-C:\Users\u8007876\Documents\GitHub\Example.DataLibrary.DotNet\src\Configuration\obj\Release\netcoreapp3.1\Configuration.AssemblyInfo.cs
-C:\Users\u8007876\Documents\GitHub\Example.DataLibrary.DotNet\src\Configuration\obj\Release\netcoreapp3.1\Configuration.csproj.CoreCompileInputs.cache
-C:\Users\u8007876\Documents\GitHub\Example.DataLibrary.DotNet\src\Configuration\obj\Release\netcoreapp3.1\Configuration.dll
-C:\Users\u8007876\Documents\GitHub\Example.DataLibrary.DotNet\src\Configuration\obj\Release\netcoreapp3.1\Configuration.pdb
-C:\Users\u8007876\Documents\GitHub\Example.DataLibrary.DotNet\src\Configuration\obj\Release\netcoreapp3.1\Configuration.csprojAssemblyReference.cache

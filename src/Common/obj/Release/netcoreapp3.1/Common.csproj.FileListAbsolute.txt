@@ -1,9 +1,0 @@
-C:\Users\u8007876\Documents\GitHub\Example.DataLibrary.DotNet\src\Common\bin\Release\netcoreapp3.1\Common.deps.json
-C:\Users\u8007876\Documents\GitHub\Example.DataLibrary.DotNet\src\Common\bin\Release\netcoreapp3.1\Common.dll
-C:\Users\u8007876\Documents\GitHub\Example.DataLibrary.DotNet\src\Common\bin\Release\netcoreapp3.1\Common.pdb
-C:\Users\u8007876\Documents\GitHub\Example.DataLibrary.DotNet\src\Common\obj\Release\netcoreapp3.1\Common.AssemblyInfoInputs.cache
-C:\Users\u8007876\Documents\GitHub\Example.DataLibrary.DotNet\src\Common\obj\Release\netcoreapp3.1\Common.AssemblyInfo.cs
-C:\Users\u8007876\Documents\GitHub\Example.DataLibrary.DotNet\src\Common\obj\Release\netcoreapp3.1\Common.csproj.CoreCompileInputs.cache
-C:\Users\u8007876\Documents\GitHub\Example.DataLibrary.DotNet\src\Common\obj\Release\netcoreapp3.1\Common.dll
-C:\Users\u8007876\Documents\GitHub\Example.DataLibrary.DotNet\src\Common\obj\Release\netcoreapp3.1\Common.pdb
-C:\Users\u8007876\Documents\GitHub\Example.DataLibrary.DotNet\src\Common\obj\Release\netcoreapp3.1\Common.csprojAssemblyReference.cache
