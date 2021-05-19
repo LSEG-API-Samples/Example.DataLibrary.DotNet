@@ -26,6 +26,8 @@ namespace _2._4._01_ESG_Universe
                     // Open the session
                     if (session.Open() == Session.State.Opened)
                     {
+                        Console.WriteLine("\nRequesting for the entire ESG Universe...");
+
                         // List all organizations that have ESG coverage
                         Common.DisplayTable(Universe.Definition().GetData(), "ESG Universe");
                     }

@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Refinitiv.Data" Version="1.0.0-beta1" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\..\Configuration\Configuration.csproj" />
   </ItemGroup>
 

@@ -32,7 +32,7 @@ namespace _2._3._02_News_HeadlinesByDate
 
                         // Use date specified within query: "Apple daterange:'2020-06-01,2020-06-07'"
                         Console.WriteLine("\nRetrieve all headlines for query: 'Apple daterange'...");
-                        DisplayHeadlines(Headlines.Definition().Query(@"Apple daterange:""2020-06-01,2020-06-07""")
+                        DisplayHeadlines(Headlines.Definition().Query(@"Apple daterange:2020-06-01,2020-06-07")
                                                                .Count(0)
                                                                .Sort(Headlines.SortOrder.oldToNew)
                                                                .GetData());
@@ -63,7 +63,7 @@ namespace _2._3._02_News_HeadlinesByDate
         {
             if (headlines.IsSuccess)
             {
-                Console.WriteLine($"Retrieved a total of {headlines.Data.Headlines.Count} headlines.  Small sample:");
+                //////Console.WriteLine($"Retrieved a total of {headlines.Data.Headlines.Count} headlines.  Small sample:");
                 foreach (var headline in headlines.Data.Headlines.Take(5))
                     Console.WriteLine($"\t{headline.CreationDate}\t{headline.HeadlineTitle}");
             }

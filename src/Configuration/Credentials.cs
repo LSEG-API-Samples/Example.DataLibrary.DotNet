@@ -1,5 +1,4 @@
-﻿
-namespace Configuration
+﻿namespace Configuration
 {
     // GlobalSettings
     // The following class is a convenient interface used strictly for the Examples within this solution.  Most of the examples,
@@ -10,12 +9,12 @@ namespace Configuration
     public static class Credentials
     {
         // ********************************************************************
-        // RDP/ERT in Cloud Global Authentication parameters
+        // RDP/RTO in Cloud Global Authentication parameters
         //
         // Note: Parameters in this section are only applicable if you were
         //       provided RDP or ERT in Cloud credentials.
         // ********************************************************************
-        public static string RDPUser { get; } = "<RDP Machine ID/User ID>";
+        public static string RDPUser { get; } = "<RDP Machine ID>";
         public static string RDPPassword { get; } = "<RDP Password>";
 
         // AppKey used for both Desktop or Platform session types.

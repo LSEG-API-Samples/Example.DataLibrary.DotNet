@@ -45,28 +45,25 @@ namespace _3._2._03_Endpoint_Symbology
                             ["identifierTypes"] = new JArray("ISIN", "LEI", "ExchangeTicker")
                         }),
                         ["type"] = "auto"
-                    })
-                                    .GetData());
+                    }).GetData());
 
                     // Legal Entity Identifier (LEI) to multiple RICs
                     Console.WriteLine("LEI to multiple RICs...");
                     Display(endpoint.BodyParameters(new JObject()
                     {
                         ["from"] = new JArray(
-                                                        new JObject()
-                                                        {
-                                                            ["identifierTypes"] = new JArray("LEI"),
-                                                            ["values"] = new JArray("INR2EJN1ERAN0W5ZP974")
-                                                        }),
+                            new JObject()
+                            {
+                                ["identifierTypes"] = new JArray("LEI"),
+                                ["values"] = new JArray("INR2EJN1ERAN0W5ZP974")
+                            }),
                         ["to"] = new JArray(
-                                                        new JObject()
-                                                        {
-                                                            ["identifierTypes"] = new JArray("RIC")
-                                                        }),
+                            new JObject()
+                            {
+                                ["identifierTypes"] = new JArray("RIC")
+                            }),
                         ["type"] = "auto"
-                    })
-                                    .GetData());
-
+                    }).GetData());
                 }
             }
             catch (Exception e)
