@@ -12,7 +12,7 @@ namespace _1._3___DeployedSession
             // Programmatically override the default log level defined for the Refinitiv Data Library.
             Log.Level = NLog.LogLevel.Debug;
 
-            // Create a session into a deployed ADS providing steaming data onlhy
+            // Create a session into a deployed ADS providing steaming data only
             var session = PlatformSession.Definition().Host(Credentials.ADSHost)
                                                       .GetSession().OnState((s, state, msg) => Console.WriteLine($"State: {state}. {msg}"))
                                                                    .OnEvent((s, eventCode, msg) => Console.WriteLine($"Event: {eventCode}. {msg}"));
