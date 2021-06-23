@@ -63,7 +63,7 @@ namespace _2._3._02_News_HeadlinesByDate
         {
             if (headlines.IsSuccess)
             {
-                //////Console.WriteLine($"Retrieved a total of {headlines.Data.Headlines.Count} headlines.  Small sample:");
+                Console.WriteLine($"Retrieved a total of {headlines.Data.Headlines.Count} headlines.  Small sample:");
                 foreach (var headline in headlines.Data.Headlines.Take(5))
                     Console.WriteLine($"\t{headline.CreationDate}\t{headline.HeadlineTitle}");
             }

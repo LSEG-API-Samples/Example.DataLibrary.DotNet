@@ -27,26 +27,23 @@ namespace _2._7._02_IPA_Option
                     session.Open();
 
                     // Single ETI Option -default parameters
-                    Common.DisplayTable(OptionEti.Definition("AAPLM212222500.U").GetData(), "Single ETI Option");
-                    Console.Write("Enter to continue: "); Console.ReadLine();
+                    Common.DisplayDataSet(OptionEti.Definition("AAPLM212222500.U").GetData(), "Single ETI Option");
 
                     // Multiples ETI options - default parameters (Buy Call)
-                    Common.DisplayTable(OptionEti.Definition("FCHI560000L1.p", "AAPLM212222500.U").Fields("InstrumentCode", "StrikePrice", "EndDate", "ExerciseType",
-                                                                                                          "OptionPrice", "UnderlyingRIC", "ErrorMessage")
-                                                                                                  .GetData(), "Multiple ETI Options");
-                    Console.Write("Enter to continue: "); Console.ReadLine();
+                    Common.DisplayDataSet(OptionEti.Definition("FCHI560000L1.p", "AAPLM212222500.U").Fields("InstrumentCode", "StrikePrice", "EndDate", "ExerciseType",
+                                                                                                            "OptionPrice", "UnderlyingRIC", "ErrorMessage")
+                                                                                                    .GetData(), "Multiple ETI Options");
 
                     // OTC Eti Option
-                    Common.DisplayTable(OptionEti.Definition().ExcerciseStyle(OptionEti.ExerciseStyle.Amer)
-                                                              .Strike(255)
-                                                              .EndDate(DateTime.Now.AddDays(30))
-                                                              .BuySell(FinancialContracts.BuySell.Sell)
-                                                              .CallPut(FinancialContracts.CallPut.Call)
-                                                              .UnderlyingInstrument("AAPL.O")
-                                                              .Fields("InstrumentCode", "ExerciseType", "ValuationDate", "EndDate", "StrikePrice", "OptionPrice",
-                                                                      "UnderlyingRIC", "UnderlyingPrice", "ExerciseStyle", "ErrorMessage")
-                                                              .GetData(), "OTC Option");
-                    Console.Write("Enter to continue: "); Console.ReadLine();
+                    Common.DisplayDataSet(OptionEti.Definition().ExcerciseStyle(OptionEti.ExerciseStyle.Amer)
+                                                                .Strike(255)
+                                                                .EndDate(DateTime.Now.AddDays(30))
+                                                                .BuySell(FinancialContracts.BuySell.Sell)
+                                                                .CallPut(FinancialContracts.CallPut.Call)
+                                                                .UnderlyingInstrument("AAPL.O")
+                                                                .Fields("InstrumentCode", "ExerciseType", "ValuationDate", "EndDate", "StrikePrice", "OptionPrice",
+                                                                        "UnderlyingRIC", "UnderlyingPrice", "ExerciseStyle", "ErrorMessage")
+                                                                .GetData(), "OTC Option");
 
                     // FX Option (include some pricing and binary properties)
                     var pricing = OptionFx.PricingDefinition().CutoffTimeZone(OptionFx.CutoffTimeZone.GMT)
@@ -57,12 +54,12 @@ namespace _2._7._02_IPA_Option
                                                            1.2001).SettlementType(OptionFx.SettlementType.Cash)
                                                                   .PayoutAmount(1000000);
 
-                    Common.DisplayTable(OptionFx.Definition().Fields("FxCrossCode", "EndDate", "ForeignCcy", "FxSwap", "ErrorMessage")
-                                                             .FxCrossCode("EURUSD")
-                                                             .Tenor("1M")
-                                                             .BinaryDefinition(binary)
-                                                             .PricingParams(pricing)
-                                                             .GetData(), "FX Option - Specify some pricing and binary properties");
+                    Common.DisplayDataSet(OptionFx.Definition().Fields("FxCrossCode", "EndDate", "ForeignCcy", "FxSwap", "ErrorMessage")
+                                                               .FxCrossCode("EURUSD")
+                                                               .Tenor("1M")
+                                                               .BinaryDefinition(binary)
+                                                               .PricingParams(pricing)
+                                                               .GetData(), "FX Option - Specify some pricing and binary properties");
                 }
             }
             catch (Exception e)

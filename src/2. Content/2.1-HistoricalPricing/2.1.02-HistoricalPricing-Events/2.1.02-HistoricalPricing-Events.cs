@@ -21,18 +21,17 @@ namespace _2._1._02_HistoricalPricing_Events
             try
             {
                 // Create the platform session.
-                using (ISession session = Configuration.Sessions.GetSession())
-                {
-                    // Open the session
-                    session.Open();
+                using ISession session = Configuration.Sessions.GetSession();
 
-                    // Retrieve tick pricing events.  Default: 20 rows of data.  Specified trades only and specific columns of data.
-                    var response = Events.Definition("VOD.L").EventTypes(Events.EventType.trade)
-                                                             .Fields("DATE_TIME", "EVENT_TYPE", "TRDPRC_1", "TRDVOL_1")
-                                                             .GetData();
+                // Open the session
+                session.Open();
 
-                    Common.DisplayTable(response, "Historical Trade events");
-                }
+                // Retrieve tick pricing events.  Default: 20 rows of data.  Specified trades only and specific columns of data.
+                var response = Events.Definition("VOD.L").EventTypes(Events.EventType.trade)
+                                                         .Fields("DATE_TIME", "EVENT_TYPE", "TRDPRC_1", "TRDVOL_1")
+                                                         .GetData();
+
+                Common.DisplayDataSet(response, "Historical Trade events");
             }
             catch (Exception e)
             {

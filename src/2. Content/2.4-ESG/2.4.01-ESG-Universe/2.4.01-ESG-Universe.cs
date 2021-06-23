@@ -29,7 +29,7 @@ namespace _2._4._01_ESG_Universe
                         Console.WriteLine("\nRequesting for the entire ESG Universe...");
 
                         // List all organizations that have ESG coverage
-                        Common.DisplayTable(Universe.Definition().GetData(), "ESG Universe");
+                        Common.DisplayDataSet(Universe.Definition().GetData(), "ESG Universe");
                     }
                 }
             }

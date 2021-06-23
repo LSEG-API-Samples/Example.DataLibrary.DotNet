@@ -29,37 +29,35 @@ namespace _2._2._03_Pricing_StreamingCache
                     session.Open();
 
                     // Create a streaming price interface for a list of instruments
-                    using (var stream = Pricing.Definition("EUR=", "CAD=", "GBP=").Fields("DSPLY_NAME", "BID", "ASK")
-                                                                                  .GetStream().OnStatus((item, status, s) => Console.WriteLine(status)))
+                    using var stream = Pricing.Definition("EUR=", "CAD=", "GBP=").Fields("DSPLY_NAME", "BID", "ASK")
+                                                                                 .GetStream().OnStatus((item, status, s) => Console.WriteLine(status));
+                    if (stream.Open() == Stream.State.Opened)
                     {
-                        if (stream.Open() == Stream.State.Opened)
+                        // Retrieve a snapshot of the whole cache.  The interface also supports the ability to pull out specific items and fields.
+                        var snapshot = stream.GetCacheSnapshot();
+
+                        // Print out the contents of the snapshot
+                        foreach (var entry in snapshot)
+                            DisplayPriceData(entry.Value);
+
+                        // Print out values directly within the live cache
+                        Console.WriteLine($"\nDirect cache access => cache[CAD=][ASK] = {stream["CAD="]["ASK"]}");
+
+                        // Pull out a reference to a live item...
+                        Console.WriteLine("\nShow change in a live cache item.");
+                        var item = stream["GBP="];
+
+                        // Display the change in values from the live cached item...
+                        int iterations = 5;
+                        for (var i = 0; i < iterations; i++)
                         {
-                            // Retrieve a snapshot of the whole cache.  The interface also supports the ability to pull out specific items and fields.
-                            var snapshot = stream.GetCacheSnapshot();
-
-                            // Print out the contents of the snapshot
-                            foreach (var entry in snapshot)
-                                DisplayPriceData(entry.Value);
-
-                            // Print out values directly within the live cache
-                            Console.WriteLine($"\nDirect cache access => cache[CAD=][ASK] = {stream["CAD="]["ASK"]}");
-
-                            // Pull out a reference to a live item...
-                            Console.WriteLine("\nShow change in a live cache item.");
-                            var item = stream["GBP="];
-
-                            // Display the change in values from the live cached item...
-                            int iterations = 5;
-                            for (var i = 0; i < iterations; i++)
-                            {
-                                Console.WriteLine($"\n{iterations - i} iterations remaining.  Sleeping for 5 seconds...");
-                                Thread.Sleep(5000);
-                                DisplayPriceData(item);
-                            }
-
-                            // Close streams
-                            Console.WriteLine("\nClosing open streams...");
+                            Console.WriteLine($"\n{iterations - i} iterations remaining.  Sleeping for 5 seconds...");
+                            Thread.Sleep(5000);
+                            DisplayPriceData(item);
                         }
+
+                        // Close streams
+                        Console.WriteLine("\nClosing open streams...");
                     }
 
                 }
@@ -74,6 +72,7 @@ namespace _2._2._03_Pricing_StreamingCache
         {
             if (data != null)
             {
+                // Retrieve the name of item associated with the data image
                 Console.WriteLine($"\nPrices for item: {data.ItemName}");
 
                 // Print 1 field

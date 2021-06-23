@@ -29,14 +29,14 @@ namespace _2._7._20_IPA_FinancialContracts
                     // Mixed Options
                     var binary = OptionFx.BinaryDefinition(OptionFx.BinaryType.OneTouchDeferred, 1.2001).SettlementType(OptionFx.SettlementType.Cash)
                                                                                                         .PayoutAmount(1000000);
-                    Common.DisplayTable(FinancialContracts.Definition().Universe(OptionEti.Definition("FCHI560000L1.p"),
-                                                                                 OptionFx.Definition().FxCrossCode("EURUSD")
-                                                                                                      .Tenor("1M")
-                                                                                                      .BinaryDefinition(binary),
-                                                                                 OptionEti.Definition("FCHI505000O1.p"))
-                                                                       .Fields("InstrumentDescription", "InstrumentCode", "FxCrossCode", "StrikePrice",
-                                                                               "DeltaPercent", "OptionPrice", "UnderlyingRIC")
-                                                                       .GetData(), "Mixed Options");
+                    Common.DisplayDataSet(FinancialContracts.Definition().Universe(OptionEti.Definition("FCHI560000L1.p"),
+                                                                                   OptionFx.Definition().FxCrossCode("EURUSD")
+                                                                                                        .Tenor("1M")
+                                                                                                        .BinaryDefinition(binary),
+                                                                                   OptionEti.Definition("FCHI505000O1.p"))
+                                                                         .Fields("InstrumentDescription", "InstrumentCode", "FxCrossCode", "StrikePrice",
+                                                                                 "DeltaPercent", "OptionPrice", "UnderlyingRIC")
+                                                                         .GetData(), "Mixed Options");
                 }
             }
             catch (Exception e)

@@ -1,7 +1,7 @@
-﻿using Refinitiv.Data.Content.Symbology;
+﻿using Common_Examples;
+using Refinitiv.Data.Content.Symbology;
 using Refinitiv.Data.Core;
 using System;
-using System.Collections.Generic;
 
 namespace _2._5._01_Symbology_Convert
 {
@@ -25,64 +25,35 @@ namespace _2._5._01_Symbology_Convert
                 {
                     session.Open();
 
-                    // RICs - convert multiple RICs to pre-defined instrument types
-                    var response = SymbolConversion.Definition("IBM", "AAPL.O", "GOOGL.O", "LP60000008").GetData();
-                    DisplayResponse($"\nRIC Lookup for 4 valid items:", response);
+                    // Convert 4 symbol types (ticker, ISIN, CUSIP, SEDOL)
+                    var response = SymbolConversion.Definition().Symbols("IBM", "US5949181045", "037833100", "BH4HKS3")
+                                                                .GetData();
+                    Common.DisplaySymbology(response, "Detect and convert symbols of mixed type");
 
-                    // ISINs - convert to all known symbol types  (Note: Can we detect the Symbol types?)
-                    response = SymbolConversion.Definition("US5949181045", "US02079K1079").FromSymbolType(SymbolConversion.SymbolType.ISIN).GetData();
-                    DisplayResponse("\nISIN Lookup for 2 valid items:", response);
+                    // ISIN to RIC conversion
+                    response = SymbolConversion.Definition().Symbols("US5949181045", "US02079K1079")
+                                                            .FromSymbolType(SymbolConversion.SymbolType.ISIN)
+                                                            .ToSymbolType(SymbolConversion.SymbolType.RIC)
+                                                            .GetData();
+                    Common.DisplaySymbology(response, "ISIN to RIC conversion for 2 items:");
 
                     // ISINs - convert to RIC and Ticker only.  Include 1 bad ISIN.
-                    response = SymbolConversion.Definition("US5949181045", "JUNK", "US02079K1079").FromSymbolType(SymbolConversion.SymbolType.ISIN)
-                                                                                                  .ToSymbolType(SymbolConversion.SymbolType.RIC,
-                                                                                                                SymbolConversion.SymbolType.Ticker)
-                                                                                                  .GetData();
-                    DisplayResponse("\nISIN Lookup for 2 valid items, 1 invalid item - convert to RIC and Ticker only:", response);
+                    response = SymbolConversion.Definition().Symbols("US5949181045", "JUNK", "US02079K1079")
+                                                            .FromSymbolType(SymbolConversion.SymbolType.ISIN)
+                                                            .ToSymbolType(SymbolConversion.SymbolType.RIC, SymbolConversion.SymbolType.Ticker)
+                                                            .GetData();
+                    Common.DisplaySymbology(response, "ISIN Lookup for 2 valid items, 1 invalid item - convert to RIC and Ticker only:");
 
-                    // SEDOL - convert to all known
-                    response = SymbolConversion.Definition("BH4HKS3").FromSymbolType(SymbolConversion.SymbolType.SEDOL).GetData();
-                    DisplayResponse("\nSEDOL lookup:", response);
+                    // LipperID conversion
+                    response = SymbolConversion.Definition("68384554").FromSymbolType(SymbolConversion.SymbolType.LipperID)
+                                                                      .GetData();
+                    Common.DisplaySymbology(response, "Lipper ID conversion:");
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine($"\n**************\nFailed to execute: {e.Message}\n{e.InnerException}\n***************");
             }
-        }
-
-        private static void DisplayResponse(string label, ISymbolConversionResponse response)
-        {
-            Console.WriteLine($"\n{label}\n");
-            if (response.IsSuccess)
-            {
-                // Matches
-                foreach (KeyValuePair<string, ISymbolConversionMatches> match in response.Data.Matches)
-                {
-                    Console.WriteLine($"{match.Key} - {match.Value.Description}");
-                    if (match.Value.RIC != null) Console.WriteLine($"\tRIC: {match.Value.RIC}");
-                    if (match.Value.ISIN != null) Console.WriteLine($"\tISIN: {match.Value.ISIN}");
-                    if (match.Value.CUSIP != null) Console.WriteLine($"\tCUSIP: {match.Value.CUSIP}");
-                    if (match.Value.PermID != null) Console.WriteLine($"\tPermID: {match.Value.PermID}");
-                    if (match.Value.SEDOL != null) Console.WriteLine($"\tSEDOL: {match.Value.SEDOL}");
-                    if (match.Value.LipperID != null) Console.WriteLine($"\tLipperID: {match.Value.LipperID}");
-                    if (match.Value.Ticker != null) Console.WriteLine($"\tTicker: {match.Value.Ticker}");
-                }
-
-                // Warnings
-                foreach (string warning in response.Data.Warnings)
-                {
-                    Console.WriteLine($"WARNING: {warning}");
-                }
-            }
-            else
-            {
-                Console.WriteLine(response.HttpStatus);
-            }
-
-            Console.Write("\nHit any key to continue...");
-            Console.ReadKey();
-            Console.WriteLine();
         }
     }
 }

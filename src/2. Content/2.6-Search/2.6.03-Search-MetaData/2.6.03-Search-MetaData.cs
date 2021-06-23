@@ -16,7 +16,9 @@ namespace _2._6._03_Search_MetaData
             using ISession session = Sessions.GetSession();
             if (session.Open() == Session.State.Opened)
             {
+                // Request the metadata properties for the GovCorpInstruments View
                 var response = MetaData.Definition(Search.View.GovCorpInstruments).GetData();
+
                 if (response.IsSuccess)
                 {
                     var table = response.Data.Table;

@@ -7,7 +7,11 @@ namespace _2._2._01_Pricing_Snapshot
     // **********************************************************************************************************************
     // 2.2.01-Pricing-Snapshot
     // The following example demonstrates a basic use case of the Pricing interface to retrieve a snapshot of prices from
-    // the platform.  The interface supports the ability to specify a list of items and the fields for each to retrieve. 
+    // the platform.  The interface supports the ability to specify a list of items and the fields for each to retrieve.
+    //
+    // Suggestion: This example uses the pricing snapshot endpoint service within RDP. For users that do not have access
+    //             to this endpoint, but do have access to the streaming services, you can instead retrieve snapshot prices
+    //             through the streaming interfaces.  Refer to example 2.2.07-Pricing-StreamingSnapshot.
     //
     // Note: To configure settings for your environment, visit the following files within the .Solutions folder:
     //      1. Configuration.Session to specify the access channel into the platform. Default: RDP (PlatformSession).

@@ -18,8 +18,8 @@ namespace _2._8._01_DataGrid_Reference
                     session.Open();
 
                     // Reference data
-                    Common.DisplayTable(DataGrid.Definition("TRI.N", "IBM.N").Fields("TR.Revenue", "TR.GrossProfit")
-                                                                             .GetData(), "Reference Data");
+                    Common.DisplayDataSet(DataGrid.Definition("TRI.N", "IBM.N").Fields("TR.Revenue", "TR.GrossProfit")
+                                                                               .GetData(), "Reference Data");
                 }
             }
             catch (Exception e)

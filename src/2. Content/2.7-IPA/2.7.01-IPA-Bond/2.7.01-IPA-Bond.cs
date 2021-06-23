@@ -27,32 +27,29 @@ namespace _2._7._01_IPA_Bond
                     session.Open();
 
                     // Multiples bonds - only specific fields
-                    Common.DisplayTable(Bond.Definition("US10YT=RR", "US20YT=RR").Fields("InstrumentCode", "BondType", "EndDate", "CouponRatePercent",
-                                                                                         "YieldPercent", "ProcessingInformation")
-                                                                                 .GetData(), "Multiple Bonds - limited fields");
-                    Console.Write("Enter to continue: "); Console.ReadLine();
+                    Common.DisplayDataSet(Bond.Definition("US10YT=RR", "US20YT=RR").Fields("InstrumentCode", "BondType", "EndDate", "CouponRatePercent",
+                                                                                           "YieldPercent", "ProcessingInformation")
+                                                                                   .GetData(), "Multiple Bonds - limited fields");
 
                     // Bond with some properties
-                    Common.DisplayTable(Bond.Definition("US10YT=RR").IssueDate("2002-02-28")
-                                                                    .EndDate("2032-02-28")
-                                                                    .NotionalCcy("USD")
-                                                                    .InterestPaymentFrequency(Bond.IndexFrequency.Annual)
-                                                                    .FixedRatePercent(7)
-                                                                    .InterestCalculationMethod(Bond.DayCountMethods.Dcb_30_Actual)
-                                                                    .PricingParams(Bond.PricingDefinition().CleanPrice(102))
-                                                                    .Fields("InstrumentDescription", "InstrumentCode", "BondType", "Isin", "Ticker",
-                                                                            "Cusip", "IssuePrice", "CouponRatePercent", "CouponType", "CouponTypeDescription")
-                                                                    .GetData(), "Bond with additional properties");
-                    Console.Write("Enter to continue: "); Console.ReadLine();
+                    Common.DisplayDataSet(Bond.Definition("US10YT=RR").IssueDate("2002-02-28")
+                                                                      .EndDate("2032-02-28")
+                                                                      .NotionalCcy("USD")
+                                                                      .InterestPaymentFrequency(Bond.IndexFrequency.Annual)
+                                                                      .FixedRatePercent(7)
+                                                                      .InterestCalculationMethod(Bond.DayCountMethods.Dcb_30_Actual)
+                                                                      .PricingParams(Bond.PricingDefinition().CleanPrice(102))
+                                                                      .Fields("InstrumentDescription", "InstrumentCode", "BondType", "Isin", "Ticker",
+                                                                              "Cusip", "IssuePrice", "CouponRatePercent", "CouponType", "CouponTypeDescription")
+                                                                      .GetData(), "Bond with additional properties");
 
                     // Single bond - default parameters
-                    Common.DisplayTable(Bond.Definition("US10YT=RR").GetData(), "Single Bond - default parameters (all fields)");
-                    Console.Write("Enter to continue: "); Console.ReadLine();
+                    Common.DisplayDataSet(Bond.Definition("US10YT=RR").GetData(), "Single Bond - default parameters (all fields)");
 
                     // Invalid Bond
-                    Common.DisplayTable(Bond.Definition("JUNK").Fields("InstrumentCode", "BondType", "EndDate", "CouponRatePercent",
-                                                                       "YieldPercent", "ErrorMessage")
-                                                               .GetData(), "Invalid Bond");
+                    Common.DisplayDataSet(Bond.Definition("JUNK").Fields("InstrumentCode", "BondType", "EndDate", "CouponRatePercent",
+                                                                         "YieldPercent", "ErrorMessage")
+                                                                 .GetData(), "Invalid Bond");
                 }
             }
             catch (Exception e)

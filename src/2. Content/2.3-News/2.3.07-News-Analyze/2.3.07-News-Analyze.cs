@@ -10,10 +10,9 @@ namespace _2._3._07_News_Analyze
 {
     // **********************************************************************************************************************
     // 2.3.07-News-Analyze
-    // The News Analyze service converts a textual news query into a JSON tree expression used by other news services within
-    // the platform as a means to filter the news of interest.  For example, the news headlines notification services,
-    // headlines and stories, utilize a tree expression that filter news messages delivered to message queues within the
-    // cloud.
+    // The News Analyze service converts a textual news query into a JSON tree expression used by other news services as a
+    // means to filter the news of interest.  For example, the queue-based services, news headlines or headlines and stories,
+    // utilize a tree expression that filter data delivered to message queues within the cloud.
     //
     // The following example demonstrates how to request for news headlines from the platforms' message services using a
     // simple news query expression. The Analyze service will perform the task of converting the query into a JSON tree

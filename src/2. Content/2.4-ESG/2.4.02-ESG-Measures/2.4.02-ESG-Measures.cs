@@ -28,15 +28,15 @@ namespace _2._4._02_ESG_Measures
 
                         // Show ESG measure scores with 2-year history
                         Console.WriteLine("\nESG Measures Full based on company RICs...");
-                        Common.DisplayTable(Measures.Definition("IBM.N", "MSFT.O").Start(-1)
-                                                                                  .End(0)
-                                                                                  .GetData(), "ESG Measures 2-year history");
+                        Common.DisplayDataSet(Measures.Definition("IBM.N", "MSFT.O").Start(-1)
+                                                                                    .End(0)
+                                                                                    .GetData(), "ESG Measures 2-year history");
 
                         // Show ESG measure scores with 1-year history, based on a Perm ID
                         Console.WriteLine("\nESG Measures Standard based on company Perm IDs...");
-                        Common.DisplayTable(Measures.Definition("4295904307", "8589934326").Start(0)
-                                                                                           .End(0)
-                                                                                           .GetData(), "ESG Measures 1-year history");
+                        Common.DisplayDataSet(Measures.Definition("4295904307", "8589934326").Start(0)
+                                                                                             .End(0)
+                                                                                             .GetData(), "ESG Measures 1-year history");
                     }
                 }
             }

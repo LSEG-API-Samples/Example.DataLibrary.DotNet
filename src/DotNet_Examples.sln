@@ -121,11 +121,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "2.8.01-DataGrid-Reference",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "2.8.02-DataGrid-Historical", "2. Content\2.8-DataGrid\2.8.02-DataGrid-Historical\2.8.02-DataGrid-Historical.csproj", "{9A2F61EF-213A-4FEE-B3A5-C8AFA8B919C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "1.1 - PlatformSession", "1. Quick Start\1.1 - PlatformSession\1.1 - PlatformSession.csproj", "{4BB068EA-6421-4E81-81DC-3E8355D00412}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "1.1 - PlatformSession", "1. Quick Start\1.1 - PlatformSession\1.1 - PlatformSession.csproj", "{4BB068EA-6421-4E81-81DC-3E8355D00412}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "1.2 - DesktopSession", "1. Quick Start\1.2 - DesktopSession\1.2 - DesktopSession.csproj", "{F7220EF3-21BA-411D-A33B-95C0521426F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "1.2 - DesktopSession", "1. Quick Start\1.2 - DesktopSession\1.2 - DesktopSession.csproj", "{F7220EF3-21BA-411D-A33B-95C0521426F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "1.3 - DeployedSession", "1. Quick Start\1.3 - DeployedSession\1.3 - DeployedSession.csproj", "{EFF7E97C-4EE7-4235-81D6-1E180B2BAE5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "1.3 - DeployedSession", "1. Quick Start\1.3 - DeployedSession\1.3 - DeployedSession.csproj", "{EFF7E97C-4EE7-4235-81D6-1E180B2BAE5B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2.2.07-Pricing-StreamingSnapshot", "2. Content\2.2-Pricing\2.2.07-Pricing-StreamingSnapshot\2.2.07-Pricing-StreamingSnapshot.csproj", "{B66F9B9B-0FCF-4922-A390-77224EBBF703}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2.1.03-HistoricalPricing-TimeRange", "2. Content\2.1-HistoricalPricing\2.1.03-HistoricalPricing-TimeRange\2.1.03-HistoricalPricing-TimeRange.csproj", "{44683A73-8463-41FB-9719-692A2624A351}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -503,6 +507,22 @@ Global
 		{EFF7E97C-4EE7-4235-81D6-1E180B2BAE5B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EFF7E97C-4EE7-4235-81D6-1E180B2BAE5B}.Release|x64.ActiveCfg = Release|Any CPU
 		{EFF7E97C-4EE7-4235-81D6-1E180B2BAE5B}.Release|x64.Build.0 = Release|Any CPU
+		{B66F9B9B-0FCF-4922-A390-77224EBBF703}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B66F9B9B-0FCF-4922-A390-77224EBBF703}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B66F9B9B-0FCF-4922-A390-77224EBBF703}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B66F9B9B-0FCF-4922-A390-77224EBBF703}.Debug|x64.Build.0 = Debug|Any CPU
+		{B66F9B9B-0FCF-4922-A390-77224EBBF703}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B66F9B9B-0FCF-4922-A390-77224EBBF703}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B66F9B9B-0FCF-4922-A390-77224EBBF703}.Release|x64.ActiveCfg = Release|Any CPU
+		{B66F9B9B-0FCF-4922-A390-77224EBBF703}.Release|x64.Build.0 = Release|Any CPU
+		{44683A73-8463-41FB-9719-692A2624A351}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44683A73-8463-41FB-9719-692A2624A351}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44683A73-8463-41FB-9719-692A2624A351}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{44683A73-8463-41FB-9719-692A2624A351}.Debug|x64.Build.0 = Debug|Any CPU
+		{44683A73-8463-41FB-9719-692A2624A351}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44683A73-8463-41FB-9719-692A2624A351}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44683A73-8463-41FB-9719-692A2624A351}.Release|x64.ActiveCfg = Release|Any CPU
+		{44683A73-8463-41FB-9719-692A2624A351}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -566,6 +586,8 @@ Global
 		{4BB068EA-6421-4E81-81DC-3E8355D00412} = {BB40B328-34FB-45E4-8204-A427DF0424AB}
 		{F7220EF3-21BA-411D-A33B-95C0521426F2} = {BB40B328-34FB-45E4-8204-A427DF0424AB}
 		{EFF7E97C-4EE7-4235-81D6-1E180B2BAE5B} = {BB40B328-34FB-45E4-8204-A427DF0424AB}
+		{B66F9B9B-0FCF-4922-A390-77224EBBF703} = {E99F3ECF-9BA2-4DB9-A2C0-7B9F5BB28AF4}
+		{44683A73-8463-41FB-9719-692A2624A351} = {C38CFA9E-2B9A-4319-8821-0B6DB3C40E21}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {342A7422-A957-456D-9132-D532B687969D}

@@ -21,28 +21,26 @@ namespace _2._1._01_HistoricalPricing_Summaries
             try
             {
                 // Create the platform session.
-                using (ISession session = Configuration.Sessions.GetSession())
-                {
-                    // Open the session
-                    session.Open();
+                using ISession session = Configuration.Sessions.GetSession();
 
-                    // Retrieve Intraday Summaries with PT1M (1-minute interval).  Specify to capture only 5 rows.
-                    var response = Summaries.Definition("VOD.L").Interval(Summaries.Interval.PT1M)
-                                                                .Fields("DATE_TIME", "OPEN_BID", "OPEN_ASK", "BID", "ASK", "BID_LOW_1", "ASK_LOW_1", "BID_HIGH_1", "ASK_HIGH_1")
-                                                                .Count(2)
-                                                                .GetData();
+                // Open the session
+                session.Open();
 
-                    Common.DisplayTable(response, "Historical Intraday Summaries");
-                    Console.Write("Enter to continue: "); Console.ReadLine();
-
-                    // Retrieve Interday Summaries with P1D (1-day interval).  
-                    response = Summaries.Definition("VOD.L").Interval(Summaries.Interval.P1D)
-                                                            .Fields("DATE", "TRDPRC_1", "MKT_OPEN", "VWAP", "LOW_1", "HIGH_1")
+                // Retrieve Intraday Summaries with PT1M (5-minute interval).  Specify to capture only 2 rows.
+                var response = Summaries.Definition("VOD.L").Interval(Summaries.Interval.PT5M)
+                                                            .Fields("DATE_TIME", "OPEN_BID", "OPEN_ASK", "BID", "ASK",
+                                                                    "BID_LOW_1", "ASK_LOW_1", "BID_HIGH_1", "ASK_HIGH_1")
+                                                            .Count(2)
                                                             .GetData();
 
-                    Common.DisplayTable(response, "Historical Interday Summaries");
-                    Console.Write("Enter to exit. "); Console.ReadLine();
-                }
+                Common.DisplayDataSet(response, "Historical Intraday Summaries");
+
+                // Retrieve Interday Summaries with P1D (1-day interval).  
+                response = Summaries.Definition("VOD.L").Interval(Summaries.Interval.P1D)
+                                                        .Fields("DATE", "TRDPRC_1", "MKT_OPEN", "VWAP", "LOW_1", "HIGH_1")
+                                                        .GetData();
+
+                Common.DisplayDataSet(response, "Historical Interday Summaries");
             }
             catch (Exception e)
             {
