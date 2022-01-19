@@ -28,16 +28,16 @@ namespace _2._2._06_Pricing_StreamingChain
 
                     // Creating a streaming chain and manage updates
                     ProcessChain(Chain.Definition(".AV.O").GetStream().Streaming(true)
-                                                                             .OnAdd((index, newv, c) => 
-                                                                                Console.WriteLine($"\tNew constituent {newv} added at index: {index}"))
-                                                                             .OnRemove((index, oldv, c) => 
-                                                                                Console.WriteLine($"\tRemoved constituent {oldv} added at index: {index}"))
-                                                                             .OnUpdate((index, oldv, newv, c) => 
-                                                                                Console.WriteLine($"Index {index} within our Chain changed from {oldv} => {newv}"))
-                                                                             .OnStatus((item, status, c) => 
-                                                                                Console.WriteLine($"Status for item: {item} {status}"))
-                                                                             .OnError((item, error, c) => 
-                                                                                Console.WriteLine($"Error for item: {item} {error}")));
+                                                                      .OnAdd((index, newv, c) => 
+                                                                          Console.WriteLine($"\tNew constituent {newv} added at index: {index}"))
+                                                                      .OnRemove((index, oldv, c) => 
+                                                                          Console.WriteLine($"\tRemoved constituent {oldv} added at index: {index}"))
+                                                                      .OnUpdate((index, oldv, newv, c) => 
+                                                                          Console.WriteLine($"Index {index} within our Chain changed from {oldv} => {newv}"))
+                                                                      .OnStatus((item, status, c) => 
+                                                                          Console.WriteLine($"Status for item: {item} {status}"))
+                                                                      .OnError((item, error, c) => 
+                                                                          Console.WriteLine($"Error for item: {item} {error}")));
                 }
             }
             catch (Exception e)

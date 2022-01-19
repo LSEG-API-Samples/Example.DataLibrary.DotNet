@@ -26,89 +26,101 @@ namespace _3._3._01_Queue_NewsHeadlines
         {
             const string newsHeadlinesEndpoint = "https://api.refinitiv.com/message-services/v1/news-headlines/subscriptions";
 
+            IQueueManager manager = null;
+            IQueueNode queue = null;
+
             try
             {
                 // Create the platform session.
-                using (ISession session = Configuration.Sessions.GetSession())
+                ISession session = Configuration.Sessions.GetSession();
+
+                // Open the session
+                session.Open();
+
+                // Create a queue definition
+                var definition = Queue.Definition(newsHeadlinesEndpoint);
+
+                // Create a QueueManager to actively manage our queues
+                manager = definition.CreateQueueManager().OnError((err, qm) => Console.WriteLine(err));
+
+                // First, check to see if we have any news headline queues active in the cloud...
+                List<IQueueNode> queues = manager.GetAllQueues();
+
+                // Determine if we retrieved an active headline queue...create one if not.
+                if (queues.Count > 0)
+                    queue = queues[0];
+                else
                 {
-                    // Open the session
-                    session.Open();
-
-                    // Create a queue definition
-                    var definition = Queue.Definition(newsHeadlinesEndpoint);
-
-                    // Create a QueueManager to actively manage our queues
-                    IQueueManager manager = definition.CreateQueueManager().OnError((err, qm) => Console.WriteLine(err));
-
-                    // First, check to see if we have any news headline queues active in the cloud...
-                    List<IQueueNode> queues = manager.GetAllQueues();
-
-                    // Determine if we retrieved an active headline queue...create one if not.
-                    IQueueNode queue;
-                    if (queues.Count > 0)
-                        queue = queues[0];
-                    else
+                    // News Expression defining "Alerts only"
+                    var alerts = new JObject()
                     {
-                        // News Expression defining "Alerts only"
-                        var alerts = new JObject()
+                        ["repositories"] = new JArray("NewsWire"),
+                        ["filter"] = new JObject()
                         {
-                            ["repositories"] = new JArray("NewsWire"),
-                            ["filter"] = new JObject()
-                            {
-                                ["type"] = "urgency",
-                                ["value"] = "Alert"
-                            },
-                            ["maxcount"] = 10,
-                            ["relevanceGroup"] = "all"
-                        };
-                        queue = manager.CreateQueue(alerts);
-                    }
+                            ["type"] = "urgency",
+                            ["value"] = "Alert"
+                        },
+                        ["maxcount"] = 10,
+                        ["relevanceGroup"] = "all"
+                    };
+                    queue = manager.CreateQueue(alerts);
+                }
 
-                    // Ensure our queue is created
-                    if (queue != null)
+                // Ensure our queue is created
+                if (queue != null)
+                {
+                    Console.WriteLine($"{Environment.NewLine}{(queues.Count > 0 ? "Using existing" : "Created a new")} queue.  Waiting for headlines...");
+
+                    // Subscribe to the queue.
+                    // Note: The subscriber interface has 2 mechanisms to retrieve data from the queue.  The first mechanism is to selectively
+                    //       poll the queue for new messages.  The second mechanism is to define a callback/lambda expression and notify the
+                    //       the subscriber to poll for messages as they come in - this mechansim provides a near realtime result.
+                    //
+                    // The following example demonstrates the first mechanism.
+                    var subscriber = definition.CreateAWSSubscriber(queue);
+
+                    // Poll the queue until we hit any key on the keyboard.
+                    // Each poll will timeout after 2 seconds if no messages arrive.
+                    var task = new CancellationTokenSource();
+                    var run = Task.Run(() =>
                     {
-                        Console.WriteLine($"{Environment.NewLine}{(queues.Count > 0 ? "Using existing" : "Created a new")} queue.  Waiting for headlines...");
-
-                        // Subscribe to the queue.
-                        // Note: The subscriber interface has 2 mechanisms to retrieve data from the queue.  The first mechanism is to selectively
-                        //       poll the queue for new messages.  The second mechanism is to define a callback/lambda expression and notify the
-                        //       the subscriber to poll for messages as they come in - this mechansim provides a near realtime result.
-                        //
-                        // The following example demonstrates the first mechanism.
-                        var subscriber = definition.CreateAWSSubscriber(queue);
-
-                        // Poll the queue until we hit any key on the keyboard.
-                        // Each poll will timeout after 2 seconds if no messages arrive.
-                        var task = new CancellationTokenSource();
-                        var run = Task.Run(() =>
+                        try
                         {
                             while (!task.IsCancellationRequested)
                             {
                                 subscriber.GetNextMessage(20, (headline, s) => DisplayHeadline(headline), task.Token);
                             }
-                            Console.WriteLine("News polling cancelled by user");
-                        });
-
-                        Console.ReadKey();
-                        task.Cancel();
-                        run.GetAwaiter().GetResult();
-
-                        // Prompt the user to delete the queue
-                        Console.Write("\nDelete the queue (Y/N) [N]: ");
-                        var delete = Console.ReadLine();
-                        if (delete?.ToUpper() == "Y")
-                        {
-                            if (manager.DeleteQueue(queue))
-                                Console.WriteLine("Successfully deleted queue.");
-                            else
-                                Console.WriteLine($"Issues deleting queue.");
                         }
-                    }
+                        catch (TaskCanceledException)
+                        {
+                            Console.WriteLine("News polling cancelled by user");
+                        }
+                    });
+
+                    Console.ReadKey();
+                    task.Cancel();
+                    run.GetAwaiter().GetResult();
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine($"\n**************\nFailed to execute: {e.Message}\n{e.InnerException}\n***************");
+            }
+            finally
+            {
+                if (manager is IQueueManager && queue is IQueueNode)
+                {
+                    // Prompt the user to delete the queue
+                    Console.Write("\nDelete the queue (Y/N) [N]: ");
+                    var delete = Console.ReadLine();
+                    if (delete?.ToUpper() == "Y")
+                    {
+                        if (manager.DeleteQueue(queue))
+                            Console.WriteLine("Successfully deleted queue.");
+                        else
+                            Console.WriteLine($"Issues deleting queue.");
+                    }
+                }
             }
         }
 

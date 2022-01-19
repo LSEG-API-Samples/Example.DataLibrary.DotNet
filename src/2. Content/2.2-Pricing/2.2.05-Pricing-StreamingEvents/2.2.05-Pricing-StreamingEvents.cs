@@ -28,17 +28,16 @@ namespace _2._2._05_Pricing_StreamingEvents
                     session.Open();
 
                     // Create a streaming price interface for a list of instruments and specify lambda expressions to capture real-time updates
-                    using (var stream = Pricing.Definition("EUR=", "CAD=", "USD=").Fields("DSPLY_NAME", "BID", "ASK")
-                                                                                  .GetStream().OnRefresh((item, refresh, s) => Console.WriteLine(refresh))
-                                                                                              .OnUpdate((item, update, s) => DisplayUpdate(item, update))
-                                                                                              .OnStatus((item, status, s) => Console.WriteLine(status)))
-                    {
-                        stream.Open();
+                    using var stream = Pricing.Definition("EUR=", "CAD=", "USD=").Fields("DSPLY_NAME", "BID", "ASK")
+                                                                                 .GetStream().OnRefresh((item, refresh, s) => Console.WriteLine(refresh))
+                                                                                             .OnUpdate((item, update, s) => DisplayUpdate(item, update))
+                                                                                             .OnStatus((item, status, s) => Console.WriteLine(status))
+                                                                                             .OnError((item, err, s) => Console.WriteLine(err));
+                    stream.Open();
 
-                        // Pause on the main thread while updates come in.  Wait for a key press to exit.
-                        Console.WriteLine("Streaming updates.  Press any key to stop...");
-                        Console.ReadKey();
-                    }
+                    // Pause on the main thread while updates come in.  Wait for a key press to exit.
+                    Console.WriteLine("Streaming updates.  Press any key to stop...");
+                    Console.ReadKey();
                 }
             }
             catch (Exception e)

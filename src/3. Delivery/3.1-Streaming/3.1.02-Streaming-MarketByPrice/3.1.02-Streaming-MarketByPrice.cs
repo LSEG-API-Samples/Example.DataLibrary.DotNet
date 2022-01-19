@@ -41,7 +41,8 @@ namespace _3._1._02_MarketByPrice
                                                                         .GetStream().OnRefresh((item, msg, s) => image.Merge(msg))
                                                                                     .OnComplete(s => DumpImage(image))
                                                                                     .OnUpdate((item, msg, s) => DumpUpdate(msg))
-                                                                                    .OnStatus((item, msg, s) => Console.WriteLine(msg));
+                                                                                    .OnStatus((item, msg, s) => Console.WriteLine(msg))
+                                                                                    .OnError((item, err, s) => Console.WriteLine(err));
                     // Open the stream...
                     stream.Open();
 

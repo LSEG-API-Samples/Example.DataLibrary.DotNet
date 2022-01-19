@@ -27,10 +27,10 @@ namespace _2._7._20_IPA_FinancialContracts
                     session.Open();
 
                     // Mixed Options
-                    var binary = OptionFx.BinaryDefinition(OptionFx.BinaryType.OneTouchDeferred, 1.2001).SettlementType(OptionFx.SettlementType.Cash)
-                                                                                                        .PayoutAmount(1000000);
+                    var binary = OptionFx.BinaryDefinition(OptionFx.BinaryType.OneTouchDeferred, 1.2001).PayoutAmount(1000000);
                     Common.DisplayDataSet(FinancialContracts.Definition().Universe(OptionEti.Definition("FCHI560000L1.p"),
                                                                                    OptionFx.Definition().FxCrossCode("EURUSD")
+                                                                                                        .SettlementType(OptionFx.SettlementType.Cash)
                                                                                                         .Tenor("1M")
                                                                                                         .BinaryDefinition(binary),
                                                                                    OptionEti.Definition("FCHI505000O1.p"))

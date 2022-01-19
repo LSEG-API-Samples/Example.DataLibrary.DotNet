@@ -56,7 +56,8 @@ namespace _2._3._07_News_Analyze
                     // Ensure our queue is created
                     if (queue != null)
                     {
-                        Console.WriteLine($"{Environment.NewLine}{(queues.Count > 0 ? "Using existing" : "Created a new")} queue.  Waiting for headlines...");
+                        Console.WriteLine($"{Environment.NewLine}{(queues.Count > 0 ? "Using existing" : "Created a new")} queue.");
+                        Console.WriteLine("Waiting for headline alerts...");
 
                         // Subscribe to the queue.
                         // Note: The subscriber interface has 2 mechanisms to retrieve data from the queue.  The first mechanism is to selectively

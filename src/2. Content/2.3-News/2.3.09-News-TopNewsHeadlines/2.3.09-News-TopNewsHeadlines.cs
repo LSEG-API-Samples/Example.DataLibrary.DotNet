@@ -22,12 +22,20 @@ namespace _2._3._09_News_TopNewsHeadlines
                     var top = TopNews.Definition().GetData();
                     if (top.IsSuccess)
                     {
-                        // Retrieve a headlines ID from one of the categories
-                        var newsId = top.Data.Categories["Main"]?[0].TopNewsID;
+                        if (top.Data.Categories.Count > 0)
+                        {
+                            // Retrieve a headlines ID from one of the categories
+                            var newsId = top.Data.Categories["Main"]?[0].TopNewsID;
 
-                        var headlines = TopNewsHeadlines.Definition(newsId).GetData();
-                        DisplayHeadlines(headlines);
+                            Console.WriteLine($"Retrieving top news headlines based on the news ID: {newsId}");
+                            var headlines = TopNewsHeadlines.Definition(newsId).GetData();
+                            DisplayHeadlines(headlines);
+                        }
+                        else
+                            Console.WriteLine("No headlines found");
                     }
+                    else
+                        Console.WriteLine($"Unable to retrieve Top news: {top.HttpStatus}");
                 }
             }
             catch (Exception e)

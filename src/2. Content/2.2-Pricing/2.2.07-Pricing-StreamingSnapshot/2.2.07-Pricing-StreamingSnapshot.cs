@@ -33,20 +33,28 @@ namespace _2._2._07_Pricing_StreamingSnapshot
 
                 // Specify a list of items and fields to retrieve. Retrieve the stream, indicating a snapshot, i.e. streaming=false.
                 using var stream = Pricing.Definition("EUR=", "CAD=", "USD=").Fields("DSPLY_NAME", "BID", "ASK")
-                                                                             .GetStream().Streaming(false);
+                                                                             .GetStream()
+                                                                  .Streaming(false)
+                                                                  .OnStatus((item, status, s) => Console.WriteLine(status))
+                                                                  .OnError((item, err, s) => Console.WriteLine(err));
 
                 stream.Open();
 
-                // Print 1 field
-                Console.WriteLine($"\nEUR=[DSPLY_NAME]: {stream["EUR="]["DSPLY_NAME"]}");
+                // The OpenState will be closed - requesting for a snapshot results in the items as non-streaming
+                // To verify the stream has cached values, we can check the count.
+                if (stream.Count() > 0)
+                {
+                    // Print 1 field
+                    Console.WriteLine($"\nEUR=[DSPLY_NAME]: {stream["EUR="]["DSPLY_NAME"]}");
 
-                // Print the contents of one item
-                Console.WriteLine($"\nEUR= contents: {stream["EUR="].Fields()}");
+                    // Print the contents of one item
+                    Console.WriteLine($"\nEUR= contents: {stream["EUR="].Fields()}");
 
-                // Iterate through the response and print out specific fields for each entry
-                Console.WriteLine("\nIterate through the cache and display a couple of fields");
-                foreach (var item in stream)
-                    Console.WriteLine($"Quote for item: {item.Key}\n{item.Value.Fields("BID", "ASK")}");
+                    // Iterate through the response and print out specific fields for each entry
+                    Console.WriteLine("\nIterate through the cache and display a couple of fields");
+                    foreach (var item in stream)
+                        Console.WriteLine($"Quote for item: {item.Key}\n{item.Value.Fields("BID", "ASK")}");
+                }
             }
             catch (Exception e)
             {

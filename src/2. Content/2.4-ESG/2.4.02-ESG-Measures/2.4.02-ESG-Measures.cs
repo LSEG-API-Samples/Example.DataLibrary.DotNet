@@ -25,7 +25,6 @@ namespace _2._4._02_ESG_Measures
                     // Open the session
                     if (session.Open() == Session.State.Opened)
                     {
-
                         // Show ESG measure scores with 2-year history
                         Console.WriteLine("\nESG Measures Full based on company RICs...");
                         Common.DisplayDataSet(Measures.Definition("IBM.N", "MSFT.O").Start(-1)
@@ -36,6 +35,7 @@ namespace _2._4._02_ESG_Measures
                         Console.WriteLine("\nESG Measures Standard based on company Perm IDs...");
                         Common.DisplayDataSet(Measures.Definition("4295904307", "8589934326").Start(0)
                                                                                              .End(0)
+                                                                                             .ServiceType(ServiceType.standard)
                                                                                              .GetData(), "ESG Measures 1-year history");
                     }
                 }

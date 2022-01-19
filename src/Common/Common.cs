@@ -27,8 +27,8 @@ namespace Common_Examples
             if (response.IsSuccess)
             {
                 if (header != default) Console.Write($"{Environment.NewLine}{header}");
-                if (response.Data.Universe != null)
-                    Console.Write($" for item(s):\n{string.Join("\n", response.Data.Universe.Select(w => $"\tItem: {w.Instrument} {w.CommonName}"))}");
+                if (response.Data?.Records != null)
+                    Console.Write($"\nUniverse:{string.Join(",", response.Data.Records.Select(w => DisplayUniverse(w)))}");
 
                 Console.WriteLine();
 
@@ -39,14 +39,17 @@ namespace Common_Examples
                     DisplayTable(response.Data.Table);
                 else
                     Console.WriteLine($"Response contains an empty data set: {response.Data?.Raw}");
-
-                Console.WriteLine($"Fields:\n{string.Join("\n", response.Data.Fields?.Select(f => $"\t{f.Name} ({f.Type})"))}");
             }
             else
             {
                 Console.WriteLine($"IsSuccess: {response.IsSuccess}\n{response.HttpStatus}");
             }
             Console.Write("\n<Enter> to continue..."); Console.ReadLine();
+        }
+
+        static string DisplayUniverse(IDataSetRecord record)
+        {
+            return $"\nItem: {record.Universe.Instrument} => {record.Data.Count} rows, {record.Fields.Count} fields";
         }
 
         public static void DisplaySymbology(ISymbolConversionResponse response, string header = default)
@@ -87,10 +90,9 @@ namespace Common_Examples
         public static void DisplaySearch(ISearchResponse response, string header=default)
         {
             Console.WriteLine("\n******************************************************************************************************************");
+            if (header != default) Console.Write($"{Environment.NewLine}{header}");
             if (response.IsSuccess)
             {
-                if (header != default) Console.Write($"{Environment.NewLine}{header}");
-
                 // Warnings
                 foreach (string warning in response.Data.Warnings)
                 {
@@ -111,7 +113,7 @@ namespace Common_Examples
             }
             else
             {
-                Console.WriteLine($"IsSuccess: {response.IsSuccess}\n{response.HttpStatus}");
+                Console.WriteLine($"\nIsSuccess: {response.IsSuccess}\n{response.HttpStatus}");
             }
             Console.Write("\n<Enter> to continue..."); Console.ReadLine();
         }
@@ -141,11 +143,13 @@ namespace Common_Examples
                 {
                     switch (item)
                     {
-                        case JValue jval:
-                            rowData.Add(jval.Value.ToString().Truncate(30));
+                        case null:
                             break;
-                        case string str:
-                            rowData.Add(str.Truncate(30));
+                        case JValue val:
+                            rowData.Add(val.ToString());
+                            break;
+                        case IEnumerable<JToken> list:
+                            rowData.Add($"[{string.Join(", ", list.Select(node => $"{node}"))}]");
                             break;
                         default:
                             rowData.Add(item);

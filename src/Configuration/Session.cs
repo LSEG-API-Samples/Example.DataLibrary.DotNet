@@ -9,7 +9,7 @@ namespace Configuration
         {
             DESKTOP,                // DesktopSession           - Eikon/Refintiv Workspace
             RDP,                    // PlatformSession          - Refinitiv Data Platform
-            DEPLOYED,               // PlatformSession          - Deployed ADS streaming services
+            DEPLOYED,               // PlatformSession          - Deployed ADS streaming services only
         };
 
         // Change the type of Session to switch the access channel

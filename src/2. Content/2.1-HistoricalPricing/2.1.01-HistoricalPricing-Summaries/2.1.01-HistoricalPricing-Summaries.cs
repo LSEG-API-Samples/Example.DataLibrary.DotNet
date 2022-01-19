@@ -32,15 +32,19 @@ namespace _2._1._01_HistoricalPricing_Summaries
                                                                     "BID_LOW_1", "ASK_LOW_1", "BID_HIGH_1", "ASK_HIGH_1")
                                                             .Count(2)
                                                             .GetData();
-
                 Common.DisplayDataSet(response, "Historical Intraday Summaries");
 
                 // Retrieve Interday Summaries with P1D (1-day interval).  
                 response = Summaries.Definition("VOD.L").Interval(Summaries.Interval.P1D)
                                                         .Fields("DATE", "TRDPRC_1", "MKT_OPEN", "VWAP", "LOW_1", "HIGH_1")
                                                         .GetData();
-
                 Common.DisplayDataSet(response, "Historical Interday Summaries");
+
+                // Retrieve interday summaries for a list of instruments
+                response = Summaries.Definition().Universe("IBM.N", "AAPL.O", "EUR=")
+                                                 .Fields("DATE", "TRDPRC_1", "BID", "ASK", "NAVALUE", "MID_PRICE")
+                                                 .GetData();
+                Common.DisplayDataSet(response, "Historical Interday Summaries for a list of instruments");
             }
             catch (Exception e)
             {

@@ -17,16 +17,18 @@ namespace _2._6._02_Search_Lookup
             using ISession session = Sessions.GetSession();
             if (session.Open() == Session.State.Opened)
             {
-                // RICs - convert to all known symbol types using default output
-                var lookup = Lookup.Definition().Terms("VOD.L,037833100,IBM,US5949181045,503085358")
+                // RICs - convert to all specified symbol types
+                var lookup = Lookup.Definition().Terms("VOD.L,IBM,AAPL.O,MSFT.O")
+                                                .Scope("RIC")
+                                                .Select("DocumentTitle, CUSIP, SEDOL, TickerSymbol, IssueISIN, IssuerOAPermID")
                                                 .GetData();
-                DisplayTable("\nRIC Lookup for 5 valid items using default output", lookup);
+                DisplayTable("\nRIC Lookup for 5 valid items using selected output", lookup);
 
-                // RICs - convert to all known symbol types using targeted output
-                lookup = Lookup.Definition().Terms("VOD.L,037833100,IBM,US5949181045,503085358")
-                                            .Select("DocumentTitle, CUSIP, SEDOL, RIC, TickerSymbol, IssueISIN, IssuerOAPermID, FundClassLipperID")
+                // RICs - detect input and convert to all known symbol types using default output
+                lookup = Lookup.Definition().View(Search.View.SearchAll)
+                                            .Terms("VOD.L,037833100,IBM,US5949181045,503085358")
                                             .GetData();
-                DisplayTable("\nRIC Lookup for 5 valid items using targeted output", lookup);
+                DisplayTable("\nRIC Lookup for 5 valid items using default output", lookup);
                 DisplayMatches("\nRIC Lookup for 5 valid items:", lookup);
             }
         }

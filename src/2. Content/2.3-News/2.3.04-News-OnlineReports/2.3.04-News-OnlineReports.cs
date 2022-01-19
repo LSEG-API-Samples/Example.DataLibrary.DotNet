@@ -45,11 +45,14 @@ namespace _2._3._04_News_OnlineReports
 
                         // Get Online Report details
                         IOnlineReportsResponse reportStory = OnlineReports.Definition("OLUSSCIENCE").GetData();    // US Science reports
-                        foreach (IOnlineReportStory story in reportStory.Data.OnlineReportStories)
+                        if (reportStory.IsSuccess)
                         {
-                            Console.WriteLine("----------------------------------------------------------------------------------");
-                            Console.WriteLine($"{story.CreationDate}: {story.HeadlineTitle}");
-                            Console.WriteLine($"content Type: {story.ContentType}\n{story.NewsStory}");
+                            foreach (IOnlineReportStory story in reportStory.Data.OnlineReportStories)
+                            {
+                                Console.WriteLine("----------------------------------------------------------------------------------");
+                                Console.WriteLine($"{story.CreationDate}: {story.HeadlineTitle}");
+                                Console.WriteLine($"content Type: {story.ContentType}\n{story.NewsStory}");
+                            }
                         }
                     }
                     else

@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json.Linq;
-using Refinitiv.Data;
 using Refinitiv.Data.Core;
 using Refinitiv.Data.Delivery.Stream;
 using System;
@@ -23,12 +22,10 @@ namespace _3._1._3_Streaming_Collection
         {
             try
             {
-                Log.Level = NLog.LogLevel.Debug;
-
                 // Create the platform session.
                 using (ISession session = Configuration.Sessions.GetSession())
                 {
-                    // Open the session
+                    // Open the session and test the state...
                     if (session.Open() == Session.State.Opened)
                     {
                         // *******************************************************************************************************************************
@@ -47,7 +44,8 @@ namespace _3._1._3_Streaming_Collection
                             // Create our stream
                             IStream stream = itemDef.Name(item).GetStream().OnRefresh((item, msg, s) => DumpMsg(item, msg))
                                                                            .OnUpdate((item, msg, s) => DumpMsg(item, msg))
-                                                                           .OnStatus((item, msg, s) => Console.WriteLine(msg));
+                                                                           .OnStatus((item, msg, s) => Console.WriteLine(msg))
+                                                                           .OnError((item, err, s) => Console.WriteLine(err));
 
                             // Open the stream asynchronously and keep track of the task
                             tasks.Add(stream.OpenAsync());

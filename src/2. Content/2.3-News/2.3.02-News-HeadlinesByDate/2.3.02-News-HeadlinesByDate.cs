@@ -30,9 +30,11 @@ namespace _2._3._02_News_HeadlinesByDate
                         // Note: Each request below specifies a count of zero (0) which implies all available headlines within the query.
                         // ***************************************************************************************************************
 
-                        // Use date specified within query: "Apple daterange:'2020-06-01,2020-06-07'"
-                        Console.WriteLine("\nRetrieve all headlines for query: 'Apple daterange'...");
-                        DisplayHeadlines(Headlines.Definition().Query(@"Apple daterange:2020-06-01,2020-06-07")
+                        // Use date specified within query 1 year ago
+                        var last_year = DateTime.UtcNow.AddYears(-1);
+                        var dateRange = $"{last_year:yyyy-MM-dd},{last_year.AddDays(6):yyyy-MM-dd}";
+                        Console.WriteLine($"\nRetrieve all headlines for query: '{dateRange}'...");
+                        DisplayHeadlines(Headlines.Definition().Query($"Apple daterange:{dateRange}")
                                                                .Count(0)
                                                                .Sort(Headlines.SortOrder.oldToNew)
                                                                .GetData());

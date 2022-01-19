@@ -30,8 +30,13 @@ namespace _2._1._02_HistoricalPricing_Events
                 var response = Events.Definition("VOD.L").EventTypes(Events.EventType.trade)
                                                          .Fields("DATE_TIME", "EVENT_TYPE", "TRDPRC_1", "TRDVOL_1")
                                                          .GetData();
-
                 Common.DisplayDataSet(response, "Historical Trade events");
+
+                // Retrieve tick events for a group of instruments..
+                response = Events.Definition().Universe("VOD.L", "MSFT.O", "EUR=")
+                                              .Fields("DATE_TIME", "TRDPRC_1", "MID_PRICE", "CTBTR_1", "BID", "ASK")
+                                              .GetData();
+                Common.DisplayDataSet(response, "Historical events for multiple instruments");
             }
             catch (Exception e)
             {

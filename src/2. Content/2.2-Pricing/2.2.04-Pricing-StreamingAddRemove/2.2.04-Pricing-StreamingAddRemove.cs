@@ -28,7 +28,9 @@ namespace _2._2._04_Pricing_StreamingAddRemove
 
                     // Create a streaming price interface for a list of instruments
                     using var stream = Pricing.Definition("EUR=", "CAD=", "GBP=").Fields("DSPLY_NAME", "BID", "ASK")
-                                                                                 .GetStream().OnStatus((item, status, s) => Console.WriteLine(status));
+                                                                                 .GetStream()
+                                                                  .OnStatus((item, status, s) => Console.WriteLine(status))
+                                                                  .OnError((item, err, s) => Console.WriteLine(err));
                     if (stream.Open() == Stream.State.Opened)
                     {
 

@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
 using Refinitiv.Data.Core;
-using Refinitiv.Data.Delivery;
 using Refinitiv.Data.Delivery.Request;
 using System;
 
@@ -56,6 +55,24 @@ namespace _3._2._03_Endpoint_Symbology
                             {
                                 ["identifierTypes"] = new JArray("LEI"),
                                 ["values"] = new JArray("INR2EJN1ERAN0W5ZP974")
+                            }),
+                        ["to"] = new JArray(
+                            new JObject()
+                            {
+                                ["identifierTypes"] = new JArray("RIC")
+                            }),
+                        ["type"] = "auto"
+                    }).GetData());
+
+                    // CUSIP Internation Numbering System (CINS) to multiple RICs
+                    Console.WriteLine("CINS to RIC...");
+                    Display(endpoint.BodyParameters(new JObject()
+                    {
+                        ["from"] = new JArray(
+                            new JObject()
+                            {
+                                ["identifierTypes"] = new JArray("CinsNumber"),
+                                ["values"] = new JArray("N7280EAK6")
                             }),
                         ["to"] = new JArray(
                             new JObject()

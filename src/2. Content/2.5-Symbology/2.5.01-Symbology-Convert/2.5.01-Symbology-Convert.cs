@@ -25,16 +25,11 @@ namespace _2._5._01_Symbology_Convert
                 {
                     session.Open();
 
-                    // Convert 4 symbol types (ticker, ISIN, CUSIP, SEDOL)
-                    var response = SymbolConversion.Definition().Symbols("IBM", "US5949181045", "037833100", "BH4HKS3")
-                                                                .GetData();
-                    Common.DisplaySymbology(response, "Detect and convert symbols of mixed type");
-
                     // ISIN to RIC conversion
-                    response = SymbolConversion.Definition().Symbols("US5949181045", "US02079K1079")
-                                                            .FromSymbolType(SymbolConversion.SymbolType.ISIN)
-                                                            .ToSymbolType(SymbolConversion.SymbolType.RIC)
-                                                            .GetData();
+                    var response = SymbolConversion.Definition().Symbols("US5949181045", "US02079K1079")
+                                                                .FromSymbolType(SymbolConversion.SymbolType.ISIN)
+                                                                .ToSymbolType(SymbolConversion.SymbolType.RIC)
+                                                                .GetData();
                     Common.DisplaySymbology(response, "ISIN to RIC conversion for 2 items:");
 
                     // ISINs - convert to RIC and Ticker only.  Include 1 bad ISIN.
@@ -48,6 +43,16 @@ namespace _2._5._01_Symbology_Convert
                     response = SymbolConversion.Definition("68384554").FromSymbolType(SymbolConversion.SymbolType.LipperID)
                                                                       .GetData();
                     Common.DisplaySymbology(response, "Lipper ID conversion:");
+
+                    // Detect and Convert 4 symbol types (ticker, ISIN, CUSIP, SEDOL)
+                    // Note: Auto-detection is only available in the Desktop service type
+                    if (session is IDesktopSession)
+                    {
+                        response = SymbolConversion.Definition().ServiceType(SymbolConversion.ServiceType.Desktop)
+                                                                .Symbols("IBM", "US5949181045", "037833100", "BH4HKS3")
+                                                                .GetData();
+                        Common.DisplaySymbology(response, "Detect and convert symbols of mixed type");
+                    }
                 }
             }
             catch (Exception e)

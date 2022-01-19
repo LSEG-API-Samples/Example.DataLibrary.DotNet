@@ -51,11 +51,11 @@ namespace _2._7._02_IPA_Option
                                                               .CutoffTime("1500PM")
                                                               .PricingModelType(OptionFx.PricingModelType.VannaVolga);
                     var binary = OptionFx.BinaryDefinition(OptionFx.BinaryType.OneTouchDeferred,
-                                                           1.2001).SettlementType(OptionFx.SettlementType.Cash)
-                                                                  .PayoutAmount(1000000);
+                                                           1.2001).PayoutAmount(1000000);
 
                     Common.DisplayDataSet(OptionFx.Definition().Fields("FxCrossCode", "EndDate", "ForeignCcy", "FxSwap", "ErrorMessage")
                                                                .FxCrossCode("EURUSD")
+                                                               .SettlementType(OptionFx.SettlementType.Cash)
                                                                .Tenor("1M")
                                                                .BinaryDefinition(binary)
                                                                .PricingParams(pricing)

@@ -1,4 +1,5 @@
 ﻿using Common_Examples;
+using Refinitiv.Data;
 using Refinitiv.Data.Content.SearchService;
 using Refinitiv.Data.Core;
 using System;
@@ -18,6 +19,7 @@ namespace _2._6._01_Search_SearchService
     {
         static void Main(string[] _)
         {
+            Log.Level = NLog.LogLevel.Trace;
             try
             {
                 // Create a session into the platform
@@ -29,17 +31,25 @@ namespace _2._6._01_Search_SearchService
                     var response = Search.Definition().Query("IBM bonds").GetData();
                     Common.DisplaySearch(response, "IBM Bonds - Basic query");
 
-                    // Search for IBM bonds - filter specific criteria
+                    // Search for active RICs on LSE - ignore derivatives
+                    response = Search.Definition().Filter("TickerSymbol eq 'LSE' and AssetType ne 'derivative' and AssetState eq 'AC'")
+                                                  .Select("AssetState, DTSubjectName, DTSimpleType, DTSource, DTCharacteristics, RIC, SearchAllCategoryv3, AssetType")
+                                                  .GetData();
+                    Common.DisplaySearch(response, "Active RICs containing 'LSE'.  Ignore derivatives.");
+
+                    // Search for IBM bonds - Select a View within the full service
                     response = Search.Definition().View(Search.View.GovCorpInstruments)
                                                   .Filter("IssuerTicker eq 'IBM' and IsActive eq true and AssetStatus ne 'MAT'")
                                                   .Select("ISIN,RIC,IssueDate,Currency,FaceIssuedTotal,CouponRate,MaturityDate")
                                                   .GetData();
                     Common.DisplaySearch(response, "IBM Bonds - Active bonds that have not matured");
 
-                    // Search for all the RICs where 'LSE' is in the name, exclude all derivatives and ensure the state is active (AC)
-                    response = Search.Definition(Search.View.Quotes).Filter("TickerSymbol eq 'LSE' and AssetType ne 'derivative' and AssetState eq 'AC'")
-                                                                    .GetData();
-                    Common.DisplaySearch(response, "Active RICs containing 'LSE'.  Ignore derivatives.");
+                    // Top 2 rate indicators for each central bank - Select a View within the Light service
+                    response = Search.Definition(Search.LightView.IndicatorQuotes).Query("rates")
+                                                                                  .GroupCount(2)
+                                                                                  .Select("DocumentTitle,RIC")
+                                                                                  .GetData();
+                    Common.DisplaySearch(response, "Top 2 rate indicators for each central bank");
 
                     // Search for Top CEOs where apple appears in the document - Display DocumentTitle and its subtype/components.
                     response = Search.Definition(Search.View.People).Query("CEO Apple")

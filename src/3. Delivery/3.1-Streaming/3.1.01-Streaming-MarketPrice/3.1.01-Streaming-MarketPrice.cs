@@ -19,23 +19,21 @@ namespace _3._1._01_MarketPrice
         {
             try
             {
-                using (ISession session = Configuration.Sessions.GetSession())
-                {
+                using ISession session = Configuration.Sessions.GetSession();
 
-                    // Open the session
-                    session.Open();
+                // Open the session
+                session.Open();
 
-                    // Define a stream to retrieve level 1 content...
-                    using var stream = OMMStream.Definition("EUR=").GetStream().OnRefresh((item, msg, s) => Console.WriteLine(msg))
-                                                                               .OnUpdate((item, msg, s) => Console.WriteLine(msg))
-                                                                               .OnError((item, err, s) => Console.WriteLine(err))
-                                                                               .OnStatus((item, msg, s) => Console.WriteLine(msg));
-                    // Open the stream...
-                    stream.Open();
+                // Define a stream to retrieve level 1 content...
+                using var stream = OMMStream.Definition("EUR=").GetStream().OnRefresh((item, msg, s) => Console.WriteLine(msg))
+                                                                           .OnUpdate((item, msg, s) => Console.WriteLine(msg))
+                                                                           .OnError((item, err, s) => Console.WriteLine(err))
+                                                                           .OnStatus((item, msg, s) => Console.WriteLine(msg));
+                // Open the stream...
+                stream.Open();
 
-                    // Wait for data to come in then hit any key to close the stream...
-                    Console.ReadKey();
-                }
+                // Wait for data to come in then hit any key to close the stream...
+                Console.ReadKey();
             }
             catch (Exception e)
             {

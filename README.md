@@ -2,7 +2,21 @@
 
 ## Summary
 
-The following series of examples demonstrate how to programmatically access content residing within the **Refinitiv Data Platform (RDP)** using a single, ease of use API called the **Refinitiv Data Library for .NET**.  The platform refers to the layer of data services providing both streaming and non-streaming content serving different clients, from the simple desktop interface to the enterprise application. 
+The following series of examples demonstrate how to programmatically access content residing within the **Refinitiv Data Platform (RDP)** using a single, ease of use API called the **Refinitiv Data Library for .NET**.  The platform refers to the layer of data services providing both streaming and non-streaming content serving different clients, from the simple desktop interface to the enterprise application. Specifically, the library supports applications written for:
+
+- **Desktop**
+
+  - Whether written for Eikon or Refinitiv Workspace, applications can access both streaming and non-streaming (RDP endpoints) content
+
+- **Cloud**
+
+  - Direct access to both streaming and non-streaming services defined within the RDP
+
+- **Deployed Streaming**
+
+  - Access to locally deployed streaming services
+
+  
 
 The **Refinitiv Data Library for .NET** is a community-based API and will be managed as an open-source project.
 
