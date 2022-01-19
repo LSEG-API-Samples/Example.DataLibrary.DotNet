@@ -1,5 +1,4 @@
-﻿
-##Delivery (Refinitiv.Data) Release Notes
+## Delivery (Refinitiv.Data) Release Notes
 
 ### 1.0.0-beta3
 - Minimum support for .Net Framework 4.8, .Net Standard 2.0.  Applications can target .Net Core, .Net 6.
