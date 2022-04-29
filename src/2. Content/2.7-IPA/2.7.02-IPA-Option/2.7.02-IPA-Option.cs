@@ -21,46 +21,49 @@ namespace _2._7._02_IPA_Option
             try
             {
                 // Create the platform session.
-                using (ISession session = Configuration.Sessions.GetSession())
-                {
-                    // Open the session
-                    session.Open();
+                using ISession session = Configuration.Sessions.GetSession();
 
-                    // Single ETI Option -default parameters
-                    Common.DisplayDataSet(OptionEti.Definition("AAPLM212222500.U").GetData(), "Single ETI Option");
+                // Open the session
+                session.Open();
 
-                    // Multiples ETI options - default parameters (Buy Call)
-                    Common.DisplayDataSet(OptionEti.Definition("FCHI560000L1.p", "AAPLM212222500.U").Fields("InstrumentCode", "StrikePrice", "EndDate", "ExerciseType",
-                                                                                                            "OptionPrice", "UnderlyingRIC", "ErrorMessage")
-                                                                                                    .GetData(), "Multiple ETI Options");
+                // Single ETI Option -default parameters
+                var response = OptionEti.Definition("AAPLM212222500.U").GetData();
+                Common.DisplayTable("Single ETI Option - Columns truncated", response, 10);
 
-                    // OTC Eti Option
-                    Common.DisplayDataSet(OptionEti.Definition().ExcerciseStyle(OptionEti.ExerciseStyle.Amer)
-                                                                .Strike(255)
-                                                                .EndDate(DateTime.Now.AddDays(30))
-                                                                .BuySell(FinancialContracts.BuySell.Sell)
-                                                                .CallPut(FinancialContracts.CallPut.Call)
-                                                                .UnderlyingInstrument("AAPL.O")
-                                                                .Fields("InstrumentCode", "ExerciseType", "ValuationDate", "EndDate", "StrikePrice", "OptionPrice",
-                                                                        "UnderlyingRIC", "UnderlyingPrice", "ExerciseStyle", "ErrorMessage")
-                                                                .GetData(), "OTC Option");
+                // Multiples ETI options - default parameters (Buy Call)
+                response = OptionEti.Definition("FCHI560000L1.p", "AAPLM212222500.U").Fields("InstrumentCode", "StrikePrice", "EndDate", "ExerciseType",
+                                                                                             "OptionPrice", "UnderlyingRIC", "ErrorMessage")
+                                                                                     .GetData();
+                Common.DisplayTable("Multiple ETI Options", response);
 
-                    // FX Option (include some pricing and binary properties)
-                    var pricing = OptionFx.PricingDefinition().CutoffTimeZone(OptionFx.CutoffTimeZone.GMT)
-                                                              .FxSpotObject(OptionFx.BidAskMidDefinition().Mid(2.5))
-                                                              .CutoffTime("1500PM")
-                                                              .PricingModelType(OptionFx.PricingModelType.VannaVolga);
-                    var binary = OptionFx.BinaryDefinition(OptionFx.BinaryType.OneTouchDeferred,
-                                                           1.2001).PayoutAmount(1000000);
+                // OTC Eti Option
+                response = OptionEti.Definition().ExcerciseStyle(OptionEti.ExerciseStyle.Amer)
+                                                 .Strike(255)
+                                                 .EndDate(DateTime.Now.AddDays(30))
+                                                 .BuySell(FinancialContracts.BuySell.Sell)
+                                                 .CallPut(FinancialContracts.CallPut.Call)
+                                                 .UnderlyingInstrument("AAPL.O")
+                                                 .Fields("InstrumentCode", "ExerciseType", "ValuationDate", "EndDate", "StrikePrice", "OptionPrice",
+                                                         "UnderlyingRIC", "UnderlyingPrice", "ExerciseStyle", "ErrorMessage")
+                                                 .GetData();
+                Common.DisplayTable("OTC Option", response);
 
-                    Common.DisplayDataSet(OptionFx.Definition().Fields("FxCrossCode", "EndDate", "ForeignCcy", "FxSwap", "ErrorMessage")
-                                                               .FxCrossCode("EURUSD")
-                                                               .SettlementType(OptionFx.SettlementType.Cash)
-                                                               .Tenor("1M")
-                                                               .BinaryDefinition(binary)
-                                                               .PricingParams(pricing)
-                                                               .GetData(), "FX Option - Specify some pricing and binary properties");
-                }
+                // FX Option (include some pricing and binary properties)
+                var pricing = OptionFx.PricingDefinition().CutoffTimeZone(OptionFx.CutoffTimeZone.GMT)
+                                                          .FxSpotObject(OptionFx.BidAskMidDefinition().Mid(2.5))
+                                                          .CutoffTime("1500PM")
+                                                          .PricingModelType(OptionFx.PricingModelType.VannaVolga);
+                var binary = OptionFx.BinaryDefinition(OptionFx.BinaryType.OneTouchDeferred,
+                                                       1.2001).PayoutAmount(1000000);
+
+                response = OptionFx.Definition().Fields("FxCrossCode", "EndDate", "ForeignCcy", "FxSwap", "ErrorMessage")
+                                                .FxCrossCode("EURUSD")
+                                                .SettlementType(OptionFx.SettlementType.Cash)
+                                                .Tenor("1M")
+                                                .BinaryDefinition(binary)
+                                                .PricingParams(pricing)
+                                                .GetData();
+                Common.DisplayTable("FX Option - Specify some pricing and binary properties", response);
             }
             catch (Exception e)
             {

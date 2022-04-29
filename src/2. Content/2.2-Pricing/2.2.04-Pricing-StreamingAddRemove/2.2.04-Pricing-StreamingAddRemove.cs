@@ -2,6 +2,7 @@
 using Refinitiv.Data.Core;
 using Refinitiv.Data.Delivery.Stream;
 using System;
+using Configuration;
 
 namespace _2._2._04_Pricing_StreamingAddRemove
 {
@@ -21,7 +22,7 @@ namespace _2._2._04_Pricing_StreamingAddRemove
             try
             {
                 // Create a session into the platform...
-                using (ISession session = Configuration.Sessions.GetSession())
+                using (ISession session = Sessions.GetSession())
                 {
                     // Open the session
                     session.Open();

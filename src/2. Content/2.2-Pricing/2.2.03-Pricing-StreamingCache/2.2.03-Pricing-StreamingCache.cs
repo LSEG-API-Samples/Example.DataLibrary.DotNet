@@ -3,6 +3,7 @@ using Refinitiv.Data.Core;
 using Refinitiv.Data.Delivery.Stream;
 using System;
 using System.Threading;
+using Configuration;
 
 namespace _2._2._03_Pricing_StreamingCache
 {
@@ -23,7 +24,7 @@ namespace _2._2._03_Pricing_StreamingCache
             try
             {
                 // Create a session into the platform...
-                using (ISession session = Configuration.Sessions.GetSession())
+                using (ISession session = Sessions.GetSession())
                 {
                     // Open the session
                     session.Open();

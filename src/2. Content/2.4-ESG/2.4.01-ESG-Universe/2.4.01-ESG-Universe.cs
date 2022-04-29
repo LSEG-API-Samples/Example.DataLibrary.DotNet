@@ -2,6 +2,7 @@
 using Refinitiv.Data.Content.ESG;
 using Refinitiv.Data.Core;
 using System;
+using Configuration;
 
 namespace _2._4._01_ESG_Universe
 {
@@ -20,7 +21,7 @@ namespace _2._4._01_ESG_Universe
             try
             {
                 // Create a session into the platform...
-                using (ISession session = Configuration.Sessions.GetSession())
+                using (ISession session = Sessions.GetSession())
                 {
 
                     // Open the session
@@ -29,7 +30,8 @@ namespace _2._4._01_ESG_Universe
                         Console.WriteLine("\nRequesting for the entire ESG Universe...");
 
                         // List all organizations that have ESG coverage
-                        Common.DisplayDataSet(Universe.Definition().GetData(), "ESG Universe");
+                        var response = Universe.Definition().GetData();
+                        Common.DisplayTable("ESG Universe", response, 0, 25);
                     }
                 }
             }

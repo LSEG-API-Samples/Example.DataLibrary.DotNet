@@ -22,28 +22,31 @@ namespace Configuration
         // GetSession
         // Based on the above Session Type, retrieve the Session used to define how you want to access the platform.
         //
-        public static ISession GetSession()
+        public static ISession GetSession(SessionTypeEnum? session = null)
         {
-            switch (SessionType)
+            session = session ?? SessionType;
+            return session switch
             {
-                case SessionTypeEnum.RDP:
-                    return PlatformSession.Definition().AppKey(Credentials.AppKey)
-                                                       .OAuthGrantType(new GrantPassword().UserName(Credentials.RDPUser)
-                                                                                          .Password(Credentials.RDPPassword))
-                                                       .TakeSignonControl(true)
-                                                       .GetSession().OnState((s, state, msg) => Console.WriteLine($"{DateTime.Now}: State: {state}. {msg}"))
-                                                                    .OnEvent((s, eventCode, msg) => Console.WriteLine($"{DateTime.Now}: Event: {eventCode}. {msg}"));
-                case SessionTypeEnum.DESKTOP:
-                    return DesktopSession.Definition().AppKey(Credentials.AppKey)
-                                                      .GetSession().OnState((s, state, msg) => Console.WriteLine($"{DateTime.Now}: State: {state}. {msg}"))
-                                                                   .OnEvent((s, eventCode, msg) => Console.WriteLine($"{DateTime.Now}: Event: {eventCode}. {msg}"));
-                case SessionTypeEnum.DEPLOYED:
-                    return PlatformSession.Definition().Host(Credentials.ADSHost)
-                                                       .GetSession().OnState((s, state, msg) => Console.WriteLine($"{DateTime.Now}: State: {state}. {msg}"))
-                                                                    .OnEvent((s, eventCode, msg) => Console.WriteLine($"{DateTime.Now}: Event: {eventCode}. {msg}"));
-                default:
-                    throw new IndexOutOfRangeException($"Unknown Session Type: {SessionType}");
-            }
+                SessionTypeEnum.RDP => PlatformSession.Definition().AppKey(Credentials.AppKey)
+                                                                   .OAuthGrantType(new GrantPassword().UserName(Credentials.RDPUser)
+                                                                                                      .Password(Credentials.RDPPassword))
+                                                                   .TakeSignonControl(true)
+                                                                   .GetSession().OnState((s, state, msg) => 
+                                                                                        Console.WriteLine($"{DateTime.Now}: State: {state}. {msg}"))
+                                                                                .OnEvent((s, eventCode, msg) => 
+                                                                                        Console.WriteLine($"{DateTime.Now}: Event: {eventCode}. {msg}")),
+                SessionTypeEnum.DESKTOP => DesktopSession.Definition().AppKey(Credentials.AppKey)
+                                                                      .GetSession().OnState((s, state, msg) => 
+                                                                                        Console.WriteLine($"{DateTime.Now}: State: {state}. {msg}"))
+                                                                      .OnEvent((s, eventCode, msg) => 
+                                                                                        Console.WriteLine($"{DateTime.Now}: Event: {eventCode}. {msg}")),
+                SessionTypeEnum.DEPLOYED => PlatformSession.Definition().Host(Credentials.ADSHost)
+                                                                        .GetSession().OnState((s, state, msg) => 
+                                                                                        Console.WriteLine($"{DateTime.Now}: State: {state}. {msg}"))
+                                                                        .OnEvent((s, eventCode, msg) => 
+                                                                                        Console.WriteLine($"{DateTime.Now}: Event: {eventCode}. {msg}")),
+                _ => throw new IndexOutOfRangeException($"Unknown Session Type: {SessionType}"),
+            };
         }
     }
 }

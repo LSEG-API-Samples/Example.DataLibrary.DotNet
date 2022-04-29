@@ -21,23 +21,23 @@ namespace _2._7._20_IPA_FinancialContracts
             try
             {
                 // Create the platform session.
-                using (ISession session = Configuration.Sessions.GetSession())
-                {
-                    // Open the session
-                    session.Open();
+                using ISession session = Configuration.Sessions.GetSession();
 
-                    // Mixed Options
-                    var binary = OptionFx.BinaryDefinition(OptionFx.BinaryType.OneTouchDeferred, 1.2001).PayoutAmount(1000000);
-                    Common.DisplayDataSet(FinancialContracts.Definition().Universe(OptionEti.Definition("FCHI560000L1.p"),
-                                                                                   OptionFx.Definition().FxCrossCode("EURUSD")
-                                                                                                        .SettlementType(OptionFx.SettlementType.Cash)
-                                                                                                        .Tenor("1M")
-                                                                                                        .BinaryDefinition(binary),
-                                                                                   OptionEti.Definition("FCHI505000O1.p"))
-                                                                         .Fields("InstrumentDescription", "InstrumentCode", "FxCrossCode", "StrikePrice",
-                                                                                 "DeltaPercent", "OptionPrice", "UnderlyingRIC")
-                                                                         .GetData(), "Mixed Options");
-                }
+                // Open the session
+                session.Open();
+
+                // Mixed Options
+                var binary = OptionFx.BinaryDefinition(OptionFx.BinaryType.OneTouchDeferred, 1.2001).PayoutAmount(1000000);
+                var response = FinancialContracts.Definition().Universe(OptionEti.Definition("FCHI560000L1.p"),
+                                                                        OptionFx.Definition().FxCrossCode("EURUSD")
+                                                                                             .SettlementType(OptionFx.SettlementType.Cash)
+                                                                                             .Tenor("1M")
+                                                                                             .BinaryDefinition(binary),
+                                                                        OptionEti.Definition("FCHI505000O1.p"))
+                                                              .Fields("InstrumentDescription", "InstrumentCode", "FxCrossCode", "StrikePrice",
+                                                                      "DeltaPercent", "OptionPrice", "UnderlyingRIC")
+                                                              .GetData();
+                Common.DisplayTable("Mixed Options", response);
             }
             catch (Exception e)
             {

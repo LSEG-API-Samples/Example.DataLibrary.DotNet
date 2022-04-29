@@ -1,6 +1,7 @@
 ﻿using Refinitiv.Data.Content.News;
 using Refinitiv.Data.Core;
 using System;
+using Configuration;
 
 namespace _2._3._06_News_MRN
 {
@@ -20,7 +21,7 @@ namespace _2._3._06_News_MRN
             try
             {
                 // Create a session into the platform...
-                using (ISession session = Configuration.Sessions.GetSession())
+                using (ISession session = Sessions.GetSession())
                 {
                     // Open the session
                     session.Open();

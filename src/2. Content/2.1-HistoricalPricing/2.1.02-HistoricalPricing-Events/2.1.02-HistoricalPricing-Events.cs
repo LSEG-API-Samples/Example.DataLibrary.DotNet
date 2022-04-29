@@ -2,6 +2,7 @@
 using Refinitiv.Data.Content.HistoricalPricing;
 using Refinitiv.Data.Core;
 using System;
+using Configuration;
 
 namespace _2._1._02_HistoricalPricing_Events
 {
@@ -21,7 +22,7 @@ namespace _2._1._02_HistoricalPricing_Events
             try
             {
                 // Create the platform session.
-                using ISession session = Configuration.Sessions.GetSession();
+                using ISession session = Sessions.GetSession();
 
                 // Open the session
                 session.Open();
@@ -30,13 +31,13 @@ namespace _2._1._02_HistoricalPricing_Events
                 var response = Events.Definition("VOD.L").EventTypes(Events.EventType.trade)
                                                          .Fields("DATE_TIME", "EVENT_TYPE", "TRDPRC_1", "TRDVOL_1")
                                                          .GetData();
-                Common.DisplayDataSet(response, "Historical Trade events");
+                Common.DisplayTable("Historical Trade events", response);
 
                 // Retrieve tick events for a group of instruments..
                 response = Events.Definition().Universe("VOD.L", "MSFT.O", "EUR=")
                                               .Fields("DATE_TIME", "TRDPRC_1", "MID_PRICE", "CTBTR_1", "BID", "ASK")
                                               .GetData();
-                Common.DisplayDataSet(response, "Historical events for multiple instruments");
+                Common.DisplayTable("Historical events for multiple instruments", response);
             }
             catch (Exception e)
             {

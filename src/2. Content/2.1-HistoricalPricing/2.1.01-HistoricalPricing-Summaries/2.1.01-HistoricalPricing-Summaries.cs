@@ -2,6 +2,7 @@
 using Refinitiv.Data.Content.HistoricalPricing;
 using Refinitiv.Data.Core;
 using System;
+using Configuration;
 
 namespace _2._1._01_HistoricalPricing_Summaries
 {
@@ -21,7 +22,7 @@ namespace _2._1._01_HistoricalPricing_Summaries
             try
             {
                 // Create the platform session.
-                using ISession session = Configuration.Sessions.GetSession();
+                using ISession session = Sessions.GetSession();
 
                 // Open the session
                 session.Open();
@@ -32,19 +33,19 @@ namespace _2._1._01_HistoricalPricing_Summaries
                                                                     "BID_LOW_1", "ASK_LOW_1", "BID_HIGH_1", "ASK_HIGH_1")
                                                             .Count(2)
                                                             .GetData();
-                Common.DisplayDataSet(response, "Historical Intraday Summaries");
+                Common.DisplayTable("Historical Intraday Summaries", response);
 
                 // Retrieve Interday Summaries with P1D (1-day interval).  
                 response = Summaries.Definition("VOD.L").Interval(Summaries.Interval.P1D)
                                                         .Fields("DATE", "TRDPRC_1", "MKT_OPEN", "VWAP", "LOW_1", "HIGH_1")
                                                         .GetData();
-                Common.DisplayDataSet(response, "Historical Interday Summaries");
+                Common.DisplayTable("Historical Interday Summaries", response);
 
                 // Retrieve interday summaries for a list of instruments
                 response = Summaries.Definition().Universe("IBM.N", "AAPL.O", "EUR=")
                                                  .Fields("DATE", "TRDPRC_1", "BID", "ASK", "NAVALUE", "MID_PRICE")
                                                  .GetData();
-                Common.DisplayDataSet(response, "Historical Interday Summaries for a list of instruments");
+                Common.DisplayTable("Historical Interday Summaries for a list of instruments", response);
             }
             catch (Exception e)
             {

@@ -4,6 +4,7 @@ using Refinitiv.Data.Delivery.Stream;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Configuration;
 
 namespace _2._2._06_Pricing_StreamingChain
 {
@@ -22,7 +23,7 @@ namespace _2._2._06_Pricing_StreamingChain
             try
             {
                 // Create a session into the platform
-                using (ISession session = Configuration.Sessions.GetSession())
+                using (ISession session = Sessions.GetSession())
                 {
                     session.Open();
 

@@ -2,6 +2,7 @@
 using Refinitiv.Data.Content.Symbology;
 using Refinitiv.Data.Core;
 using System;
+using Configuration;
 
 namespace _2._5._01_Symbology_Convert
 {
@@ -11,8 +12,7 @@ namespace _2._5._01_Symbology_Convert
     // type to 1 or many primary types.
     //
     // Note: To configure settings for your environment, visit the following files within the .Solutions folder:
-    //      1. Configuration.Session to specify the access channel into the platform. Default: RDP (PlatformSession).
-    //      2. Configuration.Credentials to define your login credentials for the specified access channel.
+    //      1. Configuration.Credentials to define your login credentials for the desktop.
     // **********************************************************************************************************************
     class Program
     {
@@ -20,39 +20,46 @@ namespace _2._5._01_Symbology_Convert
         {
             try
             {
-                // Create a session into the platform
-                using (ISession session = Configuration.Sessions.GetSession())
-                {
-                    session.Open();
+                // Create a session
+                // Note: Symbol conversion is based on Search.  Clients on the desktop have access to full conversion
+                //       capabilities.  Clients connecting directly to the platform are licensed as Wealth clients. The
+                //       only distinquishable difference between the 2-flavours of conversion is that the
+                //       full version provides a way to detect the symbol types automatically.  See the last example.
+                //       All examples will work if the session is on the desktop.  For our Wealth clients connecting
+                //       directly into RDP, see the first example. Feel free to change the Service Type if connecting
+                //       to RDP.
+                using ISession session = Sessions.GetSession(); session.Open();
 
-                    // ISIN to RIC conversion
-                    var response = SymbolConversion.Definition().Symbols("US5949181045", "US02079K1079")
-                                                                .FromSymbolType(SymbolConversion.SymbolType.ISIN)
-                                                                .ToSymbolType(SymbolConversion.SymbolType.RIC)
-                                                                .GetData();
-                    Common.DisplaySymbology(response, "ISIN to RIC conversion for 2 items:");
-
-                    // ISINs - convert to RIC and Ticker only.  Include 1 bad ISIN.
-                    response = SymbolConversion.Definition().Symbols("US5949181045", "JUNK", "US02079K1079")
+                // ISIN to RIC conversion (
+                var response = SymbolConversion.Definition().ServiceType(SymbolConversion.ServiceType.Wealth)
+                                                            .Symbols("US5949181045", "US02079K1079")
                                                             .FromSymbolType(SymbolConversion.SymbolType.ISIN)
-                                                            .ToSymbolType(SymbolConversion.SymbolType.RIC, SymbolConversion.SymbolType.Ticker)
+                                                            .ToSymbolType(SymbolConversion.SymbolType.RIC)
                                                             .GetData();
-                    Common.DisplaySymbology(response, "ISIN Lookup for 2 valid items, 1 invalid item - convert to RIC and Ticker only:");
+                Common.DisplayTable("ISIN to RIC conversion for 2 items:", response);
 
-                    // LipperID conversion
-                    response = SymbolConversion.Definition("68384554").FromSymbolType(SymbolConversion.SymbolType.LipperID)
-                                                                      .GetData();
-                    Common.DisplaySymbology(response, "Lipper ID conversion:");
+                // ISINs - convert to RIC and Ticker only.  Include 1 bad ISIN.
+                response = SymbolConversion.Definition().ServiceType(SymbolConversion.ServiceType.Desktop)
+                                                        .Symbols("US5949181045", "JUNK", "US02079K1079")
+                                                        .FromSymbolType(SymbolConversion.SymbolType.ISIN)
+                                                        .ToSymbolType(SymbolConversion.SymbolType.RIC, SymbolConversion.SymbolType.Ticker)
+                                                        .GetData();
+                Common.DisplayTable("ISIN Lookup for 2 valid items, 1 invalid item - convert to RIC and Ticker only:", response);
 
-                    // Detect and Convert 4 symbol types (ticker, ISIN, CUSIP, SEDOL)
-                    // Note: Auto-detection is only available in the Desktop service type
-                    if (session is IDesktopSession)
-                    {
-                        response = SymbolConversion.Definition().ServiceType(SymbolConversion.ServiceType.Desktop)
-                                                                .Symbols("IBM", "US5949181045", "037833100", "BH4HKS3")
-                                                                .GetData();
-                        Common.DisplaySymbology(response, "Detect and convert symbols of mixed type");
-                    }
+                // LipperID conversion
+                response = SymbolConversion.Definition("68384554").ServiceType(SymbolConversion.ServiceType.Desktop)
+                                                                  .FromSymbolType(SymbolConversion.SymbolType.LipperID)
+                                                                  .GetData();
+                Common.DisplayTable("Lipper ID conversion:", response);
+
+                // Detect and Convert 4 symbol types (ticker, ISIN, CUSIP, SEDOL)
+                // Note: Auto-detection is only available in the Desktop service type
+                if (session is IDesktopSession)
+                {
+                    response = SymbolConversion.Definition().ServiceType(SymbolConversion.ServiceType.Desktop)
+                                                            .Symbols("IBM", "US5949181045", "037833100", "BH4HKS3")
+                                                            .GetData();
+                    Common.DisplayTable("Detect and convert symbols of mixed type", response);
                 }
             }
             catch (Exception e)

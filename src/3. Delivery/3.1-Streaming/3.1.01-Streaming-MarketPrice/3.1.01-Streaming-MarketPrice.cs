@@ -1,4 +1,5 @@
-﻿using Refinitiv.Data.Core;
+﻿using Refinitiv.Data;
+using Refinitiv.Data.Core;
 using Refinitiv.Data.Delivery.Stream;
 using System;
 
@@ -19,6 +20,8 @@ namespace _3._1._01_MarketPrice
         {
             try
             {
+                Log.Level = NLog.LogLevel.Debug;
+
                 using ISession session = Configuration.Sessions.GetSession();
 
                 // Open the session

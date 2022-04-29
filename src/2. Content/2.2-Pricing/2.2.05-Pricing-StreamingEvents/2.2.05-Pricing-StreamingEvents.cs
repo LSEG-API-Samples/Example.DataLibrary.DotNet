@@ -2,6 +2,7 @@
 using Refinitiv.Data.Content.Pricing;
 using Refinitiv.Data.Core;
 using System;
+using Configuration;
 
 namespace _2._2._05_Pricing_StreamingEvents
 {
@@ -22,7 +23,7 @@ namespace _2._2._05_Pricing_StreamingEvents
             try
             {
                 // Create a session into the platform...
-                using (ISession session = Configuration.Sessions.GetSession())
+                using (ISession session = Sessions.GetSession())
                 {
                     // Open the session
                     session.Open();

@@ -3,15 +3,15 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>_2._6._03_Search_MetaData</RootNamespace>
+    <RootNamespace>_2._6._02_Search_Lookup</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ConsoleTables" Version="2.4.2" />
     <PackageReference Include="Refinitiv.Data.Content" Version="1.0.0-beta3" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\Common.csproj" />
     <ProjectReference Include="..\..\..\Configuration\Configuration.csproj" />
   </ItemGroup>
 

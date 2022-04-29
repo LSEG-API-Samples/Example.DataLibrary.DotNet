@@ -1,7 +1,7 @@
 ﻿using Refinitiv.Data.Content.Pricing;
 using Refinitiv.Data.Core;
-using Refinitiv.Data.Delivery.Stream;
 using System;
+using Configuration;
 
 namespace _2._2._07_Pricing_StreamingSnapshot
 {
@@ -26,7 +26,7 @@ namespace _2._2._07_Pricing_StreamingSnapshot
             try
             {
                 // Create a session into the platform...
-                using ISession session = Configuration.Sessions.GetSession();
+                using ISession session = Sessions.GetSession();
 
                 // Open the session
                 session.Open();

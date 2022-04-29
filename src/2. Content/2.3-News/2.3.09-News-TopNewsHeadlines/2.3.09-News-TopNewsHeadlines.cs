@@ -1,9 +1,13 @@
-﻿using ConsoleTables;
-using Refinitiv.Data.Content.News;
+﻿using Refinitiv.Data.Content.News;
 using Refinitiv.Data.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Configuration;
+using BetterConsoles.Tables.Models;
+using System.Drawing;
+using BetterConsoles.Tables.Builders;
+using BetterConsoles.Tables.Configuration;
 
 namespace _2._3._09_News_TopNewsHeadlines
 {
@@ -14,7 +18,7 @@ namespace _2._3._09_News_TopNewsHeadlines
             try
             {
                 // Create a session into the platform
-                using ISession session = Configuration.Sessions.GetSession();
+                using ISession session = Sessions.GetSession();
 
                 if (session.Open() == Session.State.Opened)
                 {
@@ -29,7 +33,8 @@ namespace _2._3._09_News_TopNewsHeadlines
 
                             Console.WriteLine($"Retrieving top news headlines based on the news ID: {newsId}");
                             var headlines = TopNewsHeadlines.Definition(newsId).GetData();
-                            DisplayHeadlines(headlines);
+
+                            DisplayNews(headlines);
                         }
                         else
                             Console.WriteLine("No headlines found");
@@ -44,29 +49,32 @@ namespace _2._3._09_News_TopNewsHeadlines
             }
         }
 
-        private static void DisplayHeadlines(ITopNewsHeadlinesResponse response)
+        private static void DisplayNews(ITopNewsHeadlinesResponse response)
         {
-            if (response.IsSuccess)
-            {
-                IList<string> columns = new List<string>() { "Publish Date", "Headline", "Story ID" };
-                var console = new ConsoleTable(columns.ToArray());
-                IList<object> rowData = new List<object>();
+            CellFormat headerFormat = new CellFormat() { ForegroundColor = Color.LightSeaGreen };
 
-                foreach (var headline in response.Data.Headlines)
-                {
-                    rowData.Clear();
-                    rowData.Add(headline.VersionCreated);
-                    rowData.Add(headline.Text);
-                    rowData.Add(headline.StoryId);
+            var builder = new TableBuilder(headerFormat);
+            foreach (var name in new List<string>() { "Publish Date", "Headline", "Story ID" })
+                builder.AddColumn(name);
 
-                    console.AddRow(rowData.ToArray());
-                }
-                console.Write(Format.MarkDown);
-            }
-            else
+            var table = builder.Build();
+            table.Config = TableConfig.Unicode();
+
+            table.Config.wrapText = true;
+            table.Config.textWrapLimit = 40;
+
+            IList<object> rowData = new List<object>();
+            foreach (var headline in response.Data.Headlines)
             {
-                Console.WriteLine($"IsSuccess: {response.IsSuccess}\n{response.HttpStatus}");
+                rowData.Clear();
+                rowData.Add(headline.VersionCreated);
+                rowData.Add(headline.Text);
+                rowData.Add(headline.StoryId);
+
+                table.AddRow(rowData.ToArray());
             }
+
+            Console.Write(table);
         }
     }
 }

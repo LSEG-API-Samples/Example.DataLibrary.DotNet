@@ -2,6 +2,7 @@
 using Refinitiv.Data.Core;
 using System;
 using System.Linq;
+using Configuration;
 
 namespace _2._3._02_News_HeadlinesByDate
 {
@@ -21,7 +22,7 @@ namespace _2._3._02_News_HeadlinesByDate
             try
             {
                 // Create a session into the platform...
-                using (ISession session = Configuration.Sessions.GetSession())
+                using (ISession session = Sessions.GetSession())
                 {
                     // Open the session
                     if (session.Open() == Session.State.Opened)

@@ -1,6 +1,7 @@
 ﻿using Refinitiv.Data.Content.Pricing;
 using Refinitiv.Data.Core;
 using System;
+using Configuration;
 
 namespace _2._2._01_Pricing_Snapshot
 {
@@ -24,7 +25,7 @@ namespace _2._2._01_Pricing_Snapshot
             try
             {
                 // Create a session into the platform...
-                using (ISession session = Configuration.Sessions.GetSession())
+                using (ISession session = Sessions.GetSession())
                 {
                     // Open the session
                     session.Open();

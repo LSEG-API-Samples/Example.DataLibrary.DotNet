@@ -5,6 +5,7 @@ using Refinitiv.Data.Delivery.Queue;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Configuration;
 
 namespace _2._3._07_News_Analyze
 {
@@ -32,7 +33,7 @@ namespace _2._3._07_News_Analyze
             try
             {
                 // Create the platform session.
-                using (ISession session = Configuration.Sessions.GetSession())
+                using (ISession session = Sessions.GetSession())
                 {
                     // Open the session
                     session.Open();

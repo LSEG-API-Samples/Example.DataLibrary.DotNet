@@ -1,4 +1,6 @@
-using ConsoleTables;
+using BetterConsoles.Tables.Builders;
+using BetterConsoles.Tables.Configuration;
+using BetterConsoles.Tables.Models;
 using Newtonsoft.Json.Linq;
 using Refinitiv.Data.Content.Data;
 using Refinitiv.Data.Content.SearchService;
@@ -6,6 +8,7 @@ using Refinitiv.Data.Content.Symbology;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 
 // **********************************************************************************************************************
@@ -16,27 +19,18 @@ namespace Common_Examples
 {
     public static class Common
     {
-        // **************************************************************************************************************************************
-        // DisplayDataSet
-        //
-        // Convenience routine to layout columns and rows of data contained within the response.  Data is echoed to the console.
-        // **************************************************************************************************************************************
-        public static void DisplayDataSet(IDataSetResponse response, string header = default)
+        public static void DisplayTable(string label, IDataSetResponse response)
         {
-            Console.WriteLine("\n******************************************************************************************************************");
+            DisplayTable(label, response, 0);
+        }
+
+        public static void DisplayTable(string label, IDataSetResponse response, int maxCols, int maxRows = 0)
+        {
+            Console.WriteLine($"\n{label}");
             if (response.IsSuccess)
             {
-                if (header != default) Console.Write($"{Environment.NewLine}{header}");
-                if (response.Data?.Records != null)
-                    Console.Write($"\nUniverse:{string.Join(",", response.Data.Records.Select(w => DisplayUniverse(w)))}");
-
-                Console.WriteLine();
-
-                // The Table propery below represents the data grid returned from the platform.
-                // The Table is a .Net DataTable containing our rows and columns of data representing our time series grid. 
-                // Process the rows and columns and utilize the ConsoleTable class to display to the console.
-                if (response.Data?.Table != null && response.Data?.Table.Rows.Count > 0)
-                    DisplayTable(response.Data.Table);
+                if (FormatTable(response.Data.Table, maxCols, maxRows))
+                    Console.WriteLine($"\nUniverse:\n{string.Join("\n", response.Data.Records.Select(w => DumpUniverse(w)))}");
                 else
                     Console.WriteLine($"Response contains an empty data set: {response.Data?.Raw}");
             }
@@ -44,34 +38,42 @@ namespace Common_Examples
             {
                 Console.WriteLine($"IsSuccess: {response.IsSuccess}\n{response.HttpStatus}");
             }
-            Console.Write("\n<Enter> to continue..."); Console.ReadLine();
+
+            Console.Write("\nHit <enter> to continue...");
+            Console.ReadLine();
         }
 
-        static string DisplayUniverse(IDataSetRecord record)
+        private static string DumpUniverse(IDataSetRecord record)
         {
-            return $"\nItem: {record.Universe.Instrument} => {record.Data.Count} rows, {record.Fields.Count} fields";
+            return $"Instrument: [{record.Universe.Instrument}] => {record.Data.Count} rows, {record.Fields.Count} fields\n" +
+                   $"\tCommon Name: {record.Universe.CommonName}\n" +
+                   $"\tPerm ID: {record.Universe.PermID}\n" +
+                   $"\tCurrency: {record.Universe.Currency}\n";
         }
 
-        public static void DisplaySymbology(ISymbolConversionResponse response, string header = default)
+        public static void DisplayTable(string label, ISearchResponse response)
         {
-            Console.WriteLine("\n******************************************************************************************************************");
+            DisplayTable(label, response, 0, 0);
+        }
+
+        public static void DisplayTable(string label, ISearchResponse response, int maxCols, int maxRows = 0)
+        {
+            Console.WriteLine($"\n{label}");
+
             if (response.IsSuccess)
             {
-                if (header != default) Console.Write($"{Environment.NewLine}{header}");
+                Console.WriteLine($"Hits: {response.Data.Total}");
 
                 // Warnings
-                foreach (string warning in response.Data.Warnings)
+                if (response.Data.Warnings.Count > 0)
+                    Console.WriteLine($"\n{string.Join(",", response.Data.Warnings.Select(warning => $"{warning}"))}");
+
+                if (FormatTable(response.Data.Table, maxCols, maxRows))
                 {
-                    Console.WriteLine($"**** {warning}");
+                    // Navigators
+                    if (response.Data?.Navigators != null)
+                        Console.WriteLine($"Navigators:\n{response.Data.Navigators}");
                 }
-
-                Console.WriteLine();
-
-                // The Table propery below represents the data grid returned from the platform.
-                // The Table is a .Net DataTable containing our rows and columns of data representing our conversions. 
-                // Process the rows and columns and utilize the ConsoleTable class to display to the console.
-                if (response.Data?.Table != null && response.Data?.Table.Rows.Count > 0)
-                    DisplayTable(response.Data.Table);
                 else
                     Console.WriteLine($"Response contains an empty data set: {response.Data?.Raw}");
             }
@@ -79,74 +81,156 @@ namespace Common_Examples
             {
                 Console.WriteLine($"IsSuccess: {response.IsSuccess}\n{response.HttpStatus}");
             }
-            Console.Write("\n<Enter> to continue..."); Console.ReadLine();
+
+            Console.Write("\nHit <enter> to continue...");
+            Console.ReadLine();
         }
 
-        // **************************************************************************************************************************************
-        // DisplayTable
-        //
-        // Convenience routine to layout columns and rows of data contained within the response.  Data is echoed to the console.
-        // **************************************************************************************************************************************
-        public static void DisplaySearch(ISearchResponse response, string header=default)
+        public static void DisplayTable(string label, ILookupResponse response)
         {
-            Console.WriteLine("\n******************************************************************************************************************");
-            if (header != default) Console.Write($"{Environment.NewLine}{header}");
+            DisplayTable(label, response, 0);
+        }
+
+        public static void DisplayTable(string label, ILookupResponse response, int maxCols, int maxRows = 0)
+        {
+            Console.WriteLine($"\n{label}");
+
             if (response.IsSuccess)
             {
-                // Warnings
-                foreach (string warning in response.Data.Warnings)
+                if (FormatTable(response.Data.Table, maxCols, maxRows))
                 {
-                    Console.WriteLine($"**** {warning}");
+                    // Warnings
+                    if (response.Data.Warnings.Count > 0)
+                        Console.WriteLine($"\n{string.Join(",", response.Data.Warnings.Select(warning => $"{warning}"))}");
                 }
-
-                // Total docs in matching set
-                Console.WriteLine($"\nTotal document hits: {response.Data.Total}.");
-                Console.WriteLine($"Received: {response.Data.Hits.Count}\n");
-
-                // The Table propery below represents the data grid returned from the platform.
-                // The Table is a .Net DataTable containing our rows and columns of data representing our document hits. 
-                // Process the rows and columns and utilize the ConsoleTable class to display to the console.
-                if (response.Data?.Table != null && response.Data?.Table.Rows.Count > 0)
-                    DisplayTable(response.Data.Table);
                 else
                     Console.WriteLine($"Response contains an empty data set: {response.Data?.Raw}");
             }
             else
             {
-                Console.WriteLine($"\nIsSuccess: {response.IsSuccess}\n{response.HttpStatus}");
+                Console.WriteLine($"IsSuccess: {response.IsSuccess}\n{response.HttpStatus}");
             }
-            Console.Write("\n<Enter> to continue..."); Console.ReadLine();
+
+            Console.Write("\nHit <enter> to continue...");
+            Console.ReadLine();
         }
 
-        public static string Truncate(this string value, int maxChars)
+        public static void DisplayTable(string label, ISymbolConversionResponse response)
         {
-            return value.Length <= maxChars ? value : value.Substring(0, maxChars) + "...";
+            DisplayTable(label, response, 0);
         }
 
-        private static void DisplayTable(DataTable table)
+        public static void DisplayTable(string label, ISymbolConversionResponse response, int maxCols, int maxRows = 0)
         {
-            // The Table propery below represents the data grid returned from the platform.
-            // The Table is a .Net DataTable containing our rows and columns of data representing our time series grid. 
-            // Process the rows and columns and utilize the ConsoleTable class to display to the console.
-            var console = new ConsoleTable();
+            Console.WriteLine($"\n{label}");
 
-            IList<string> columns = new List<string>();
-            foreach (DataColumn col in table.Columns)
-                columns.Add(col.ColumnName);
+            if (response.IsSuccess)
+            {
+                if (FormatTable(response.Data.Table, maxCols, maxRows))
+                {
+                    // Warnings
+                    if (response.Data.Warnings.Count > 0)
+                        Console.WriteLine($"\n{string.Join(",", response.Data.Warnings.Select(warning => $"{warning}"))}");
+                }
+                else
+                    Console.WriteLine($"Response contains an empty data set: {response.Data?.Raw}");
+            }
+            else
+            {
+                Console.WriteLine($"IsSuccess: {response.IsSuccess}\n{response.HttpStatus}");
+            }
 
-            console.AddColumn(columns);
-            
+            Console.Write("\nHit <enter> to continue...");
+            Console.ReadLine();
+        }
+
+        public static void DisplayTable(IMetaDataResponse response)
+        {
+            DisplayTable(null, response, 0);
+        }
+
+        public static void DisplayTable(string label, IMetaDataResponse response)
+        {
+            DisplayTable(label, response, 0);
+        }
+
+        public static void DisplayTable(string label, IMetaDataResponse response, int maxCols, int maxRows = 0)
+        {
+            if (label != null) Console.WriteLine($"\n{label}");
+
+            if (response.IsSuccess)
+            {
+                if (!FormatTable(response.Data.Table, maxCols, maxRows))
+                    Console.WriteLine($"Response contains an empty data set: {response.Data?.Raw}");
+            }
+            else
+            {
+                Console.WriteLine($"IsSuccess: {response.IsSuccess}\n{response.HttpStatus}");
+            }
+
+            Console.Write("\nHit <enter> to continue...");
+            Console.ReadLine();
+        }
+
+        // FormatTable
+        // Generic routine to display dataTable
+        private static bool FormatTable(DataTable dataTable, int maxCols, int maxRows)
+        {
+            if (dataTable is DataTable && dataTable.Columns.Count > 0)
+            {
+                var rows = dataTable.Select();
+                DisplayRows(dataTable.Columns, rows, maxCols, maxRows);
+                Console.WriteLine($"Total rows in table: {rows.Length}");
+            }
+
+            return dataTable is DataTable;
+        }
+
+        // DisplayRows
+        // Generic routine to display the rows of a table
+        public static void DisplayRows(DataColumnCollection columns, IEnumerable<DataRow> rows, int maxCols=0, int maxRows=0)
+        {
+            CellFormat headerFormat = new CellFormat() { ForegroundColor = Color.LightSeaGreen };
+            var builder = new TableBuilder(headerFormat);
+
+            var displayCols = maxCols <= 0 ? columns.Count : maxCols;
+            foreach (DataColumn col in columns)
+            {
+                builder.AddColumn(col.ColumnName);
+                if (--displayCols == 0) break;
+            }
+
+            if (maxCols > 0 && maxCols < columns.Count)
+                builder.AddColumn($"{columns.Count - maxCols} more");
+
+            var table = builder.Build();
+            table.Config = TableConfig.Unicode();
+
+            table.Config.wrapText = true;
+            table.Config.textWrapLimit = 40;
+
+            var rowCount = rows.ToArray().Length;
+            var displayRows = maxRows <= 0 ? rowCount : maxRows;
+
+            displayCols = maxCols <= 0 ? columns.Count : maxCols;
             IList<object> rowData = new List<object>();
-            foreach (DataRow dataRow in table.Rows)
+            foreach (DataRow dataRow in rows)
             {
-                foreach (var item in dataRow.ItemArray)
+                foreach (object item in dataRow.ItemArray)
                 {
+                    if (rowData.Count == displayCols)
+                    {
+                        rowData.Add("...");
+                        break;
+                    }
+
                     switch (item)
                     {
                         case null:
                             break;
                         case JValue val:
-                            rowData.Add(val.ToString());
+                            var str = val.ToString();
+                            rowData.Add(str);
                             break;
                         case IEnumerable<JToken> list:
                             rowData.Add($"[{string.Join(", ", list.Select(node => $"{node}"))}]");
@@ -157,15 +241,16 @@ namespace Common_Examples
                     }
                 }
 
-                console.AddRow(rowData.ToArray());
+                table.AddRow(rowData.ToArray());
                 rowData.Clear();
+
+                if (--displayRows == 0) break;
             }
 
-            if (console.Columns.Count > 0)
-            {
-                Console.WriteLine();
-                console.Write(Format.MarkDown);
-            }
+            if (maxRows > 0 && maxRows < rowCount)
+                table.AddRow($"<{rowCount - maxRows} more>...");
+
+            Console.Write(table);
         }
     }
 }

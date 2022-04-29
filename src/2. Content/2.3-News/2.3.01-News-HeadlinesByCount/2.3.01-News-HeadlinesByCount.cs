@@ -2,6 +2,7 @@
 using Refinitiv.Data.Core;
 using System;
 using System.Linq;
+using Configuration;
 
 namespace _2._3._01_News_HeadlinesByCount
 {
@@ -22,33 +23,32 @@ namespace _2._3._01_News_HeadlinesByCount
             try
             {
                 // Create a session into the platform...
-                using (ISession session = Configuration.Sessions.GetSession())
+                using ISession session = Sessions.GetSession();
+
+                // Open the session
+                if (session.Open() == Session.State.Opened)
                 {
-                    // Open the session
-                    if (session.Open() == Session.State.Opened)
-                    {
 
-                        // Default Count: Retrieve the most recent 100 headlines
-                        DisplayHeadlines(Headlines.Definition().GetData());
+                    // Default Count: Retrieve the most recent 100 headlines
+                    DisplayHeadlines(Headlines.Definition().GetData());
 
-                        // Default Count: Retrieve most recent 100 headlines for Apple
-                        DisplayHeadlines(Headlines.Definition().Query("R:AAPL.O").GetData());
+                    // Default Count: Retrieve most recent 100 headlines for Apple
+                    DisplayHeadlines(Headlines.Definition().Query("R:AAPL.O").GetData());
 
-                        // Specify Count: Retrieve most recent N headlines for Apple
-                        DisplayHeadlines(Headlines.Definition().Query("R:AAPL.O")
-                                                               .Count(15)
-                                                               .GetData());
+                    // Specify Count: Retrieve most recent N headlines for Apple
+                    DisplayHeadlines(Headlines.Definition().Query("R:AAPL.O")
+                                                           .Count(15)
+                                                           .GetData());
 
-                        // Specify Count: Retrieve large batch for the most recent N headlines for Apple
-                        DisplayHeadlines(Headlines.Definition().Query("R:AAPL.O")
-                                                               .Count(350)
-                                                               .GetData());
+                    // Specify Count: Retrieve large batch for the most recent N headlines for Apple
+                    DisplayHeadlines(Headlines.Definition().Query("R:AAPL.O")
+                                                           .Count(350)
+                                                           .GetData());
 
-                        // Same as last one except provide a callback to report each page of headlines returned
-                        DisplayHeadlines(Headlines.Definition().Query("R:AAPL.O")
-                                                               .Count(350)
-                                                               .GetData((response, def, h) => DisplayHeadlines(response)));
-                    }
+                    // Same as last one except provide a callback to report each page of headlines returned
+                    DisplayHeadlines(Headlines.Definition().Query("R:AAPL.O")
+                                                           .Count(350)
+                                                           .GetData((response, def, h) => DisplayHeadlines(response)));
                 }
             }
             catch (Exception e)

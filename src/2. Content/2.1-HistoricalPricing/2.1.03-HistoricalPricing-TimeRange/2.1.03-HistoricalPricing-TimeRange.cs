@@ -2,17 +2,18 @@
 using Refinitiv.Data.Content.HistoricalPricing;
 using Refinitiv.Data.Core;
 using System;
+using Configuration;
 
 namespace _2._1._03_HistoricalPricing_TimeRange
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main(string[] _)
         {
             try
             {
                 // Create the platform session.
-                using ISession session = Configuration.Sessions.GetSession();
+                using ISession session = Sessions.GetSession();
 
                 // Open the session
                 session.Open();
@@ -26,8 +27,7 @@ namespace _2._1._03_HistoricalPricing_TimeRange
                                                             .Start(last_30_days)
                                                             .End(DateTime.UtcNow)
                                                             .GetData();
-
-                Common.DisplayDataSet(response, "Historical daily Summaries - last 30 trading days");
+                Common.DisplayTable("Historical daily Summaries - last 30 trading days", response);
 
                 // Monthly summaries for last calendar year.
                 var lastYear = DateTime.Now.Year - 1;
@@ -38,8 +38,7 @@ namespace _2._1._03_HistoricalPricing_TimeRange
                                                         .Start(start)
                                                         .End(end)
                                                         .GetData();
-
-                Common.DisplayDataSet(response, "Historical monthly Summaries - last calendar year");
+                Common.DisplayTable("Historical monthly Summaries - last calendar year", response);
             }
             catch (Exception e)
             {
