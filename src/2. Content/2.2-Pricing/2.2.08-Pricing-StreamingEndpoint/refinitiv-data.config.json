@@ -1,0 +1,36 @@
+﻿// **************************************************************************************************************
+// Refinitiv Data Library for .NET Configuration
+//
+// The library will attempt to locate a default configuration file called: refinitiv-data.config.json using the 
+// following locations:
+//
+// 1. You can specify your application configuration anywhere using: DataLibraryConfig.SetConfigFile()
+// 2. If not, locate the config file set by the RD_LIB_CONFIG_FILE environment variable
+// 3. If not, locate the default configuration file witin your runtime working directory
+// 4. If not, locate the default configuration file within the %USERPROFILE% directory
+// 5. If not, locate the default configuration file within the %HOMEPATH% directory
+//
+// Override the default streaming endpoint.
+// **************************************************************************************************************
+{
+    "sessions": {
+        "platform": {
+            "default": "mySession",
+
+            "mySession": {
+                "apis": {
+                    "streaming": {
+                        "pricing": {
+                            "endpoints": {
+                                "main": {
+                                    // Override the default.
+                                    "locations": [ "us-west" ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
