@@ -28,7 +28,7 @@ namespace _2._3._05_News_Image
 
                     // Display Image - hardcoded ID
                     Console.WriteLine("\nImage based on hardcoded ID");
-                    RetrieveImage("2020-06-26T164302Z_1_YH8_RTRLXPP_2_LYNXPACKAGER__JPG");
+                    RetrieveImage("2022-06-16T224431Z_1_OV4_RTRLXPP_2_LYNXPACKAGER__JPG");
 
                     // Display Image - based on OnlineReports query
                     string imageId = null;

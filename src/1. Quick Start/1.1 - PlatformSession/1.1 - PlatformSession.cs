@@ -7,7 +7,7 @@ namespace _1._1___PlatformSession
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main(string[] _)
         {
             // Programmatically override the default log level defined for the Refinitiv Data Library.
             Log.Level = NLog.LogLevel.Debug;
@@ -17,8 +17,8 @@ namespace _1._1___PlatformSession
                                                       .OAuthGrantType(new GrantPassword().UserName(Credentials.RDPUser)
                                                                                          .Password(Credentials.RDPPassword))
                                                       .TakeSignonControl(true)
-                                                      .GetSession().OnState((s, state, msg) => Console.WriteLine($"State: {state}. {msg}"))
-                                                                   .OnEvent((s, eventCode, msg) => Console.WriteLine($"Event: {eventCode}. {msg}"));
+                                                      .GetSession().OnState((state, msg, s) => Console.WriteLine($"State: {state}. {msg}"))
+                                                                   .OnEvent((eventCode, msg, s) => Console.WriteLine($"Event: {eventCode}. {msg}"));
 
             if (session.Open() == Session.State.Opened)
                 Console.WriteLine("Session successfully opened");

@@ -2,6 +2,7 @@
 using Refinitiv.Data.Core;
 using System;
 using Configuration;
+using Refinitiv.Data;
 
 namespace _2._3._06_News_MRN
 {
@@ -21,49 +22,47 @@ namespace _2._3._06_News_MRN
             try
             {
                 // Create a session into the platform...
-                using (ISession session = Sessions.GetSession())
+                using ISession session = Sessions.GetSession();
+
+                // Open the session
+                session.Open();
+
+                // Create an MRN definition
+                var mrn = MachineReadableNews.Definition();
+
+                // Choose the type of data feed from the MRN service
+                string input;
+                do
                 {
-                    // Open the session
-                    session.Open();
+                    Console.Write("\nChoose an MRN Data Feed (0 - Story, 1 - Analytics Assets, 2 - Analytics Events) [Enter to Exit]: ");
+                    input = Console.ReadLine();
 
-                    // Create an MRN definition
-                    var mrn = MachineReadableNews.Definition();
-
-                    // Choose the type of data feed from the MRN service
-                    string input;
-                    do
+                    if (input.Length > 0)
                     {
-                        Console.Write("\nChoose an MRN Data Feed (0 - Story, 1 - Analytics Assets, 2 - Analytics Events) [Enter to Exit]: ");
-                        input = Console.ReadLine();
-
-                        if (input.Length > 0)
+                        try
                         {
-                            try
+                            // Validate the selection
+                            var feed = (MachineReadableNews.Datafeed)Enum.Parse(typeof(MachineReadableNews.Datafeed), input);
+
+                            if (Enum.IsDefined(typeof(MachineReadableNews.Datafeed), feed))
                             {
-                                // Validate the selection
-                                var feed = (MachineReadableNews.Datafeed)Enum.Parse(typeof(MachineReadableNews.Datafeed), input);
+                                // Set the datafeed then retrieve a streaming object.
+                                using var stream = mrn.NewsDatafeed(feed).GetStream();
 
-                                if (Enum.IsDefined(typeof(MachineReadableNews.Datafeed), feed))
-                                {
-                                    // Set the datafeed then retrieve a streaming object.
-                                    using (var stream = mrn.NewsDatafeed(feed).GetStream())
-                                    {
-                                        // Define our real-time processing then open the stream...
-                                        stream.OnError((err, s) => Console.WriteLine($"{DateTime.Now}:{err}"))
-                                              .OnStatus((status, s) => Console.WriteLine($"Status for feed: {s.Definition.DataFeed} => {status}"))
-                                              .OnNewsStory((newsItem, s) => OnNewsStory(newsItem))
-                                              .OnNewsAnalyticsAssets((newsItem, s) => OnNewsAnalyticsAssets(newsItem))
-                                              .OnNewsAnalyticsEvents((newsItem, s) => OnNewsAnalyticsEvents(newsItem))
-                                              .Open();
+                                // Define our real-time processing then open the stream...
+                                stream.OnError((err, s) => Console.WriteLine($"{DateTime.Now}:{err}"))
+                                      .OnStatus((status, s) => Console.WriteLine($"Status for feed: {s.Definition.DataFeed} => {status}"))
+                                      .OnNewsStory((newsItem, s) => OnNewsStory(newsItem))
+                                      .OnNewsAnalyticsAssets((newsItem, s) => OnNewsAnalyticsAssets(newsItem))
+                                      .OnNewsAnalyticsEvents((newsItem, s) => OnNewsAnalyticsEvents(newsItem))
+                                      .Open();
 
-                                        Console.ReadLine();
-                                    }
-                                }
+                                Console.ReadLine();
                             }
-                            catch (ArgumentException) { }
                         }
-                    } while (input.Length > 0);
-                }
+                        catch (ArgumentException) { }
+                    }
+                } while (input.Length > 0);
             }
             catch (Exception e)
             {
@@ -79,6 +78,11 @@ namespace _2._3._06_News_MRN
         private static void OnNewsAnalyticsAssets(IMRNAnalyticsData news)
         {
             Console.WriteLine($"{ DateTime.Now:HH:mm:ss}. Scores for {news.Scores.Count} asset(s). ({news.HeadlineTitle})");
+            foreach (var score in news.Scores)
+            {
+                Console.WriteLine($"\t{score.AssetName} ({score.AssetClass}");
+                Console.WriteLine($"\t\tRelevance: {score.Relevance}\tSentiment (-:0:+) {score.SentimentNegative}:{score.SentimentNeutral}:{score.SentimentPositive}");
+            }
         }
 
         private static void OnNewsAnalyticsEvents(IMRNAnalyticsData news)

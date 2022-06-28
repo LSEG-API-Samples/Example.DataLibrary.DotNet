@@ -15,6 +15,7 @@
         //       provided RDP or ERT in Cloud credentials.
         // ********************************************************************
         public static string RDPUser { get; } = "<RDP Machine ID>";
+
         public static string RDPPassword { get; } = "<RDP Password>";
 
         // AppKey used for both Desktop or Platform session types.

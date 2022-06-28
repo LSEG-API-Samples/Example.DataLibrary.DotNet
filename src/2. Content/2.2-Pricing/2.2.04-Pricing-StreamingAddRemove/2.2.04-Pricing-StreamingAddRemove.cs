@@ -8,7 +8,7 @@ namespace _2._2._04_Pricing_StreamingAddRemove
 {
     // **********************************************************************************************************************
     // 2.2.04-Pricing-StreamingAddRemove
-    // The following example demonstrates how add to or remove items from your streaming cache.  Items added will be
+    // The following example demonstrates how to add to or remove items from your streaming cache.  Items added will be
     // automatically opened if the stream is already opened.
     //
     // Note: To configure settings for your environment, visit the following files within the .Solutions folder:
@@ -34,21 +34,20 @@ namespace _2._2._04_Pricing_StreamingAddRemove
                                                                   .OnError((item, err, s) => Console.WriteLine(err));
                     if (stream.Open() == Stream.State.Opened)
                     {
-
                         // Dump the cache to show the current items we're watching
-                        DumpCache(stream);
+                        DumpCache("Stream defined with 3 items", stream);
 
                         // Add 2 new currencies...
                         stream.AddItems("JPY=", "MXN=");
 
                         // Dump cache again...
-                        DumpCache(stream);
+                        DumpCache("Stream after adding 2 items", stream);
 
                         // Remove 2 different currencies...
                         stream.RemoveItems("CAD=", "GBP=");
 
                         // Final dump
-                        DumpCache(stream);
+                        DumpCache("Stream after removing 2 items", stream);
 
                         // Close streams
                         Console.WriteLine("\nClosing opened streams...");
@@ -61,12 +60,15 @@ namespace _2._2._04_Pricing_StreamingAddRemove
             }
         }
 
-        private static void DumpCache(IPricingStream stream)
+        private static void DumpCache(string details, IPricingStream stream)
         {
             Console.WriteLine("\n*************************************Current cached items**********************************");
+            Console.WriteLine($"{details}:\n");
 
             foreach (var entry in stream)
                 Console.WriteLine($"{entry.Key}: {entry.Value["DSPLY_NAME"]}");
+
+            Console.Write("<Enter> to continue..."); Console.ReadLine();
         }
     }
 }

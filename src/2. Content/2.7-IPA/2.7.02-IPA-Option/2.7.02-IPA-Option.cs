@@ -1,4 +1,5 @@
 ﻿using Common_Examples;
+using Newtonsoft.Json.Linq;
 using Refinitiv.Data.Content.IPA;
 using Refinitiv.Data.Core;
 using System;
@@ -26,44 +27,77 @@ namespace _2._7._02_IPA_Option
                 // Open the session
                 session.Open();
 
-                // Single ETI Option -default parameters
-                var response = OptionEti.Definition("AAPLM212222500.U").GetData();
-                Common.DisplayTable("Single ETI Option - Columns truncated", response, 10);
+                // Simple request - default fields
+                var eti = new JObject()
+                {
+                    ["universe"] = new JArray(new JObject()
+                    {
+                        ["instrumentType"] = "Option",
+                        ["instrumentDefinition"] = new JObject()
+                        {
+                            ["InstrumentCode"] = "AAPLM192420500.U",
+                            ["underlyingType"] = "Eti"
+                        }
+                    })
+                };
 
-                // Multiples ETI options - default parameters (Buy Call)
-                response = OptionEti.Definition("FCHI560000L1.p", "AAPLM212222500.U").Fields("InstrumentCode", "StrikePrice", "EndDate", "ExerciseType",
-                                                                                             "OptionPrice", "UnderlyingRIC", "ErrorMessage")
-                                                                                     .GetData();
-                Common.DisplayTable("Multiple ETI Options", response);
+                Common.DisplayTable("Option ETI - Apple", FinancialContracts.Definition(eti).GetData(), 7);
 
                 // OTC Eti Option
-                response = OptionEti.Definition().ExcerciseStyle(OptionEti.ExerciseStyle.Amer)
-                                                 .Strike(255)
-                                                 .EndDate(DateTime.Now.AddDays(30))
-                                                 .BuySell(FinancialContracts.BuySell.Sell)
-                                                 .CallPut(FinancialContracts.CallPut.Call)
-                                                 .UnderlyingInstrument("AAPL.O")
-                                                 .Fields("InstrumentCode", "ExerciseType", "ValuationDate", "EndDate", "StrikePrice", "OptionPrice",
-                                                         "UnderlyingRIC", "UnderlyingPrice", "ExerciseStyle", "ErrorMessage")
-                                                 .GetData();
-                Common.DisplayTable("OTC Option", response);
+                eti = new JObject()
+                {
+                    ["fields"] = new JArray("InstrumentCode", "ExerciseType", "ValuationDate", "EndDate",
+                                            "StrikePrice", "OptionPrice", "UnderlyingRIC", "UnderlyingPrice",
+                                            "ExerciseStyle", "ErrorMessage"),
+                    ["universe"] = new JArray(new JObject()
+                    {
+                        ["instrumentType"] = "Option",
+                        ["instrumentDefinition"] = new JObject()
+                        {
+                            ["underlyingType"] = "Eti",
+                            ["buySell"] = "Sell",
+                            ["callPut"] = "Call",
+                            ["endDate"] = $"{DateTime.Now.AddDays(30):O}",
+                            ["exerciseStyle"] = "Amer",
+                            ["strike"] = 255,
+                            ["UnderlyingDefinition"] = new JObject() { ["instrumentCode"] = "AAPL.O" }
+                        }
+                    })
+                };
+
+                Common.DisplayTable("OTC Eti Option", FinancialContracts.Definition(eti).GetData());
 
                 // FX Option (include some pricing and binary properties)
-                var pricing = OptionFx.PricingDefinition().CutoffTimeZone(OptionFx.CutoffTimeZone.GMT)
-                                                          .FxSpotObject(OptionFx.BidAskMidDefinition().Mid(2.5))
-                                                          .CutoffTime("1500PM")
-                                                          .PricingModelType(OptionFx.PricingModelType.VannaVolga);
-                var binary = OptionFx.BinaryDefinition(OptionFx.BinaryType.OneTouchDeferred,
-                                                       1.2001).PayoutAmount(1000000);
+                var fx = new JObject()
+                {
+                    ["fields"] = new JArray("FxCrossCode", "EndDate", "ForeignCcy", "FxSwap", "ErrorMessage"),
+                    ["universe"] = new JArray(new JObject()
+                    {
+                        ["instrumentType"] = "Option",
+                        ["instrumentDefinition"] = new JObject()
+                        {
+                            ["underlyingType"] = "Fx",
+                            ["UnderlyingDefinition"] = new JObject() { ["fxCrossCode"] = "EURUSD" },
+                            ["binaryDefinition"] = new JObject()
+                            {
+                                ["binaryType"] = "OneTouchDeferred",
+                                ["trigger"] = 1.2001,
+                                ["payoutAmount"] = 1000000
+                            },
+                            ["settlementType"] = "Cash",
+                            ["tenor"] = "1M"
+                        }
+                    }),
+                    ["pricingParameters"] = new JObject()
+                    {
+                        ["pricingModelType"] = "VannaVolga",
+                        ["fxSpotObject"] = new JObject() { ["mid"] = 2.5 },
+                        ["cutoffTimeZone"] = "GMT",
+                        ["CutoffTime"] = "1500PM"
+                    }
+                };
 
-                response = OptionFx.Definition().Fields("FxCrossCode", "EndDate", "ForeignCcy", "FxSwap", "ErrorMessage")
-                                                .FxCrossCode("EURUSD")
-                                                .SettlementType(OptionFx.SettlementType.Cash)
-                                                .Tenor("1M")
-                                                .BinaryDefinition(binary)
-                                                .PricingParams(pricing)
-                                                .GetData();
-                Common.DisplayTable("FX Option - Specify some pricing and binary properties", response);
+                Common.DisplayTable("FX Option", FinancialContracts.Definition(fx).GetData());
             }
             catch (Exception e)
             {

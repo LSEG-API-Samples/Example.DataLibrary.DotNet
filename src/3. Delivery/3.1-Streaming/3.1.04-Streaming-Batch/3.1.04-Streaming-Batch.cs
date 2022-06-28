@@ -2,8 +2,6 @@
 using Refinitiv.Data.Core;
 using Refinitiv.Data.Delivery.Stream;
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace _3._1._04_Streaming_Batch
 {

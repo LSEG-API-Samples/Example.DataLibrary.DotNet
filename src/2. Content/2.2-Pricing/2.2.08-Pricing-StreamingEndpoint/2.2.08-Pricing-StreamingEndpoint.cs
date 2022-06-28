@@ -7,10 +7,11 @@ namespace _2._2._08_Pricing_StreamingEndpoint
 {
     // **********************************************************************************************************************
     // 2.2.08-Pricing-StreamingEndpoint
-    // The following example demonstrates how to override the default streaming endpoint.  The example utilizes the
-    // configuration file: refinitiv-data.config.json located within this project.
+    // The following example demonstrates how to override the default streaming endpoint when connecting to RDP.  The example
+    // utilizes the configuration file: refinitiv-data.config.json located within this project.
     //
-    // The example demonstrates the same functionality defined within example: 2.2.05-Pricing-StreamingEvents.
+    // The example demonstrates the same functionality defined within example: 2.2.05-Pricing-StreamingEvents.  However,
+    // through configuration, will define the region to control the endpoint driving the streaming data.
     //
     // Note: To configure settings for your environment, visit the following files within the .Solutions folder:
     //      1. Configuration.Session to specify the access channel into the platform. Default: RDP (PlatformSession).
@@ -22,7 +23,8 @@ namespace _2._2._08_Pricing_StreamingEndpoint
         {
             try
             {
-                var session = Sessions.GetSession();
+                // This example requires a platform session to demonstrate how to override the default region
+                var session = Sessions.GetSession(Sessions.SessionTypeEnum.RDP);
 
                 // Open the session
                 session.Open();

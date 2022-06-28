@@ -31,24 +31,21 @@ namespace _2._5._01_Symbology_Convert
                 using ISession session = Sessions.GetSession(); session.Open();
 
                 // ISIN to RIC conversion (
-                var response = SymbolConversion.Definition().ServiceType(SymbolConversion.ServiceType.Wealth)
-                                                            .Symbols("US5949181045", "US02079K1079")
+                var response = SymbolConversion.Definition().Symbols("US5949181045", "US02079K1079")
                                                             .FromSymbolType(SymbolConversion.SymbolType.ISIN)
                                                             .ToSymbolType(SymbolConversion.SymbolType.RIC)
                                                             .GetData();
                 Common.DisplayTable("ISIN to RIC conversion for 2 items:", response);
 
                 // ISINs - convert to RIC and Ticker only.  Include 1 bad ISIN.
-                response = SymbolConversion.Definition().ServiceType(SymbolConversion.ServiceType.Desktop)
-                                                        .Symbols("US5949181045", "JUNK", "US02079K1079")
+                response = SymbolConversion.Definition().Symbols("US5949181045", "JUNK", "US02079K1079")
                                                         .FromSymbolType(SymbolConversion.SymbolType.ISIN)
                                                         .ToSymbolType(SymbolConversion.SymbolType.RIC, SymbolConversion.SymbolType.Ticker)
                                                         .GetData();
                 Common.DisplayTable("ISIN Lookup for 2 valid items, 1 invalid item - convert to RIC and Ticker only:", response);
 
-                // LipperID conversion
-                response = SymbolConversion.Definition("68384554").ServiceType(SymbolConversion.ServiceType.Desktop)
-                                                                  .FromSymbolType(SymbolConversion.SymbolType.LipperID)
+                // LipperID conversion - convert ID to all available types
+                response = SymbolConversion.Definition("68384554").FromSymbolType(SymbolConversion.SymbolType.LipperID)
                                                                   .GetData();
                 Common.DisplayTable("Lipper ID conversion:", response);
 
@@ -56,8 +53,7 @@ namespace _2._5._01_Symbology_Convert
                 // Note: Auto-detection is only available in the Desktop service type
                 if (session is IDesktopSession)
                 {
-                    response = SymbolConversion.Definition().ServiceType(SymbolConversion.ServiceType.Desktop)
-                                                            .Symbols("IBM", "US5949181045", "037833100", "BH4HKS3")
+                    response = SymbolConversion.Definition().Symbols("IBM", "US5949181045", "037833100", "BH4HKS3")
                                                             .GetData();
                     Common.DisplayTable("Detect and convert symbols of mixed type", response);
                 }

@@ -39,7 +39,11 @@ namespace _2._3._03_News_Story
                             Console.WriteLine($"\nHeadline: {headline.Data.Headlines[0].HeadlineTitle}");
 
                             if (story.IsSuccess)
-                                Console.WriteLine($"\nStory: {story.Data.NewsStory}");
+                            {
+                                Console.WriteLine($"\nStory (Plain text): {story.Data.NewsStory}");
+                                Console.Write("\n<Enter> to retrieve Html formatted version..."); Console.ReadLine();
+                                Console.WriteLine($"\nStory (HTML): {story.Data.HtmlNewsStory}");
+                            }
                             else
                                 Console.WriteLine($"Problem retrieving the story: {story.HttpStatus}");
                         }

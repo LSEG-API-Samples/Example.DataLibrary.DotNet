@@ -1,28 +1,21 @@
 ﻿// **************************************************************************************************************
 // Refinitiv Data Library for .NET Configuration
 //
-// The library will attempt to locate a default configuration file called: refinitiv-data.config.json using the 
-// following locations:
-//
-// 1. You can specify your application configuration anywhere using: DataLibraryConfig.SetConfigFile()
-// 2. If not, locate the config file set by the RD_LIB_CONFIG_FILE environment variable
-// 3. If not, locate the default configuration file witin your runtime working directory
-// 4. If not, locate the default configuration file within the %USERPROFILE% directory
-// 5. If not, locate the default configuration file within the %HOMEPATH% directory
-//
 // Override the default streaming endpoint.
 // **************************************************************************************************************
 {
     "sessions": {
         "platform": {
+            // When a platform session is created, By default, the following configuration details will be used.
             "default": "mySession",
 
+            // The following session overrides the default streaming properties for the platform session.
             "mySession": {
                 "apis": {
                     "streaming": {
                         "pricing": {
                             "endpoints": {
-                                "main": {
+                                "platform": {
                                     // Locations
                                     // Optional region specifier to determine the default selection of the streaming endpoint.
                                     //
@@ -36,7 +29,7 @@
                                     // Suggested locations:
                                     //  Asia:   "ap-southeast"
                                     //  Euro:   "eu-west"
-                                    //  US:     "us-east"
+                                    //  US:     "us-east"  (default)
                                     //
                                     // Note: The Location setting to choose a default endpoint is only relevant if no Host or no websocket-url has been 
                                     //       specifically defined.
@@ -44,7 +37,7 @@
                                     // For streaming services provided within the cloud, it is recommended to choose a location that provides 2 AZ's.  By doing
                                     // this, if a disconnect occurs, the library can attempt to connect back into the same endpoint and the backend service will
                                     // choose the active connection automatically.
-                                    "locations": [ "us-west" ]
+                                    "locations": [ "eu-west" ]
                                 }
                             }
                         }

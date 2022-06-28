@@ -3,15 +3,14 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>_2._7._20_IPA_FinancialContracts</RootNamespace>
+    <RootNamespace>_2._2._02_Pricing_Chains</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Refinitiv.Data.Content" Version="1.0.0-beta3" />
+    <PackageReference Include="Refinitiv.Data.Content" Version="1.0.0-beta4" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Common\Common.csproj" />
     <ProjectReference Include="..\..\..\Configuration\Configuration.csproj" />
   </ItemGroup>
 
