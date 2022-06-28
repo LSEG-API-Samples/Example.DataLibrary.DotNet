@@ -1,4 +1,4 @@
-﻿##Content (Refinitiv.Data.Content) Release Notes
+﻿## Content (Refinitiv.Data.Content) Release Notes
 
 ### 1.0.0-beta4
 - IPA
