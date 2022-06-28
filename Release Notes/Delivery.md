@@ -1,4 +1,4 @@
-﻿##Delivery (Refinitiv.Data) Release Notes
+﻿## Delivery (Refinitiv.Data) Release Notes
 
 ### 1.0.0-beta4
 - New streaming services
