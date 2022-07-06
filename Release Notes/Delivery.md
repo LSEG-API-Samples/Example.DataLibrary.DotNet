@@ -1,11 +1,11 @@
-﻿## Delivery (Refinitiv.Data) Release Notes
+## Delivery (Refinitiv.Data) Release Notes
 
 ### 1.0.0-beta4
 - New streaming services
-	o Added RDPStream to support new RDP streaming services (Quantitative Analytics, Custom Instruments and Benchmarks)
-	o Added capability to dynamically discover and request OMM and RDP streams
-	o Added OMMStream.Definition.Api to support additional OMM streaming services
-	o Streaming services have been made available in both Platform and Desktop sessions
+   - Added RDPStream to support new RDP streaming services (Quantitative Analytics, Custom Instruments and Benchmarks)
+   - Added capability to dynamically discover and request OMM and RDP streams
+   - Added OMMStream.Definition.Api to support additional OMM streaming services
+   - Streaming services have been made available in both Platform and Desktop sessions
 - Updated IPlatformSession.OnStreamingEndpoint signature to include additional streaming services 
 - Fixed issue as reported in case: 11209155 to handle duplicate endpoints reported in stream discovery
 
