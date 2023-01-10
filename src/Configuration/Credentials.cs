@@ -1,4 +1,6 @@
-﻿namespace Configuration
+﻿using System;
+
+namespace Configuration
 {
     // GlobalSettings
     // The following class is a convenient interface used strictly for the Examples within this solution.  Most of the examples,
@@ -27,10 +29,14 @@
         // ********************************************************************
         // ADS (Advanced Distribution Server) Global Authentication parameters
         //
-        // Note: Parameters in this section are only applicable if you were
-        //       provided ADS WebSocket connection details.
+        // Note: Parameters in this section are specific to deployed sessions
+        //       and only applicable if you were provided ADS WebSocket
+        //       connection details.
         // ********************************************************************
-        public static string ADSHost { get; } = "<server>:<port>";   // Eg: "wsserver:15000"
+        public static string ADSHost { get; } = "<server>:<port>";          // ADS Host. Eg: "wsserver:15000"
+        public static string ADSDacsUser { get; } = Environment.UserName;   // DACs username
+        public static string ADSDacsPosition { get; } = "127.0.0.1/net";    // DACs position
+        public static string ADSDacsApplicationID { get; } = "256";         // DACs Application ID
     }
 }
 

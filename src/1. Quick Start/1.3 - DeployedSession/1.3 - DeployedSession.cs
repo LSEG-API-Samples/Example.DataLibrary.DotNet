@@ -16,6 +16,9 @@ namespace _1._3___DeployedSession
             {
                 // Create a session into a deployed ADS providing steaming data only
                 var session = PlatformSession.Definition().Host(Credentials.ADSHost)
+                                                          .DacsUserName(Credentials.ADSDacsUser)
+                                                          .DacsPosition(Credentials.ADSDacsPosition)
+                                                          .DacsApplicationID(Credentials.ADSDacsApplicationID)
                                                           .GetSession().OnState((state, msg, s) => Console.WriteLine($"State: {state}. {msg}"))
                                                                        .OnEvent((eventCode, msg, s) => Console.WriteLine($"Event: {eventCode}. {msg}"));
 

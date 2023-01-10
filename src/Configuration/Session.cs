@@ -41,6 +41,9 @@ namespace Configuration
                                                                       .OnEvent((eventCode, msg, s) => 
                                                                                         Console.WriteLine($"{DateTime.Now}: Event: {eventCode}. {msg}")),
                 SessionTypeEnum.DEPLOYED => PlatformSession.Definition().Host(Credentials.ADSHost)
+                                                                        .DacsUserName(Credentials.ADSDacsUser)
+                                                                        .DacsPosition(Credentials.ADSDacsPosition)
+                                                                        .DacsApplicationID(Credentials.ADSDacsApplicationID)
                                                                         .GetSession().OnState((state, msg, s) => 
                                                                                         Console.WriteLine($"{DateTime.Now}: State: {state}. {msg}"))
                                                                         .OnEvent((eventCode, msg, s) => 

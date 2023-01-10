@@ -13,7 +13,7 @@ namespace _5._1_Session
         // required to provide the necessary credentials/connection details, as defined in configuration, for the desired session
         // they wish to test.
         // **********************************************************************************************************************
-        static void Main(string[] args)
+        static void Main(string[] _)
         {
             // For convenience, each example utilizes a cancellation token in the event you do not have
             // access to a specific environment.  With this, you will not be forced to wait for the standard timeout when connecting
