@@ -23,33 +23,35 @@ namespace _2._2._06_Pricing_StreamingChain
             try
             {
                 // Create a session into the platform
-                using (ISession session = Sessions.GetSession())
-                {
-                    session.Open();
+                using ISession session = Sessions.GetSession();
 
-                    // Creating a streaming chain and manage updates
-                    ProcessChain(Chain.Definition(".AV.O").GetStream().Streaming(true)
-                                                                      .OnAdd((index, newv, c) => 
-                                                                          Console.WriteLine($"\tNew constituent {newv} added at index: {index}"))
-                                                                      .OnRemove((index, oldv, c) => 
-                                                                          Console.WriteLine($"\tRemoved constituent {oldv} added at index: {index}"))
-                                                                      .OnUpdate((index, oldv, newv, c) => 
-                                                                          Console.WriteLine($"Index {index} within our Chain changed from {oldv} => {newv}"))
-                                                                      .OnStatus((item, status, c) => 
-                                                                          Console.WriteLine($"Status for item: {item} {status}"))
-                                                                      .OnError((item, error, c) => 
-                                                                          Console.WriteLine($"Error for item: {item} {error}")));
-                }
+                session.Open();
+
+                // Creating a streaming chain and manage updates
+                ProcessChain(Chain.Definition(".AV.O").GetStream().Streaming(true)
+                                                                  .OnAdd((index, newv, c) =>
+                                                                      Console.WriteLine($"\tNew constituent {newv} added at index: {index}"))
+                                                                  .OnRemove((index, oldv, c) =>
+                                                                      Console.WriteLine($"\tRemoved constituent {oldv} added at index: {index}"))
+                                                                  .OnUpdate((index, oldv, newv, c) =>
+                                                                      Console.WriteLine($"Index {index} within our Chain changed from {oldv} => {newv}"))
+                                                                  .OnStatus((item, status, c) =>
+                                                                      Console.WriteLine($"Status for item: {item} {status}"))
+                                                                  .OnError((item, error, c) =>
+                                                                      Console.WriteLine($"Error for item: {item} {error}")));
             }
             catch (Exception e)
             {
-                Console.WriteLine($"\n**************\nFailed to execute: {e.Message}\n{e.InnerException}\n***************");
+                Console.WriteLine($"\n**************\nFailed to execute.");
+                Console.WriteLine($"Exception: {e.GetType().Name} {e.Message}");
+                if (e.InnerException is not null) Console.WriteLine(e.InnerException);
+                Console.WriteLine("***************");
             }
         }
 
         // ProcessChain
         // Based on the chain request parameters, 
-        private static void ProcessChain(IChainStream chain, bool changesEchoed = true)
+        private static void ProcessChain(IChainStream chain)
         {
             if (chain.Open() == Stream.State.Opened)
             {

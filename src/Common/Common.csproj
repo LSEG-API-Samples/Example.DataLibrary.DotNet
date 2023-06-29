@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="BetterConsoleTables" Version="2.0.4-rc1" />
-    <PackageReference Include="Refinitiv.Data.Content" Version="1.0.0-beta4" />
+    <PackageReference Include="Refinitiv.Data.Content" Version="1.0.0-beta5" />
   </ItemGroup>
 
 </Project>

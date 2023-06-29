@@ -17,7 +17,7 @@ namespace _2._7._04_IPA_Swap
     // **********************************************************************************************************************
     internal class Program
     {
-        static void Main(string[] args)
+        static void Main(string[] _)
         {
             try
             {
@@ -67,7 +67,10 @@ namespace _2._7._04_IPA_Swap
             }
             catch (Exception e)
             {
-                Console.WriteLine($"\n**************\nFailed to execute: {e.Message}\n{e.InnerException}\n***************");
+                Console.WriteLine($"\n**************\nFailed to execute.");
+                Console.WriteLine($"Exception: {e.GetType().Name} {e.Message}");
+                if (e.InnerException is not null) Console.WriteLine(e.InnerException);
+                Console.WriteLine("***************");
             }
         }
     }

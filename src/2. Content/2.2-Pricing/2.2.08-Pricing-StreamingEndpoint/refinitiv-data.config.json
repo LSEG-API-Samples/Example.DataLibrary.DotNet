@@ -15,30 +15,28 @@
                     "streaming": {
                         "pricing": {
                             "endpoints": {
-                                "platform": {
-                                    // Locations
-                                    // Optional region specifier to determine the default selection of the streaming endpoint.
-                                    //
-                                    // Upon creation of a Platform Session, a number of possible streaming endpoints, spanning multiple regions, are 
-                                    // available for use.  This setting will guide the session to determine which endpoint to choose to stream, based on 
-                                    // a location property defined within each endpoint.  In some cases, there may be multiple locations, or zones, 
-                                    // (e.g. location: [us-east-1a, us-east-1b]) available for a given endpoint.  When determining which endpoint to 
-                                    // select, the first endpoint that contains the most location matches, based on a partial match, will be chosen.  
-                                    // If an exact match based on the location is determined, the endpoint that has exactly 1 location will be chosen.
-                                    //
-                                    // Suggested locations:
-                                    //  Asia:   "ap-southeast"
-                                    //  Euro:   "eu-west"
-                                    //  US:     "us-east"  (default)
-                                    //
-                                    // Note: The Location setting to choose a default endpoint is only relevant if no Host or no websocket-url has been 
-                                    //       specifically defined.
-                                    //
-                                    // For streaming services provided within the cloud, it is recommended to choose a location that provides 2 AZ's.  By doing
-                                    // this, if a disconnect occurs, the library can attempt to connect back into the same endpoint and the backend service will
-                                    // choose the active connection automatically.
-                                    "locations": [ "eu-west" ]
-                                }
+                                // Locations
+                                // Optional region specifier to determine the default selection of the streaming endpoint.
+                                //
+                                // Upon creation of a Platform Session, a number of possible streaming endpoints, spanning multiple regions, are 
+                                // available for use.  This setting will guide the session to determine which endpoint to choose to stream, based on 
+                                // a location property defined within each endpoint.  In some cases, there may be multiple locations, or zones, 
+                                // (e.g. location: [us-east-1a, us-east-1b]) available for a given endpoint.  When determining which endpoint to 
+                                // select, the first endpoint that contains the most location matches, based on a partial match, will be chosen.  
+                                // If an exact match based on the location is determined, the endpoint that has exactly 1 location will be chosen.
+                                //
+                                // Suggested locations:
+                                //  Asia:   "ap-southeast"
+                                //  Euro:   "eu-west"
+                                //  US:     "us-east"  (default)
+                                //
+                                // Note: The Location setting to choose a default endpoint is only relevant if no Host or no websocket-url has been 
+                                //       specifically defined.
+                                //
+                                // For streaming services provided within the cloud, it is recommended to choose a location that provides 2 AZ's.  By doing
+                                // this, if a disconnect occurs, the library can attempt to connect back into the same endpoint and the backend service will
+                                // choose the active connection automatically.
+                                "locations": [ "eu-west" ]
                             }
                         }
                     }

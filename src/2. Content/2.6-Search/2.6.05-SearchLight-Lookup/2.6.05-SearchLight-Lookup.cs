@@ -20,39 +20,49 @@ namespace _2._6._05_SearchLight_Lookup
     {
         static void Main(string[] _)
         {
-            // Note: The Search Light service is available to Wealth clients.
-            using ISession session = Sessions.GetSession();
-
-            if (session.Open() == Session.State.Opened)
+            try
             {
-                // RICs - convert RICs with default output
-                var lookup = Lookup.Definition().Terms("VOD.L,AAPL.O,IBM,MSFT.O")
+                // Note: The Search Light service is available to Wealth clients.
+                using ISession session = Sessions.GetSession();
+
+                if (session.Open() == Session.State.Opened)
+                {
+                    // RICs - convert RICs with default output
+                    var lookup = Lookup.Definition().Terms("VOD.L,AAPL.O,IBM,MSFT.O")
+                                                    .Scope("RIC")
+                                                    .Select("DocumentTitle, IssueISIN")
+                                                    .GetData();
+                    Common.DisplayTable("Lookup for 4 valid RICs using default output", lookup);
+
+                    // RICs - convert to all known symbol types using targeted output
+                    lookup = Lookup.Definition().Terms("VOD.L,AAPL.O,IBM,MSFT.O")
                                                 .Scope("RIC")
-                                                .Select("DocumentTitle, IssueISIN")
+                                                .Select("DocumentTitle,CUSIP,SEDOL,RIC,TickerSymbol,IssueISIN,IssuerOAPermID,FundClassLipperID")
                                                 .GetData();
-                Common.DisplayTable("Lookup for 4 valid RICs using default output", lookup);
+                    Common.DisplayTable("Lookup for 4 valid RICs using targeted output", lookup);
 
-                // RICs - convert to all known symbol types using targeted output
-                lookup = Lookup.Definition().Terms("VOD.L,AAPL.O,IBM,MSFT.O")
-                                            .Scope("RIC")
-                                            .Select("DocumentTitle,CUSIP,SEDOL,RIC,TickerSymbol,IssueISIN,IssuerOAPermID,FundClassLipperID")
-                                            .GetData();
-                Common.DisplayTable("Lookup for 4 valid RICs using targeted output", lookup);
+                    // CUSIPs - convert to all known symbol types using targeted output
+                    lookup = Lookup.Definition().Terms("037833100,459200101,594918104")
+                                                .Scope("CUSIP")
+                                                .Select("DocumentTitle,SEDOL,RIC,TickerSymbol,IssueISIN,IssuerOAPermID,FundClassLipperID")
+                                                .GetData();
+                    Common.DisplayTable("Lookup for 3 valid CUSIPs using targeted output", lookup);
 
-                // CUSIPs - convert to all known symbol types using targeted output
-                lookup = Lookup.Definition().Terms("037833100,459200101,594918104")
-                                            .Scope("CUSIP")
-                                            .Select("DocumentTitle,SEDOL,RIC,TickerSymbol,IssueISIN,IssuerOAPermID,FundClassLipperID")
-                                            .GetData();
-                Common.DisplayTable("Lookup for 3 valid CUSIPs using targeted output", lookup);
+                    DisplayMatches("\nAlternate output...", lookup);
 
-                DisplayMatches("\nAlternate output...", lookup);
-
-                // Invalid request - Scope must be defined
-                lookup = Lookup.Definition().Terms("037833100,459200101,594918104")
-                                            .Select("DocumentTitle,SEDOL,RIC,TickerSymbol,IssueISIN,IssuerOAPermID,FundClassLipperID")
-                                            .GetData();
-                Common.DisplayTable("\n*****Invlid request - scope must be defined", lookup);
+                    // Invalid request - Scope must be defined
+                    lookup = Lookup.Definition().Terms("037833100,459200101,594918104")
+                                                .Select("DocumentTitle,SEDOL,RIC,TickerSymbol,IssueISIN,IssuerOAPermID,FundClassLipperID")
+                                                .GetData();
+                    Common.DisplayTable("\n*****Invlid request - scope must be defined", lookup);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"\n**************\nFailed to execute.");
+                Console.WriteLine($"Exception: {e.GetType().Name} {e.Message}");
+                if (e.InnerException is not null) Console.WriteLine(e.InnerException);
+                Console.WriteLine("***************");
             }
         }
 

@@ -29,7 +29,7 @@ namespace _2._1._02_HistoricalPricing_Events
 
                 // Retrieve tick pricing events.  Default: 20 rows of data.  Specified trades only and specific columns of data.
                 var response = Events.Definition("VOD.L").EventTypes(Events.EventType.trade)
-                                                         .Fields("DATE_TIME", "EVENT_TYPE", "TRDPRC_1", "TRDVOL_1")
+                                                         .Fields("RTL", "EVENT_TYPE", "TRDPRC_1", "TRDVOL_1", "QUALIFIERS")
                                                          .GetData();
                 Common.DisplayTable("Historical Trade events", response);
 
@@ -41,7 +41,10 @@ namespace _2._1._02_HistoricalPricing_Events
             }
             catch (Exception e)
             {
-                Console.WriteLine($"\n**************\nFailed to execute: {e.Message}\n{e.InnerException}\n***************");
+                Console.WriteLine($"\n**************\nFailed to execute.");
+                Console.WriteLine($"Exception: {e.GetType().Name} {e.Message}");
+                if (e.InnerException is not null) Console.WriteLine(e.InnerException);
+                Console.WriteLine("***************");
             }
         }
     }

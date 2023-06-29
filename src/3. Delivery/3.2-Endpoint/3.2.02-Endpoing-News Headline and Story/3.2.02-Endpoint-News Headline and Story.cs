@@ -16,47 +16,49 @@ namespace _3._2._02_Endpoing_News_Headline_and_Story
     // **********************************************************************************************************************
     class Program
     {
-        static void Main(string[] args)
+        static void Main(string[] _)
         {
             try
             {
                 // Create the platform session.
-                using (ISession session = Configuration.Sessions.GetSession())
+                using ISession session = Configuration.Sessions.GetSession();
+
+                // Open the session
+                session.Open();
+
+                // ********************************************************************************************
+                // Define the news headline URL - we need this to retrieve the story ID.
+                // ********************************************************************************************
+                var headlineUrl = "https://api.refinitiv.com/data/news/v1/headlines";
+
+                // Request for the headline based on the following query
+                var query = "Tesla searchIn:HeadlineOnly";
+                var response = EndpointRequest.Definition(headlineUrl).QueryParameter("query", query).GetData();
+
+                // The headline response will carry the story ID.
+                var storyId = GetStoryId(response);
+                if (storyId != null)
                 {
-                    // Open the session
-                    session.Open();
+                    Console.WriteLine($"\nFirst headline returned: {response.Data?.Raw["data"]?[0]["newsItem"]?["itemMeta"]?["title"]?[0]?["$"]}");
+                    Console.Write($"Hit <Enter> to retrieve story [{storyId}]: ");
+                    Console.ReadLine();
 
-                    // ********************************************************************************************
-                    // Define the news headline URL - we need this to retrieve the story ID.
-                    // ********************************************************************************************
-                    var headlineUrl = "https://api.refinitiv.com/data/news/v1/headlines";
+                    // Display the headline and story.  First, define the story endpoint Url.
+                    // The URL contains a path token {storyId} which will be replaced by the story ID extracted.
+                    var storyUrl = "https://api.refinitiv.com/data/news/v1/stories/{storyId}";
 
-                    // Request for the headline based on the following query
-                    var query = "Adidas searchIn:HeadlineOnly";
-                    var response = EndpointRequest.Definition(headlineUrl).QueryParameter("query", query).GetData();
-
-                    // The headline response will carry the story ID.
-                    var storyId = GetStoryId(response);
-                    if (storyId != null)
-                    {                   
-                        Console.WriteLine($"\nFirst headline returned: {response.Data?.Raw["data"]?[0]["newsItem"]?["itemMeta"]?["title"]?[0]?["$"]}");
-                        Console.Write($"Hit <Enter> to retrieve story [{storyId}]: ");
-                        Console.ReadLine();
-
-                        // Display the headline and story.  First, define the story endpoint Url.
-                        // The URL contains a path token {storyId} which will be replaced by the story ID extracted.
-                        var storyUrl = "https://api.refinitiv.com/data/news/v1/stories/{storyId}";
-
-                        // Retrieve and display the story based on the ID we retrieved from the headline
-                        DisplayStory(EndpointRequest.Definition(storyUrl).PathParameter("storyId", storyId).GetData());
-                    }
-                    else
-                        Console.WriteLine($"Problems retrieving the story ID:{Environment.NewLine}{response.HttpStatus}");
+                    // Retrieve and display the story based on the ID we retrieved from the headline
+                    DisplayStory(session, EndpointRequest.Definition(storyUrl).PathParameter("storyId", storyId).GetData());
                 }
+                else
+                    Console.WriteLine($"Problems retrieving the story ID:{Environment.NewLine}{response.HttpStatus}");
             }
             catch (Exception e)
             {
-                Console.WriteLine($"\n**************\nFailed to execute: {e.Message}\n{e.InnerException}\n***************");
+                Console.WriteLine($"\n**************\nFailed to execute.");
+                Console.WriteLine($"Exception: {e.GetType().Name} {e.Message}");
+                if (e.InnerException is not null) Console.WriteLine(e.InnerException);
+                Console.WriteLine("***************");
             }
         }
 
@@ -77,12 +79,15 @@ namespace _3._2._02_Endpoing_News_Headline_and_Story
 
         // DisplayHeadlineAndStory
         // Interrogate the response to pull out the story text.
-        private static void DisplayStory(IEndpointResponse response)
+        private static void DisplayStory(ISession session, IEndpointResponse response)
         {
             if (response.IsSuccess)
             {
                 Console.Write($"{Environment.NewLine}Story: ");
-                Console.WriteLine(response.Data?.Raw["newsItem"]?["contentSet"]?["inlineData"]?[0]?["$"]);
+                if (session is IPlatformSession)
+                    Console.WriteLine(response.Data.Raw.SelectToken("newsItem.contentSet.inlineData[0].$"));
+                else
+                    Console.WriteLine(response.Data.Raw.SelectToken("newsItem.contentSet.inlineData.$"));
             }
             else
                 Console.WriteLine($"Failed to retrieve data: {response.HttpStatus}");

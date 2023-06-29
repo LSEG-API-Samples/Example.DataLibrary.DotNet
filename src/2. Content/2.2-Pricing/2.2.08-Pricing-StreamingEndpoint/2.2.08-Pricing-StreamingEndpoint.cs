@@ -19,7 +19,7 @@ namespace _2._2._08_Pricing_StreamingEndpoint
     // **********************************************************************************************************************
     internal class Program
     {
-        static void Main(string[] args)
+        static void Main(string[] _)
         {
             try
             {
@@ -43,10 +43,11 @@ namespace _2._2._08_Pricing_StreamingEndpoint
             }
             catch (Exception e)
             {
-                Console.WriteLine($"\n**************\nFailed to execute: {e.Message}\n{e.InnerException}\n***************");
+                Console.WriteLine($"\n**************\nFailed to execute.");
+                Console.WriteLine($"Exception: {e.GetType().Name} {e.Message}");
+                if (e.InnerException is not null) Console.WriteLine(e.InnerException);
+                Console.WriteLine("***************");
             }
-
-
         }
 
         // Based on market data events, reach into the message and pull out the fields of interest for our display.
@@ -55,7 +56,7 @@ namespace _2._2._08_Pricing_StreamingEndpoint
             var fields = update["Fields"];
 
             // Display the quote for the asset we're watching
-            Console.WriteLine($"{ DateTime.Now.ToString("HH:mm:ss")}: {item} ({fields["BID"],6}/{fields["ASK"],6}) - {fields["DSPLY_NAME"]}");
+            Console.WriteLine($"{ DateTime.Now:HH:mm:ss}: {item} ({fields["BID"],6}/{fields["ASK"],6}) - {fields["DSPLY_NAME"]}");
         }
     }
 }

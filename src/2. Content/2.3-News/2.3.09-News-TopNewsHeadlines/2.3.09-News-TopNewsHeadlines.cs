@@ -45,13 +45,16 @@ namespace _2._3._09_News_TopNewsHeadlines
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Console.WriteLine($"\n**************\nFailed to execute.");
+                Console.WriteLine($"Exception: {e.GetType().Name} {e.Message}");
+                if (e.InnerException is not null) Console.WriteLine(e.InnerException);
+                Console.WriteLine("***************");
             }
         }
 
         private static void DisplayNews(ITopNewsHeadlinesResponse response)
         {
-            CellFormat headerFormat = new CellFormat() { ForegroundColor = Color.LightSeaGreen };
+            var headerFormat = new CellFormat() { ForegroundColor = Color.LightSeaGreen };
 
             var builder = new TableBuilder(headerFormat);
             foreach (var name in new List<string>() { "Publish Date", "Headline", "Story ID" })

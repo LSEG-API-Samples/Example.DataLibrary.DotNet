@@ -22,50 +22,52 @@ namespace _3._2._05_Endpoint_IPAOption
             try
             {
                 // Create the platform session.
-                using (ISession session = Configuration.Sessions.GetSession())
-                {
-                    // Open the session
-                    session.Open();
+                using ISession session = Configuration.Sessions.GetSession();
 
-                    // IPA - Financial Contracts (Option)
-                    var response = EndpointRequest.Definition(intradayEndpoint).Method(EndpointRequest.Method.POST)
-                                                                               .BodyParameters(new JObject()
+                // Open the session
+                session.Open();
+
+                // IPA - Financial Contracts (Option)
+                var response = EndpointRequest.Definition(intradayEndpoint).Method(EndpointRequest.Method.POST)
+                                                                           .BodyParameters(new JObject()
+                                                                           {
+                                                                               ["fields"] = new JArray("ErrorMessage",
+                                                                                                       "UnderlyingRIC",
+                                                                                                       "UnderlyingPrice",
+                                                                                                       "DeltaPercent",
+                                                                                                       "GammaPercent",
+                                                                                                       "RhoPercent",
+                                                                                                       "ThetaPercent",
+                                                                                                       "VegaPercent"),
+                                                                               ["universe"] = new JArray(new JObject()
                                                                                {
-                                                                                   ["fields"] = new JArray("ErrorMessage",
-                                                                                                           "UnderlyingRIC",
-                                                                                                           "UnderlyingPrice",
-                                                                                                           "DeltaPercent",
-                                                                                                           "GammaPercent",
-                                                                                                           "RhoPercent",
-                                                                                                           "ThetaPercent",
-                                                                                                           "VegaPercent"),
-                                                                                   ["universe"] = new JArray(new JObject()
+                                                                                   ["instrumentType"] = "Option",
+                                                                                   ["instrumentDefinition"] = new JObject()
                                                                                    {
-                                                                                       ["instrumentType"] = "Option",
-                                                                                       ["instrumentDefinition"] = new JObject()
-                                                                                       {
-                                                                                           ["instrumentCode"] = "AAPLA192422500.U",
-                                                                                           ["underlyingType"] = "Eti"
-                                                                                       },
-                                                                                       ["pricingParameters"] = new JObject()
-                                                                                       {
-                                                                                           ["underlyingTimeStamp"] = "Close"
-                                                                                       }
-                                                                                   })
-                                                                               }).GetData();
-                    if (response.IsSuccess)
-                    {
-                        Console.WriteLine(response.Data.Raw["data"]);
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Request failed: {response.HttpStatus}");
-                    }
+                                                                                       ["instrumentCode"] = "AAPLA192422500.U",
+                                                                                       ["underlyingType"] = "Eti"
+                                                                                   },
+                                                                                   ["pricingParameters"] = new JObject()
+                                                                                   {
+                                                                                       ["underlyingTimeStamp"] = "Close"
+                                                                                   }
+                                                                               })
+                                                                           }).GetData();
+                if (response.IsSuccess)
+                {
+                    Console.WriteLine(response.Data.Raw["data"]);
+                }
+                else
+                {
+                    Console.WriteLine($"Request failed: {response.HttpStatus}");
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine($"\n**************\nFailed to execute: {e.Message}\n{e.InnerException}\n***************");
+                Console.WriteLine($"\n**************\nFailed to execute.");
+                Console.WriteLine($"Exception: {e.GetType().Name} {e.Message}");
+                if (e.InnerException is not null) Console.WriteLine(e.InnerException);
+                Console.WriteLine("***************");
             }
         }
     }

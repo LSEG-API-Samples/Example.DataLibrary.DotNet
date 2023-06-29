@@ -21,43 +21,44 @@ namespace _2._3._05_News_Image
             try
             {
                 // Create a session into the platform...
-                using (ISession session = Sessions.GetSession())
+                using ISession session = Sessions.GetSession();
+
+                // Open the session
+                session.Open();
+
+                // Display Image - hardcoded ID
+                Console.WriteLine("\nImage based on hardcoded ID");
+                RetrieveImage("2022-06-16T224431Z_1_OV4_RTRLXPP_2_LYNXPACKAGER__JPG");
+
+                // Display Image - based on OnlineReports query
+                string imageId = null;
+                var reportStory = OnlineReports.Definition("OLGBTOPNEWS").GetData();     // US Top News
+                if (reportStory.IsSuccess)
                 {
-                    // Open the session
-                    session.Open();
-
-                    // Display Image - hardcoded ID
-                    Console.WriteLine("\nImage based on hardcoded ID");
-                    RetrieveImage("2022-06-16T224431Z_1_OV4_RTRLXPP_2_LYNXPACKAGER__JPG");
-
-                    // Display Image - based on OnlineReports query
-                    string imageId = null;
-                    var reportStory = OnlineReports.Definition("OLGBTOPNEWS").GetData();     // US Top News
-                    if (reportStory.IsSuccess)
+                    // Walk through the reports until we find an Image
+                    foreach (IOnlineReportStory story in reportStory.Data.OnlineReportStories)
                     {
-                        // Walk through the reports until we find an Image
-                        foreach (IOnlineReportStory story in reportStory.Data.OnlineReportStories)
+                        // The images are buried within the body of the report
+                        if (story.Raw.SelectToken("newsItem.itemMeta.link") is JArray arr)
                         {
-                            // The images are buried within the body of the report
-                            var link = story.Raw["newsItem"]?["itemMeta"]?["link"] as JArray;
-                            if (link != null)
-                            {
-                                imageId = (string)link[0]["_residref"];
-                                break;
-                            }
+                            imageId = (string)arr[0]["_residref"];
+                            break;
                         }
                     }
+                }
 
-                    if (imageId != null)
-                    {
-                        Console.WriteLine("\nImage based on US Top News online reports");
-                        RetrieveImage(imageId);
-                    }
+                if (imageId != null)
+                {
+                    Console.WriteLine("\nImage based on US Top News online reports");
+                    RetrieveImage(imageId);
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine($"\n**************\nFailed to execute: {e.Message}\n{e.InnerException}\n***************");
+                Console.WriteLine($"\n**************\nFailed to execute.");
+                Console.WriteLine($"Exception: {e.GetType().Name} {e.Message}");
+                if (e.InnerException is not null) Console.WriteLine(e.InnerException);
+                Console.WriteLine("***************");
             }
         }
 

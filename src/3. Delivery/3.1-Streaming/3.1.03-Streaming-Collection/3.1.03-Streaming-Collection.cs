@@ -18,51 +18,53 @@ namespace _3._1._3_Streaming_Collection
     // **********************************************************************************************************************
     class Program
     {
-        static void Main(string[] args)
+        static void Main(string[] _)
         {
             try
             {
                 // Create the platform session.
-                using (ISession session = Configuration.Sessions.GetSession())
+                using ISession session = Configuration.Sessions.GetSession();
+
+                // Open the session and test the state...
+                if (session.Open() == Session.State.Opened)
                 {
-                    // Open the session and test the state...
-                    if (session.Open() == Session.State.Opened)
+                    // *******************************************************************************************************************************
+                    // Requesting for multiple instruments.
+                    // The following code segment demonstrates the usage of the library and .NET's asynchronous capabilities to send a collection of
+                    // requests and monitor the whole collection for completion.
+                    // *******************************************************************************************************************************
+                    List<Task<Stream.State>> tasks = new();
+
+                    // First, prepare our item stream definition, defining the fields of interest and where to capture events...
+                    var itemDef = OMMStream.Definition().Fields("DSPLY_NAME", "BID", "ASK");
+
+                    // Next, iterate through the collection of items, applying each to our parameters specification.  Send each request asynchronously...
+                    foreach (var item in new[] { "EUR=", "GBP=", "CAD=" })
                     {
-                        // *******************************************************************************************************************************
-                        // Requesting for multiple instruments.
-                        // The following code segment demonstrates the usage of the library and .NET's asynchronous capabilities to send a collection of
-                        // requests and monitor the whole collection for completion.
-                        // *******************************************************************************************************************************
-                        List<Task<Stream.State>> tasks = new List<Task<Stream.State>>();
+                        // Create our stream
+                        IStream stream = itemDef.Name(item).GetStream().OnRefresh((item, msg, s) => DumpMsg(item, msg))
+                                                                       .OnUpdate((item, msg, s) => DumpMsg(item, msg))
+                                                                       .OnStatus((item, msg, s) => Console.WriteLine(msg))
+                                                                       .OnError((item, err, s) => Console.WriteLine(err));
 
-                        // First, prepare our item stream definition, defining the fields of interest and where to capture events...
-                        var itemDef = OMMStream.Definition().Fields("DSPLY_NAME", "BID", "ASK");
-
-                        // Next, iterate through the collection of items, applying each to our parameters specification.  Send each request asynchronously...
-                        foreach (var item in new[] { "EUR=", "GBP=", "CAD=" })
-                        {
-                            // Create our stream
-                            IStream stream = itemDef.Name(item).GetStream().OnRefresh((item, msg, s) => DumpMsg(item, msg))
-                                                                           .OnUpdate((item, msg, s) => DumpMsg(item, msg))
-                                                                           .OnStatus((item, msg, s) => Console.WriteLine(msg))
-                                                                           .OnError((item, err, s) => Console.WriteLine(err));
-
-                            // Open the stream asynchronously and keep track of the task
-                            tasks.Add(stream.OpenAsync());
-                        }
-
-                        // Monitor the collection for completion.  We are intentionally blocking here waiting for the whole collection to complete.
-                        Task.WhenAll(tasks).GetAwaiter().GetResult();
-                        Console.WriteLine("\nInitial response for all instruments complete.  Updates will follow based on changes in the market...");
-
-                        // Wait for updates...
-                        Console.ReadKey();
+                        // Open the stream asynchronously and keep track of the task
+                        tasks.Add(stream.OpenAsync());
                     }
+
+                    // Monitor the collection for completion.  We are intentionally blocking here waiting for the whole collection to complete.
+                    Task.WhenAll(tasks).GetAwaiter().GetResult();
+                    Console.WriteLine("\nInitial response for all instruments complete.  Updates will follow based on changes in the market...");
+
+                    // Wait for updates...
+                    Console.ReadKey();
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine($"\n**************\nFailed to execute: {e.Message}\n{e.InnerException}\n***************");
+                Console.WriteLine($"\n**************\nFailed to execute.");
+                Console.WriteLine($"Exception: {e.GetType().Name} {e.Message}");
+                if (e.InnerException is not null) Console.WriteLine(e.InnerException);
+                Console.WriteLine("***************");
             }
         }
 
@@ -79,7 +81,7 @@ namespace _3._1._3_Streaming_Collection
                 double ask = (double)fields["ASK"];
 
                 // Display the quote for the asset we're watching
-                Console.WriteLine($"{ DateTime.Now.ToString("HH:mm:ss")}: {item} ({bid,6}/{ask,6}) - {fields["DSPLY_NAME"]}");
+                Console.WriteLine($"{ DateTime.Now:HH:mm:ss}: {item} ({bid,6}/{ask,6}) - {fields["DSPLY_NAME"]}");
             }
         }
     }

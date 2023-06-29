@@ -20,51 +20,53 @@ namespace _2._3._04_News_OnlineReports
             try
             {
                 // Create a session into the platform...
-                using (ISession session = Sessions.GetSession())
+                using ISession session = Sessions.GetSession(Sessions.SessionTypeEnum.RDP);
+
+                // Open the session
+                session.Open();
+
+                Console.WriteLine("Online Report\t\tReport IDs");
+                Console.WriteLine("=============\t\t================================================================");
+
+                // Online Reports Listing
+                var listing = OnlineReportsListing.Definition().GetData();
+
+                if (listing.IsSuccess)
                 {
-                    // Open the session
-                    session.Open();
-
-                    Console.WriteLine("Online Report\t\tReport IDs");
-                    Console.WriteLine("=============\t\t================================================================");
-
-                    // Online Reports Listing
-                    var listing = OnlineReportsListing.Definition().GetData();
-
-                    if (listing.IsSuccess)
+                    foreach (IOnlineReport report in listing.Data.OnlineReports)
                     {
-                        foreach (IOnlineReport report in listing.Data.OnlineReports)
+                        Console.Write($"{report.Name}\t");
+                        foreach (var regionReport in report.Reports)
                         {
-                            Console.Write($"{report.Name}\t");
-                            foreach (var regionReport in report.Reports)
-                            {
-                                Console.Write($"{regionReport["reportId"]} ");
-                            }
-
-                            Console.WriteLine();
+                            Console.Write($"{regionReport["reportId"]} ");
                         }
 
-                        // Get Online Report details
-                        IOnlineReportsResponse reportStory = OnlineReports.Definition("OLUSSCIENCE").GetData();    // US Science reports
-                        if (reportStory.IsSuccess)
+                        Console.WriteLine();
+                    }
+
+                    // Get Online Report details
+                    IOnlineReportsResponse reportStory = OnlineReports.Definition("OLUSSCIENCE").GetData();    // US Science reports
+                    if (reportStory.IsSuccess)
+                    {
+                        foreach (IOnlineReportStory story in reportStory.Data.OnlineReportStories)
                         {
-                            foreach (IOnlineReportStory story in reportStory.Data.OnlineReportStories)
-                            {
-                                Console.WriteLine("----------------------------------------------------------------------------------");
-                                Console.WriteLine($"{story.CreationDate}: {story.HeadlineTitle}");
-                                Console.WriteLine($"content Type: {story.ContentType}\n{story.NewsStory}");
-                            }
+                            Console.WriteLine("----------------------------------------------------------------------------------");
+                            Console.WriteLine($"{story.CreationDate}: {story.HeadlineTitle}");
+                            Console.WriteLine($"content Type: {story.ContentType}\n{story.NewsStory}");
                         }
                     }
-                    else
-                    {
-                        Console.WriteLine(listing.HttpStatus);
-                    }
+                }
+                else
+                {
+                    Console.WriteLine(listing.HttpStatus);
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine($"\n**************\nFailed to execute: {e.Message}\n{e.InnerException}\n***************");
+                Console.WriteLine($"\n**************\nFailed to execute.");
+                Console.WriteLine($"Exception: {e.GetType().Name} {e.Message}");
+                if (e.InnerException is not null) Console.WriteLine(e.InnerException);
+                Console.WriteLine("***************");
             }
         }
     }

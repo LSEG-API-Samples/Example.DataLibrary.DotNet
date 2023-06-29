@@ -26,7 +26,7 @@ namespace _4._0._02_LogConfig
         // Instruct our application that wa want to user the NLog logging system to managing our application logging
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
-        static void Main(string[] args)
+        static void Main(string[] _)
         {
             // Any application-specific logging will be sent to our application-specific target - see NLog.config
             logger.Info($"Application launched.  Attempting to create our session...");

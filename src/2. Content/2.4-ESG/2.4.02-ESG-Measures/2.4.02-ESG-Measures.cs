@@ -21,31 +21,33 @@ namespace _2._4._02_ESG_Measures
             try
             {
                 // Create a session into the platform...
-                using (ISession session = Sessions.GetSession())
-                {
-                    // Open the session
-                    if (session.Open() == Session.State.Opened)
-                    {
-                        // Show ESG measure scores with 2-year history
-                        Console.WriteLine("\nESG Measures Full based on company RICs...");
-                        var response = Measures.Definition("IBM.N", "MSFT.O").Start(-1)
-                                                                             .End(0)
-                                                                             .GetData();
-                        Common.DisplayTable("Measure Scores with 2-year history", response, 10);
+                using ISession session = Sessions.GetSession(Sessions.SessionTypeEnum.RDP);
 
-                        // Show ESG measure scores with 1-year history, based on a Perm ID
-                        Console.WriteLine("\nESG Measures Standard based on company Perm IDs...");
-                        response = Measures.Definition("4295904307", "8589934326").Start(0)
-                                                                                  .End(0)
-                                                                                  .ServiceType(ServiceType.standard)
-                                                                                  .GetData();
-                        Common.DisplayTable("ESG Measures 1-year history", response, 10);
-                    }
+                // Open the session
+                if (session.Open() == Session.State.Opened)
+                {
+                    // Show ESG measure scores with 2-year history
+                    Console.WriteLine("\nESG Measures Full based on company RICs...");
+                    var response = Measures.Definition("IBM.N", "MSFT.O").Start(-1)
+                                                                         .End(0)
+                                                                         .GetData();
+                    Common.DisplayTable("Measure Scores with 2-year history", response, 10);
+
+                    // Show ESG measure scores with 1-year history, based on a Perm ID
+                    Console.WriteLine("\nESG Measures Standard based on company Perm IDs...");
+                    response = Measures.Definition("4295904307", "8589934326").Start(0)
+                                                                              .End(0)
+                                                                              .ServiceType(ServiceType.standard)
+                                                                              .GetData();
+                    Common.DisplayTable("ESG Measures 1-year history", response, 10);
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine($"\n**************\nFailed to execute: {e.Message}\n{e.InnerException}\n***************");
+                Console.WriteLine($"\n**************\nFailed to execute.");
+                Console.WriteLine($"Exception: {e.GetType().Name} {e.Message}");
+                if (e.InnerException is not null) Console.WriteLine(e.InnerException);
+                Console.WriteLine("***************");
             }
         }
     }

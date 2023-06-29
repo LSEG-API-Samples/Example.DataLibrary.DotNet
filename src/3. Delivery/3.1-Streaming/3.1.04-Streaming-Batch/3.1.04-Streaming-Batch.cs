@@ -15,34 +15,36 @@ namespace _3._1._04_Streaming_Batch
     // **********************************************************************************************************************
     class Program
     {
-        static void Main(string[] args)
+        static void Main(string[] _)
         {
             try
             {
                 // Create the platform session.
-                using (ISession session = Configuration.Sessions.GetSession())
-                {
-                    // Open the session and test the state...
-                    if (session.Open() == Session.State.Opened)
-                    {
-                        // Define a stream to retrieve a batch of level 1 instruments...
-                        using var stream = OMMStream.Definition("EUR=", "GBP=", "CAD=").GetStream()
-                                                        .OnRefresh((item, msg, s) => DumpMsg(item, msg))
-                                                        .OnUpdate((item, msg, s) => DumpMsg(item, msg))
-                                                        .OnError((item, err, s) => Console.WriteLine(err))
-                                                        .OnStatus((item, msg, s) => Console.WriteLine(msg))
-                                                        .OnComplete(s => Console.WriteLine("\nInitial response for all instruments complete.  Updates will follow based on changes in the market..."));
-                        // Open the stream...
-                        stream.Open();
+                using ISession session = Configuration.Sessions.GetSession();
 
-                        // Wait for data to come in then hit any key to close the stream...
-                        Console.ReadKey();
-                    }
+                // Open the session and test the state...
+                if (session.Open() == Session.State.Opened)
+                {
+                    // Define a stream to retrieve a batch of level 1 instruments...
+                    using var stream = OMMStream.Definition("EUR=", "GBP=", "CAD=").GetStream()
+                                                    .OnRefresh((item, msg, s) => DumpMsg(item, msg))
+                                                    .OnUpdate((item, msg, s) => DumpMsg(item, msg))
+                                                    .OnError((item, err, s) => Console.WriteLine(err))
+                                                    .OnStatus((item, msg, s) => Console.WriteLine(msg))
+                                                    .OnComplete(s => Console.WriteLine("\nInitial response for all instruments complete.  Updates will follow based on changes in the market..."));
+                    // Open the stream...
+                    stream.Open();
+
+                    // Wait for data to come in then hit any key to close the stream...
+                    Console.ReadKey();
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine($"\n**************\nFailed to execute: {e.Message}\n{e.InnerException}\n***************");
+                Console.WriteLine($"\n**************\nFailed to execute.");
+                Console.WriteLine($"Exception: {e.GetType().Name} {e.Message}");
+                if (e.InnerException is not null) Console.WriteLine(e.InnerException);
+                Console.WriteLine("***************");
             }
         }
 
@@ -59,7 +61,7 @@ namespace _3._1._04_Streaming_Batch
                 double ask = (double)fields["ASK"];
 
                 // Display the quote for the asset we're watching
-                Console.WriteLine($"{ DateTime.Now.ToString("HH:mm:ss")}: {item} ({bid,6}/{ask,6}) - {fields["DSPLY_NAME"]}");
+                Console.WriteLine($"{ DateTime.Now:HH:mm:ss}: {item} ({bid,6}/{ask,6}) - {fields["DSPLY_NAME"]}");
             }
         }
     }

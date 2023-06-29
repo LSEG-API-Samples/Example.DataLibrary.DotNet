@@ -22,41 +22,43 @@ namespace _2._2._04_Pricing_StreamingAddRemove
             try
             {
                 // Create a session into the platform...
-                using (ISession session = Sessions.GetSession())
+                using ISession session = Sessions.GetSession();
+
+                // Open the session
+                session.Open();
+
+                // Create a streaming price interface for a list of instruments
+                using var stream = Pricing.Definition("EUR=", "CAD=", "GBP=").Fields("DSPLY_NAME", "BID", "ASK")
+                                                                             .GetStream()
+                                                              .OnStatus((item, status, s) => Console.WriteLine(status))
+                                                              .OnError((item, err, s) => Console.WriteLine(err));
+                if (stream.Open() == Stream.State.Opened)
                 {
-                    // Open the session
-                    session.Open();
+                    // Dump the cache to show the current items we're watching
+                    DumpCache("Stream defined with 3 items", stream);
 
-                    // Create a streaming price interface for a list of instruments
-                    using var stream = Pricing.Definition("EUR=", "CAD=", "GBP=").Fields("DSPLY_NAME", "BID", "ASK")
-                                                                                 .GetStream()
-                                                                  .OnStatus((item, status, s) => Console.WriteLine(status))
-                                                                  .OnError((item, err, s) => Console.WriteLine(err));
-                    if (stream.Open() == Stream.State.Opened)
-                    {
-                        // Dump the cache to show the current items we're watching
-                        DumpCache("Stream defined with 3 items", stream);
+                    // Add 2 new currencies...
+                    stream.AddItems("JPY=", "MXN=");
 
-                        // Add 2 new currencies...
-                        stream.AddItems("JPY=", "MXN=");
+                    // Dump cache again...
+                    DumpCache("Stream after adding 2 items", stream);
 
-                        // Dump cache again...
-                        DumpCache("Stream after adding 2 items", stream);
+                    // Remove 2 different currencies...
+                    stream.RemoveItems("CAD=", "GBP=");
 
-                        // Remove 2 different currencies...
-                        stream.RemoveItems("CAD=", "GBP=");
+                    // Final dump
+                    DumpCache("Stream after removing 2 items", stream);
 
-                        // Final dump
-                        DumpCache("Stream after removing 2 items", stream);
-
-                        // Close streams
-                        Console.WriteLine("\nClosing opened streams...");
-                    }
+                    // Close streams
+                    Console.WriteLine("\nClosing opened streams...");
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine($"\n**************\nFailed to execute: {e.Message}\n{e.InnerException}\n***************");
+                Console.WriteLine($"\n**************\nFailed to execute.");
+                Console.WriteLine($"Exception: {e.GetType().Name} {e.Message}");
+                if (e.InnerException is not null) Console.WriteLine(e.InnerException);
+                Console.WriteLine("***************");
             }
         }
 

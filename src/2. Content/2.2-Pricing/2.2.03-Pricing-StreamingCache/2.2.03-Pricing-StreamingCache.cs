@@ -24,50 +24,51 @@ namespace _2._2._03_Pricing_StreamingCache
             try
             {
                 // Create a session into the platform...
-                using (ISession session = Sessions.GetSession())
+                using ISession session = Sessions.GetSession();
+
+                // Open the session
+                session.Open();
+
+                // Create a streaming price interface for a list of instruments
+                using var stream = Pricing.Definition("EUR=", "CAD=", "GBP=").Fields("DSPLY_NAME", "BID", "ASK")
+                                                                             .GetStream()
+                                                              .OnStatus((item, status, s) => Console.WriteLine(status))
+                                                              .OnError((item, err, s) => Console.WriteLine(err));
+                if (stream.Open() == Stream.State.Opened)
                 {
-                    // Open the session
-                    session.Open();
+                    // Retrieve a snapshot of the whole cache.  The interface also supports the ability to pull out specific items and fields.
+                    var snapshot = stream.GetCacheSnapshot();
 
-                    // Create a streaming price interface for a list of instruments
-                    using var stream = Pricing.Definition("EUR=", "CAD=", "GBP=").Fields("DSPLY_NAME", "BID", "ASK")
-                                                                                 .GetStream()
-                                                                  .OnStatus((item, status, s) => Console.WriteLine(status))
-                                                                  .OnError((item, err, s) => Console.WriteLine(err));
-                    if (stream.Open() == Stream.State.Opened)
+                    // Print out the contents of the snapshot
+                    foreach (var entry in snapshot)
+                        DisplayPriceData(entry.Value);
+
+                    // Print out values directly within the live cache
+                    Console.WriteLine($"\nDirect cache access => cache[CAD=][ASK] = {stream["CAD="]["ASK"]}");
+
+                    // Pull out a reference to a live item...
+                    Console.WriteLine("\nShow change in a live cache item.");
+                    var item = stream["GBP="];
+
+                    // Display the change in values from the live cached item...
+                    int iterations = 5;
+                    for (var i = 0; i < iterations; i++)
                     {
-                        // Retrieve a snapshot of the whole cache.  The interface also supports the ability to pull out specific items and fields.
-                        var snapshot = stream.GetCacheSnapshot();
-
-                        // Print out the contents of the snapshot
-                        foreach (var entry in snapshot)
-                            DisplayPriceData(entry.Value);
-
-                        // Print out values directly within the live cache
-                        Console.WriteLine($"\nDirect cache access => cache[CAD=][ASK] = {stream["CAD="]["ASK"]}");
-
-                        // Pull out a reference to a live item...
-                        Console.WriteLine("\nShow change in a live cache item.");
-                        var item = stream["GBP="];
-
-                        // Display the change in values from the live cached item...
-                        int iterations = 5;
-                        for (var i = 0; i < iterations; i++)
-                        {
-                            Console.WriteLine($"\n{iterations - i} iterations remaining.  Sleeping for 5 seconds...");
-                            Thread.Sleep(5000);
-                            DisplayPriceData(item);
-                        }
-
-                        // Close streams
-                        Console.WriteLine("\nClosing open streams...");
+                        Console.WriteLine($"\n{iterations - i} iterations remaining.  Sleeping for 5 seconds...");
+                        Thread.Sleep(5000);
+                        DisplayPriceData(item);
                     }
 
+                    // Close streams
+                    Console.WriteLine("\nClosing open streams...");
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine($"\n**************\nFailed to execute: {e.Message}\n{e.InnerException}\n***************");
+                Console.WriteLine($"\n**************\nFailed to execute.");
+                Console.WriteLine($"Exception: {e.GetType().Name} {e.Message}");
+                if (e.InnerException is not null) Console.WriteLine(e.InnerException);
+                Console.WriteLine("***************");
             }
         }
 

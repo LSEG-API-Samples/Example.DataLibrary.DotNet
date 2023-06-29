@@ -3,3 +3,6 @@ bin
 obj
 .vs
 *.log
+/.nuget
+/src/nuget.config
+*.txt

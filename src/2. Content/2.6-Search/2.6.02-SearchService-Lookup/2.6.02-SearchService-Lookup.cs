@@ -19,25 +19,35 @@ namespace _2._6._02_Search_Lookup
     {
         static void Main(string[] _)
         {
-            // Note: The service is only available on the desktop.
-            using ISession session = Sessions.GetSession(Sessions.SessionTypeEnum.DESKTOP);
-
-            if (session.Open() == Session.State.Opened)
+            try
             {
-                // RICs - convert to all specified symbol types
-                var lookup = Lookup.Definition().View(Search.View.SearchAll)
-                                                .Terms("VOD.L,IBM,AAPL.O,MSFT.O")
-                                                .Scope("RIC")
-                                                .Select("DocumentTitle, CUSIP, SEDOL, TickerSymbol, IssueISIN, IssuerOAPermID")
-                                                .GetData();
-                Common.DisplayTable("\nRIC Lookup for 5 valid items using selected output", lookup);
+                // Note: The service is only available on the desktop.
+                using ISession session = Sessions.GetSession(Sessions.SessionTypeEnum.DESKTOP);
 
-                // RICs - detect input and convert to all known symbol types using default output
-                lookup = Lookup.Definition().View(Search.View.SearchAll)
-                                            .Terms("VOD.L,037833100,IBM,US5949181045,503085358")
-                                            .GetData();
-                Common.DisplayTable("\nRIC Lookup for 5 valid items using default output", lookup);
-                DisplayMatches("\nRIC Lookup for 5 valid items:", lookup);
+                if (session.Open() == Session.State.Opened)
+                {
+                    // RICs - convert to all specified symbol types
+                    var lookup = Lookup.Definition().View(Search.View.SearchAll)
+                                                    .Terms("VOD.L,IBM,AAPL.O,MSFT.O")
+                                                    .Scope("RIC")
+                                                    .Select("DocumentTitle, CUSIP, SEDOL, TickerSymbol, IssueISIN, IssuerOAPermID")
+                                                    .GetData();
+                    Common.DisplayTable("\nRIC Lookup for 5 valid items using selected output", lookup);
+
+                    // RICs - detect input and convert to all known symbol types using default output
+                    lookup = Lookup.Definition().View(Search.View.SearchAll)
+                                                .Terms("VOD.L,037833100,IBM,US5949181045,503085358")
+                                                .GetData();
+                    Common.DisplayTable("\nRIC Lookup for 5 valid items using default output", lookup);
+                    DisplayMatches("\nRIC Lookup for 5 valid items:", lookup);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"\n**************\nFailed to execute.");
+                Console.WriteLine($"Exception: {e.GetType().Name} {e.Message}");
+                if (e.InnerException is not null) Console.WriteLine(e.InnerException);
+                Console.WriteLine("***************");
             }
         }
 

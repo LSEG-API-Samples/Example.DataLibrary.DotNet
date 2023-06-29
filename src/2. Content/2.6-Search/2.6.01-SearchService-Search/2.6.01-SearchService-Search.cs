@@ -1,5 +1,4 @@
 ﻿using Common_Examples;
-using Refinitiv.Data;
 using Refinitiv.Data.Content.SearchService;
 using Refinitiv.Data.Core;
 using Configuration;
@@ -19,7 +18,6 @@ namespace _2._6._01_Search_SearchService
     {
         static void Main(string[] _)
         {
-            Log.Level = NLog.LogLevel.Trace;
             try
             {
                 // Create a session into the desktop
@@ -94,7 +92,10 @@ namespace _2._6._01_Search_SearchService
             }
             catch (Exception e)
             {
-                Console.WriteLine($"\n**************\nFailed to execute: {e.Message}\n{e.InnerException}\n***************");
+                Console.WriteLine($"\n**************\nFailed to execute.");
+                Console.WriteLine($"Exception: {e.GetType().Name} {e.Message}");
+                if (e.InnerException is not null) Console.WriteLine(e.InnerException);
+                Console.WriteLine("***************");
             }
         }
     }

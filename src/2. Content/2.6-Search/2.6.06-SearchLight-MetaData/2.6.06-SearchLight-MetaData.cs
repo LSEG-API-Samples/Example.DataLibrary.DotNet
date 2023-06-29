@@ -19,25 +19,35 @@ namespace _2._6._06_SearchLight_MetaData
     {
         static void Main(string[] _)
         {
-            // Note: The Search Light service is available to Wealth clients.
-            using ISession session = Sessions.GetSession();
-            if (session.Open() == Session.State.Opened)
+            try
             {
-                // Request the metadata properties for the GovCorpInstruments View
-                var response = MetaData.Definition(Search.LightView.GovCorpInstruments).GetData();
-
-                if (response.IsSuccess)
+                // Note: The Search Light service is available to Wealth clients.
+                using ISession session = Sessions.GetSession();
+                if (session.Open() == Session.State.Opened)
                 {
-                    var table = response.Data.Table;
-                    Common.DisplayTable($"MetaData display of Light View: {Search.LightView.GovCorpInstruments}", response, 0, 25);
+                    // Request the metadata properties for the GovCorpInstruments View
+                    var response = MetaData.Definition(Search.LightView.GovCorpInstruments).GetData();
 
-                    // Search for a specific property
-                    var result = table.Select("Property = 'RCSAssetCategory'");
-                    Console.WriteLine($"Property {result[0]["Property"]}: Navigable: {result[0]["Navigable"]}, Sortable: {result[0]["Sortable"]}");
+                    if (response.IsSuccess)
+                    {
+                        var table = response.Data.Table;
+                        Common.DisplayTable($"MetaData display of Light View: {Search.LightView.GovCorpInstruments}", response, 0, 25);
 
-                    result = table.Select("Property = 'RCSCountryGenealogy'");
-                    Console.WriteLine($"Property {result[0]["Property"]}: Navigable: {result[0]["Navigable"]}, Sortable: {result[0]["Sortable"]}");
+                        // Search for a specific property
+                        var result = table.Select("Property = 'RCSAssetCategory'");
+                        Console.WriteLine($"Property {result[0]["Property"]}: Navigable: {result[0]["Navigable"]}, Sortable: {result[0]["Sortable"]}");
+
+                        result = table.Select("Property = 'RCSCountryGenealogy'");
+                        Console.WriteLine($"Property {result[0]["Property"]}: Navigable: {result[0]["Navigable"]}, Sortable: {result[0]["Sortable"]}");
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"\n**************\nFailed to execute.");
+                Console.WriteLine($"Exception: {e.GetType().Name} {e.Message}");
+                if (e.InnerException is not null) Console.WriteLine(e.InnerException);
+                Console.WriteLine("***************");
             }
         }
     }

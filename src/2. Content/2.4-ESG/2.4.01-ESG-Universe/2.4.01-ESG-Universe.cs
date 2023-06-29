@@ -21,23 +21,24 @@ namespace _2._4._01_ESG_Universe
             try
             {
                 // Create a session into the platform...
-                using (ISession session = Sessions.GetSession())
+                using ISession session = Sessions.GetSession(Sessions.SessionTypeEnum.RDP);
+
+                // Open the session
+                if (session.Open() == Session.State.Opened)
                 {
+                    Console.WriteLine("\nRequesting for the entire ESG Universe...");
 
-                    // Open the session
-                    if (session.Open() == Session.State.Opened)
-                    {
-                        Console.WriteLine("\nRequesting for the entire ESG Universe...");
-
-                        // List all organizations that have ESG coverage
-                        var response = Universe.Definition().GetData();
-                        Common.DisplayTable("ESG Universe", response, 0, 25);
-                    }
+                    // List all organizations that have ESG coverage
+                    var response = Universe.Definition().GetData();
+                    Common.DisplayTable("ESG Universe", response, 0, 25);
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine($"\n**************\nFailed to execute: {e.Message}\n{e.InnerException}\n***************");
+                Console.WriteLine($"\n**************\nFailed to execute.");
+                Console.WriteLine($"Exception: {e.GetType().Name} {e.Message}");
+                if (e.InnerException is not null) Console.WriteLine(e.InnerException);
+                Console.WriteLine("***************");
             }
         }
     }

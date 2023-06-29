@@ -1,8 +1,10 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Configuration;
+using Newtonsoft.Json.Linq;
 using Refinitiv.Data.Core;
 using Refinitiv.Data.Delivery.Queue;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -32,7 +34,7 @@ namespace _3._3._01_Queue_NewsHeadlines
             try
             {
                 // Create the platform session.
-                ISession session = Configuration.Sessions.GetSession();
+                ISession session = Sessions.GetSession(Sessions.SessionTypeEnum.RDP);
 
                 // Open the session
                 session.Open();
@@ -104,11 +106,14 @@ namespace _3._3._01_Queue_NewsHeadlines
             }
             catch (Exception e)
             {
-                Console.WriteLine($"\n**************\nFailed to execute: {e.Message}\n{e.InnerException}\n***************");
+                Console.WriteLine($"\n**************\nFailed to execute.");
+                Console.WriteLine($"Exception: {e.GetType().Name} {e.Message}");
+                if (e.InnerException is not null) Console.WriteLine(e.InnerException);
+                Console.WriteLine("***************");
             }
             finally
             {
-                if (manager is IQueueManager && queue is IQueueNode)
+                if (manager is not null && queue is not null)
                 {
                     // Prompt the user to delete the queue
                     Console.Write("\nDelete the queue (Y/N) [N]: ");
@@ -136,15 +141,19 @@ namespace _3._3._01_Queue_NewsHeadlines
                     var msg = response.Data.Raw;
 
                     // Determine if the headline is usable, i.e. if we want to display it
-                    var pubStatus = msg["payload"]?["newsItem"]?["itemMeta"]?["pubStatus"]?["_qcode"]?.ToString();
-                    if (pubStatus is string && pubStatus.Contains("usable"))
+                    if (msg.SelectToken("payload.newsItem.itemMeta.pubStatus._quote") is JValue pubStatus)
                     {
-                        DateTime local = DateTime.Parse(msg["distributionTimestamp"].ToString()).ToLocalTime();
+                        if (pubStatus.Contains("usable"))
+                        {
+                            DateTime local = DateTime.Parse(msg["distributionTimestamp"].ToString()).ToLocalTime();
 
-                        // Determine if this is an actual headline
-                        JArray headline = msg["payload"]?["newsItem"]?["contentMeta"]?["headline"] as JArray;
-                        if (headline?.Count > 0 && headline[0]["$"] is JToken)
-                            Console.WriteLine($"{local}: {headline[0]["$"]}".Indent(110));
+                            // Determine if this is an actual headline
+                            if (msg.SelectToken("payload.newsItem.contentMeta.headline") is JArray headline)
+                            {
+                                if (headline.Count > 0 && headline[0]["$"] is JValue value)
+                                    Console.WriteLine($"{local}: {value}".Indent(110));
+                            }
+                        }
                     }
                 }
             }
@@ -162,15 +171,15 @@ namespace _3._3._01_Queue_NewsHeadlines
     {
         public static string Indent(this string value, int maxSize)
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             string str = value;
             int indent = 0;
             while (str.Length > maxSize)
             {
-                sb.Append(new string(' ', indent)).Append(str.Substring(0, maxSize));
+                sb.Append(new string(' ', indent)).Append(str.AsSpan(0, maxSize));
                 sb.Append(Environment.NewLine);
                 indent = 23;
-                str = str.Substring(maxSize);
+                str = str[maxSize..];
             }
 
             sb.Append(new string(' ', indent)).Append(str);

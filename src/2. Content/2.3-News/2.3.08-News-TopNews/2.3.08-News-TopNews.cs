@@ -29,13 +29,16 @@ namespace _2._3._08_News_TopNews
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Console.WriteLine($"\n**************\nFailed to execute.");
+                Console.WriteLine($"Exception: {e.GetType().Name} {e.Message}");
+                if (e.InnerException is not null) Console.WriteLine(e.InnerException);
+                Console.WriteLine("***************");
             }
         }
 
         private static void DisplayNews(ITopNewsResponse response)
         {
-            CellFormat headerFormat = new CellFormat() { ForegroundColor = Color.LightSeaGreen };
+            var headerFormat = new CellFormat() { ForegroundColor = Color.LightSeaGreen };
             IList<string> columns = new List<string>() { "Name", "Top News ID", "Revision ID", "Revision Date" };
 
             foreach (var category in response.Data.Categories)

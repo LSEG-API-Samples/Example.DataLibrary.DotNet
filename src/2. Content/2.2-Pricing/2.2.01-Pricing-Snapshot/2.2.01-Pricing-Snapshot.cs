@@ -25,35 +25,37 @@ namespace _2._2._01_Pricing_Snapshot
             try
             {
                 // Create a session into the platform...
-                using (ISession session = Sessions.GetSession())
+                using ISession session = Sessions.GetSession(Sessions.SessionTypeEnum.RDP);
+
+                // Open the session
+                session.Open();
+
+                // Specify a list of items and fields to retrieve a snapshot of prices from the platform
+                var response = Pricing.Definition("EUR=", "CAD=", "USD=").Fields("DSPLY_NAME", "BID", "ASK")
+                                                                         .GetData();
+
+                if (response.IsSuccess)
                 {
-                    // Open the session
-                    session.Open();
+                    // Print 1 field
+                    Console.WriteLine($"\nEUR=[DSPLY_NAME]: {response.Data.Prices["EUR="]["DSPLY_NAME"]}");
 
-                    // Specify a list of items and fields to retrieve a snapshot of prices from the platform
-                    var response = Pricing.Definition("EUR=", "CAD=", "USD=").Fields("DSPLY_NAME", "BID", "ASK")
-                                                                             .GetData();
+                    // Print the contents of one item
+                    Console.WriteLine($"\nEUR= contents: {response.Data.Prices["EUR="].Fields()}");
 
-                    if (response.IsSuccess)
-                    {
-                        // Print 1 field
-                        Console.WriteLine($"\nEUR=[DSPLY_NAME]: {response.Data.Prices["EUR="]["DSPLY_NAME"]}");
-
-                        // Print the contents of one item
-                        Console.WriteLine($"\nEUR= contents: {response.Data.Prices["EUR="].Fields()}");
-
-                        // Iterate through the response and print out specific fields for each entry
-                        Console.WriteLine("\nIterate through the cache and display a couple of fields");
-                        foreach (var item in response.Data.Prices)
-                            Console.WriteLine($"Quote for item: {item.Key}\n{item.Value.Fields("BID", "ASK")}");
-                    }
-                    else
-                        Console.WriteLine($"Request failed: {response.HttpStatus}");
+                    // Iterate through the response and print out specific fields for each entry
+                    Console.WriteLine("\nIterate through the cache and display a couple of fields");
+                    foreach (var item in response.Data.Prices)
+                        Console.WriteLine($"Quote for item: {item.Key}\n{item.Value.Fields("BID", "ASK")}");
                 }
+                else
+                    Console.WriteLine($"Request failed: {response.HttpStatus}");
             }
             catch (Exception e)
             {
-                Console.WriteLine($"\n**************\nFailed to execute: {e.Message}\n{e.InnerException}\n***************");
+                Console.WriteLine($"\n**************\nFailed to execute.");
+                Console.WriteLine($"Exception: {e.GetType().Name} {e.Message}");
+                if (e.InnerException is not null) Console.WriteLine(e.InnerException);
+                Console.WriteLine("***************");
             }
         }
     }

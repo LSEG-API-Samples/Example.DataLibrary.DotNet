@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Configuration;
+using Newtonsoft.Json.Linq;
 using Refinitiv.Data;
 using Refinitiv.Data.Core;
 using Refinitiv.Data.Delivery.Stream;
@@ -19,40 +20,40 @@ namespace _3._1._02_MarketByPrice
     // **********************************************************************************************************************
     class Program
     {
-        static void Main(string[] args)
+        static void Main(string[] _)
         {
             try
             {
-                Log.Level = NLog.LogLevel.Debug;
-
                 // Complete image of the concatenation our MarketByPrice level 2 initial refreshes
-                JObject image = new JObject();
+                var image = new JObject();
 
                 // Create a session into the platform.
-                using (ISession session = Configuration.Sessions.GetSession())
-                {
-                    // Open the session
-                    session.Open();
+                using ISession session = Sessions.GetSession(Sessions.SessionTypeEnum.RDP);
 
-                    // Define a MarketByPrice stream specifying the Domain "MarketByPrice"
-                    // For each refresh, we merge the contents into the image object.  Once all refresh segments have arrived, the 
-                    // OnComplete is executed and the completed image details are presented for display.
-                    using IStream stream = OMMStream.Definition("BB.TO").Domain("MarketByPrice")
-                                                                        .GetStream().OnRefresh((item, msg, s) => image.Merge(msg))
-                                                                                    .OnComplete(s => DumpImage(image))
-                                                                                    .OnUpdate((item, msg, s) => DumpUpdate(msg))
-                                                                                    .OnStatus((item, msg, s) => Console.WriteLine(msg))
-                                                                                    .OnError((item, err, s) => Console.WriteLine(err));
-                    // Open the stream...
-                    stream.Open();
+                // Open the session
+                session.Open();
 
-                    // Wait for data to come in then hit any key to close the stream...
-                    Console.ReadKey();
-                }
+                // Define a MarketByPrice stream specifying the Domain "MarketByPrice"
+                // For each refresh, we merge the contents into the image object.  Once all refresh segments have arrived, the 
+                // OnComplete is executed and the completed image details are presented for display.
+                using IStream stream = OMMStream.Definition("BB.TO").Domain("MarketByPrice")
+                                                                    .GetStream().OnRefresh((item, msg, s) => image.Merge(msg))
+                                                                                .OnComplete(s => DumpImage(image))
+                                                                                .OnUpdate((item, msg, s) => DumpUpdate(msg))
+                                                                                .OnStatus((item, msg, s) => Console.WriteLine(msg))
+                                                                                .OnError((item, err, s) => Console.WriteLine(err));
+                // Open the stream...
+                stream.Open();
+
+                // Wait for data to come in then hit any key to close the stream...
+                Console.ReadKey();
             }
             catch (Exception e)
             {
-                Console.WriteLine($"\n**************\nFailed to execute: {e.Message}\n{e.InnerException}\n***************");
+                Console.WriteLine($"\n**************\nFailed to execute.");
+                Console.WriteLine($"Exception: {e.GetType().Name} {e.Message}");
+                if (e.InnerException is not null) Console.WriteLine(e.InnerException);
+                Console.WriteLine("***************");
             }
         }
 

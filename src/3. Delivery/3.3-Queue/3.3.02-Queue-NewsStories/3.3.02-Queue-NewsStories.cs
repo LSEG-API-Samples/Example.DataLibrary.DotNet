@@ -1,7 +1,9 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Configuration;
+using Newtonsoft.Json.Linq;
 using Refinitiv.Data.Core;
 using Refinitiv.Data.Delivery.Queue;
 using System;
+using System.Linq;
 
 namespace _3._3._02_Queue_NewsStories
 {
@@ -24,61 +26,63 @@ namespace _3._3._02_Queue_NewsStories
 
             try
             {
-                using (ISession session = Configuration.Sessions.GetSession())
+                using ISession session = Sessions.GetSession(Sessions.SessionTypeEnum.RDP);
+
+                // Open the session
+                session.Open();
+
+                // Create our stories definition
+                var definition = Queue.Definition(newsStoriesEndpoint);
+
+                // Create a QueueManager to actively manage our queues
+                IQueueManager manager = definition.CreateQueueManager().OnError((err, qm) => Console.WriteLine(err));
+
+                // First, check to see if we have any news headline queues active in the cloud...
+                var queues = manager.GetAllQueues();
+
+                // If no existing queue exists, create one.  
+                IQueueNode queue = (queues.Count > 0 ? queues[0] : manager.CreateQueue());
+
+                // Ensure our queue is created
+                if (queue != null)
                 {
-                    // Open the session
-                    session.Open();
+                    Console.WriteLine($"{Environment.NewLine}{(queues.Count > 0 ? "Using existing" : "Created a new")} queue.  Waiting for stories...");
 
-                    // Create our stories definition
-                    var definition = Queue.Definition(newsStoriesEndpoint);
+                    // Subscribe to the queue.
+                    // Note: The subscriber interface has 2 mechanisms to retrieve data from the queue.  The first mechanism is to selectively
+                    //       poll the queue for new messages.  The second mechanism is to define a callback/lambda expression and notify the
+                    //       the subscriber to poll for messages as they come in - this mechansim provides a near realtime result.
+                    //
+                    // The following example demonstrates the second mechanism.
+                    IQueueSubscriber subscriber = definition.CreateAWSSubscriber(queue);
 
-                    // Create a QueueManager to actively manage our queues
-                    IQueueManager manager = definition.CreateQueueManager().OnError((err, qm) => Console.WriteLine(err));
+                    // Open the subscriber to begin polling for messages. Use Async() as this method is a long running task.
+                    var task = subscriber.StartPollingAsync((story, s) => DisplayStory(story));
+                    Console.ReadKey();
 
-                    // First, check to see if we have any news headline queues active in the cloud...
-                    var queues = manager.GetAllQueues();
+                    // Close the subscription - stops polling for messages
+                    subscriber.StopPolling();
+                    task.GetAwaiter().GetResult();
+                    Console.WriteLine("Stopped polling for messages from the queue.");
 
-                    // If no existing queue exists, create one.  
-                    IQueueNode queue = (queues.Count > 0 ? queues[0] : manager.CreateQueue());
-
-                    // Ensure our queue is created
-                    if (queue != null)
+                    // Prompt the user to delete the queue
+                    Console.Write("Delete the queue (Y/N) [N]: ");
+                    var delete = Console.ReadLine();
+                    if (delete?.ToUpper() == "Y")
                     {
-                        Console.WriteLine($"{Environment.NewLine}{(queues.Count > 0 ? "Using existing" : "Created a new")} queue.  Waiting for stories...");
-
-                        // Subscribe to the queue.
-                        // Note: The subscriber interface has 2 mechanisms to retrieve data from the queue.  The first mechanism is to selectively
-                        //       poll the queue for new messages.  The second mechanism is to define a callback/lambda expression and notify the
-                        //       the subscriber to poll for messages as they come in - this mechansim provides a near realtime result.
-                        //
-                        // The following example demonstrates the second mechanism.
-                        IQueueSubscriber subscriber = definition.CreateAWSSubscriber(queue);
-
-                        // Open the subscriber to begin polling for messages. Use Async() as this method is a long running task.
-                        var task = subscriber.StartPollingAsync((story, s) => DisplayStory(story));
-                        Console.ReadKey();
-
-                        // Close the subscription - stops polling for messages
-                        subscriber.StopPolling();
-                        task.GetAwaiter().GetResult();
-                        Console.WriteLine("Stopped polling for messages from the queue.");
-
-                        // Prompt the user to delete the queue
-                        Console.Write("Delete the queue (Y/N) [N]: ");
-                        var delete = Console.ReadLine();
-                        if (delete?.ToUpper() == "Y")
-                        {
-                            if (manager.DeleteQueue(queue))
-                                Console.WriteLine("Successfully deleted queue.");
-                            else
-                                Console.WriteLine($"Issues deleting queue.");
-                        }
+                        if (manager.DeleteQueue(queue))
+                            Console.WriteLine("Successfully deleted queue.");
+                        else
+                            Console.WriteLine($"Issues deleting queue.");
                     }
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine($"\n**************\nFailed to execute: {e.Message}\n{e.InnerException}\n***************");
+                Console.WriteLine($"\n**************\nFailed to execute.");
+                Console.WriteLine($"Exception: {e.GetType().Name} {e.Message}");
+                if (e.InnerException is not null) Console.WriteLine(e.InnerException);
+                Console.WriteLine("***************");
             }
         }
 
@@ -94,28 +98,33 @@ namespace _3._3._02_Queue_NewsStories
                     var msg = response.Data.Raw;
 
                     // Determine if the headline is usable, i.e. if we want to display it
-                    var pubStatus = msg["payload"]?["newsItem"]?["itemMeta"]?["pubStatus"]?["_qcode"]?.ToString();
-                    if (pubStatus is string && pubStatus.Contains("usable"))
+                    if (msg.SelectToken("payload.newsItem.itemMeta.pubStatus._qcode") is JValue pubStatus)
                     {
-                        DateTime local = DateTime.Parse(msg["distributionTimestamp"].ToString()).ToLocalTime();
-
-                        // Pull out the headline
-                        var headline = msg["payload"]?["newsItem"]?["contentMeta"]?["headline"] as JArray;
-
-                        if (headline?.Count > 0 && headline[0]["$"] is JToken)
-                            Console.WriteLine($"Headline: {local} => {headline[0]["$"]}");
-
-                        // Pull out the story
-                        var story = msg["payload"]?["newsItem"]?["contentSet"]?["inlineData"] as JArray;
-                        if (story?.Count > 0 && story[0]["$"] is JToken)
+                        if (pubStatus.Contains("usable"))
                         {
-                            var type = story[0]["_contenttype"];
-                            if (type != null && type.ToString().Equals("text/plain"))
+                            DateTime local = DateTime.Parse(msg["distributionTimestamp"].ToString()).ToLocalTime();
+
+                            // Pull out the headline
+                            if (msg.SelectToken("payload.newsItem.contentMeta.headline") is JArray headline)
                             {
-                                JToken lang = story[0]["_xml:lang"];
-                                var text = story[0]["$"].ToString();
-                                var max = text.Length >= 40 ? 40 : text.Length;
-                                Console.WriteLine($"\tContent Type: [{type}]\tLang: [{lang ?? "No language"}]. Story: {text.Substring(0, max)}...");
+                                if (headline.Count > 0 && headline[0]["$"] is JValue value)
+                                    Console.WriteLine($"Headline: {local} => {value}");
+                            }
+
+                            // Pull out the story
+                            if (msg.SelectToken("payload.newItem.contentSet.inlineData") is JArray story)
+                            {
+                                if (story.Count > 0 && story[0]["$"] is JValue value)
+                                {
+                                    var type = story[0]["_contenttype"];
+                                    if (type != null && type.ToString().Equals("text/plain"))
+                                    {
+                                        JToken lang = story[0]["_xml:lang"];
+                                        var text = value.ToString();
+                                        var max = text.Length >= 40 ? 40 : text.Length;
+                                        Console.WriteLine($"\tContent Type: [{type}]\tLang: [{lang ?? "No language"}]. Story: {text[..max]}...");
+                                    }
+                                }
                             }
                         }
                     }

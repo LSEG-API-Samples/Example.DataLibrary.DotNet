@@ -17,32 +17,34 @@ namespace _3._2._01_Endpoint_HistoricalPricing
     // **********************************************************************************************************************
     class Program
     {
-        static void Main(string[] args)
+        static void Main(string[] _)
         {
             try
             {
                 // Create the platform session.
-                using (ISession session = Configuration.Sessions.GetSession())
-                {
-                    // Open the session
-                    session.Open();
+                using ISession session = Configuration.Sessions.GetSession();
 
-                    // ********************************************************************************************
-                    // Basic Endpoint retrieval.
-                    // The specific endpoint URL below contains all required parameters.
-                    // ********************************************************************************************
-                    var endpointUrl = "https://api.refinitiv.com/data/historical-pricing/v1/views/events/VOD.L";
+                // Open the session
+                session.Open();
 
-                    // Request and display the timeseries data using the endpoint default parameters.
-                    DisplayResult(EndpointRequest.Definition(endpointUrl).GetData());
+                // ********************************************************************************************
+                // Basic Endpoint retrieval.
+                // The specific endpoint URL below contains all required parameters.
+                // ********************************************************************************************
+                var endpointUrl = "https://api.refinitiv.com/data/historical-pricing/v1/views/events/VOD.L";
 
-                    // Apply the same request but override the default 'count' which returns the number of hits.
-                    DisplayResult(EndpointRequest.Definition(endpointUrl).QueryParameter("count", "5").GetData());
-                }
+                // Request and display the timeseries data using the endpoint default parameters.
+                DisplayResult(EndpointRequest.Definition(endpointUrl).GetData());
+
+                // Apply the same request but override the default 'count' which returns the number of hits.
+                DisplayResult(EndpointRequest.Definition(endpointUrl).QueryParameter("count", "5").GetData());
             }
             catch (Exception e)
             {
-                Console.WriteLine($"\n**************\nFailed to execute: {e.Message}\n{e.InnerException}\n***************");
+                Console.WriteLine($"\n**************\nFailed to execute.");
+                Console.WriteLine($"Exception: {e.GetType().Name} {e.Message}");
+                if (e.InnerException is not null) Console.WriteLine(e.InnerException);
+                Console.WriteLine("***************");
             }
         }
 

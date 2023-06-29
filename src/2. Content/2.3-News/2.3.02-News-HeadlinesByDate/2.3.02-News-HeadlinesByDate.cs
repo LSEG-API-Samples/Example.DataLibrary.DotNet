@@ -22,43 +22,45 @@ namespace _2._3._02_News_HeadlinesByDate
             try
             {
                 // Create a session into the platform...
-                using (ISession session = Sessions.GetSession())
+                using ISession session = Sessions.GetSession();
+
+                // Open the session
+                if (session.Open() == Session.State.Opened)
                 {
-                    // Open the session
-                    if (session.Open() == Session.State.Opened)
-                    {
-                        // ***************************************************************************************************************
-                        // Note: Each request below specifies a count of zero (0) which implies all available headlines within the query.
-                        // ***************************************************************************************************************
+                    // ***************************************************************************************************************
+                    // Note: Each request below specifies a count of zero (0) which implies all available headlines within the query.
+                    // ***************************************************************************************************************
 
-                        // Use date specified within query 1 year ago
-                        var last_year = DateTime.UtcNow.AddYears(-1);
-                        var dateRange = $"{last_year:yyyy-MM-dd},{last_year.AddDays(6):yyyy-MM-dd}";
-                        Console.WriteLine($"\nRetrieve all headlines for query: '{dateRange}'...");
-                        DisplayHeadlines(Headlines.Definition().Query($"Apple daterange:{dateRange}")
-                                                               .Count(0)
-                                                               .Sort(Headlines.SortOrder.oldToNew)
-                                                               .GetData());
+                    // Use date specified within query 1 year ago
+                    var last_year = DateTime.UtcNow.AddYears(-1);
+                    var dateRange = $"{last_year:yyyy-MM-dd},{last_year.AddDays(6):yyyy-MM-dd}";
+                    Console.WriteLine($"\nRetrieve all headlines for query: '{dateRange}'...");
+                    DisplayHeadlines(Headlines.Definition().Query($"Apple daterange:{dateRange}")
+                                                           .Count(0)
+                                                           .Sort(Headlines.SortOrder.oldToNew)
+                                                           .GetData());
 
-                        // Use date specifier within query - last 5 days
-                        Console.WriteLine("Retrieve all headlines for query: 'Apple last 5 days'...");
-                        DisplayHeadlines(Headlines.Definition().Query("Apple last 5 days")
-                                                               .Count(0)
-                                                               .Sort(Headlines.SortOrder.oldToNew)
-                                                               .GetData());
+                    // Use date specifier within query - last 5 days
+                    Console.WriteLine("Retrieve all headlines for query: 'Apple last 5 days'...");
+                    DisplayHeadlines(Headlines.Definition().Query("Apple last 5 days")
+                                                           .Count(0)
+                                                           .Sort(Headlines.SortOrder.oldToNew)
+                                                           .GetData());
 
-                        // Same as previous except show each page response from the platform
-                        Console.WriteLine("Same as previous except show each page response...");
-                        DisplayHeadlines(Headlines.Definition().Query("Apple last 5 days")
-                                                               .Count(0)
-                                                               .Sort(Headlines.SortOrder.oldToNew)
-                                                               .GetData((response, def, s) => Console.Write($"{response.Data.Headlines.Count}, ")));
-                    }
+                    // Same as previous except show each page response from the platform
+                    Console.WriteLine("Same as previous except show each page response...");
+                    DisplayHeadlines(Headlines.Definition().Query("Apple last 5 days")
+                                                           .Count(0)
+                                                           .Sort(Headlines.SortOrder.oldToNew)
+                                                           .GetData((response, def, s) => Console.Write($"{response.Data.Headlines.Count}, ")));
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine($"\n**************\nFailed to execute: {e.Message}\n{e.InnerException}\n***************");
+                Console.WriteLine($"\n**************\nFailed to execute.");
+                Console.WriteLine($"Exception: {e.GetType().Name} {e.Message}");
+                if (e.InnerException is not null) Console.WriteLine(e.InnerException);
+                Console.WriteLine("***************");
             }
         }
 

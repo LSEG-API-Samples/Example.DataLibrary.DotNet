@@ -16,7 +16,7 @@ namespace _3._1._10_Streaming_IPAFxCross
         //      1. Configuration.Session to specify the access channel into the platform. Default: RDP (PlatformSession).
         //      2. Configuration.Credentials to define your login credentials for the specified access channel.
         // **********************************************************************************************************************
-        static void Main(string[] args)
+        static void Main(string[] _)
         {
             try
             {
@@ -75,7 +75,10 @@ namespace _3._1._10_Streaming_IPAFxCross
             }
             catch (Exception e)
             {
-                Console.WriteLine($"\n**************\nFailed to execute: {e.Message}\n{e.InnerException}\n***************");
+                Console.WriteLine($"\n**************\nFailed to execute.");
+                Console.WriteLine($"Exception: {e.GetType().Name} {e.Message}");
+                if (e.InnerException is not null) Console.WriteLine(e.InnerException);
+                Console.WriteLine("***************");
             }
         }
 
@@ -90,7 +93,7 @@ namespace _3._1._10_Streaming_IPAFxCross
                     if (universe is JArray items)
                     {
                         // Pull out a couple of details:
-                        Console.WriteLine($"{DateTime.Now.ToString("HH:mm:ss")}: Spot rate for {items[0]} => {items[1]}");
+                        Console.WriteLine($"{DateTime.Now:HH:mm:ss}: Spot rate for {items[0]} => {items[1]}");
                     }
                 }
             }

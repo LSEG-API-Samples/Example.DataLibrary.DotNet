@@ -42,14 +42,16 @@ namespace _2._1._01_HistoricalPricing_Summaries
                 Common.DisplayTable("Historical Interday Summaries", response);
 
                 // Retrieve interday summaries for a list of instruments
-                response = Summaries.Definition().Universe("IBM.N", "AAPL.O", "EUR=")
-                                                 .Fields("DATE", "TRDPRC_1", "BID", "ASK", "NAVALUE", "MID_PRICE")
+                response = Summaries.Definition().Universe("IBM.N", "AAPL.O", "TSLA.O")
                                                  .GetData();
                 Common.DisplayTable("Historical Interday Summaries for a list of instruments", response);
             }
             catch (Exception e)
             {
-                Console.WriteLine($"\n**************\nFailed to execute: {e.Message}\n{e.InnerException}\n***************");
+                Console.WriteLine($"\n**************\nFailed to execute.");
+                Console.WriteLine($"Exception: {e.GetType().Name} {e.Message}");
+                if (e.InnerException is not null) Console.WriteLine(e.InnerException);
+                Console.WriteLine("***************");
             }
         }
     }

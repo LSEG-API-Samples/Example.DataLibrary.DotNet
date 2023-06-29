@@ -13,7 +13,7 @@ namespace _4._0._01_LogAPI
     // *******************************************************************************************************************************************
     class Program
     {
-        static void Main(string[] args)
+        static void Main(string[] _)
         {
             // Programmatically override the default log level defined for the Refinitiv Data Library.
             Log.Level = NLog.LogLevel.Debug;
@@ -23,11 +23,10 @@ namespace _4._0._01_LogAPI
             Log.Output = (loginfo, parms) => Console.WriteLine($"Application: {loginfo.Level} - {loginfo.FormattedMessage}");
 
             // Create the platform session.
-            using (ISession session = Configuration.Sessions.GetSession())
-            {
-                // Open the session - a number of log messages will be generated.
-                session.Open();
-            }
+            using ISession session = Configuration.Sessions.GetSession();
+
+            // Open the session - a number of log messages will be generated.
+            session.Open();
         }
     }
 }

@@ -29,8 +29,6 @@ namespace _4._0._01_WebSocket_Register
         {
             try
             {
-                Log.Level = NLog.LogLevel.Debug;
-                
                 // Choose a WebSocket Implementation
                 Console.WriteLine("\nChoose a WebSocket Implementation:");
                 Console.WriteLine("\t1 - ClientWebSocket (Microsoft implementation)");
@@ -56,16 +54,17 @@ namespace _4._0._01_WebSocket_Register
                             return;
                     }
 
-                    using (ISession session = Configuration.Sessions.GetSession())
-                    {
-                        if (session.Open() == Session.State.Opened)
-                            TestStreaming();
-                    }
+                    using ISession session = Configuration.Sessions.GetSession();
+                    if (session.Open() == Session.State.Opened)
+                        TestStreaming();
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine($"\n**************\nFailed to execute: {e.Message}\n{e.InnerException}\n***************");
+                Console.WriteLine($"\n**************\nFailed to execute.");
+                Console.WriteLine($"Exception: {e.GetType().Name} {e.Message}");
+                if (e.InnerException is not null) Console.WriteLine(e.InnerException);
+                Console.WriteLine("***************");
             }
         }
 

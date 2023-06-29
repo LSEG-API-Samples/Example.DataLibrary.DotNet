@@ -24,34 +24,36 @@ namespace _2._2._02_Pricing_Chains
             try
             {
                 // Create a session into the platform...
-                using (ISession session = Sessions.GetSession())
+                using ISession session = Sessions.GetSession(Sessions.SessionTypeEnum.RDP);
+
+                // Open the session
+                session.Open();
+
+                var chain = ".AV.O";            // Nasdaq Top 25
+
+                Console.WriteLine($"\nRetrieving chain RIC: {chain}...");
+                var response = Chain.Definition(chain).GetData();
+
+                if (response.IsSuccess)
                 {
-                    // Open the session
-                    session.Open();
+                    Console.WriteLine($"\nRetrieved Chain RIC: {response.Data.DisplayName}");
 
-                    var chain = ".AV.O";            // Nasdaq Top 25
-
-                    Console.WriteLine($"\nRetrieving chain RIC: {chain}...");
-                    var response = Chain.Definition(chain).GetData();
-
-                    if (response.IsSuccess)
-                    {
-                        Console.WriteLine($"\nRetrieved Chain RIC: {response.Data.DisplayName}");
-
-                        // Display the 30 first elements of the chain
-                        int idx = 0;
-                        foreach (var constituent in response.Data.Constituents)
-                            Console.WriteLine($"\t{++idx,2}. {constituent}");
-                    }
-                    else
-                    {
-                        Console.WriteLine(response.HttpStatus);
-                    }
+                    // Display the 30 first elements of the chain
+                    int idx = 0;
+                    foreach (var constituent in response.Data.Constituents)
+                        Console.WriteLine($"\t{++idx,2}. {constituent}");
+                }
+                else
+                {
+                    Console.WriteLine(response.HttpStatus);
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine($"\n**************\nFailed to execute: {e.Message}\n{e.InnerException}\n***************");
+                Console.WriteLine($"\n**************\nFailed to execute.");
+                Console.WriteLine($"Exception: {e.GetType().Name} {e.Message}");
+                if (e.InnerException is not null) Console.WriteLine(e.InnerException);
+                Console.WriteLine("***************");
             }
         }
     }
