@@ -1,0 +1,77 @@
+// **************************************************************************************************************
+// Refinitiv Data Library for .NET Configuration
+//
+// The following configuration details will be loaded as a JSON object using Test #5 defined within this 
+// application. This is a simple way to test the ability to feed json configuration data into the library.  In 
+// reality, this feature is designed to support applications to pull in Json data from a configuration portal, 
+// a Key Vault, App Service or App Configuration store.
+//
+// Whether you are connecting directly into RDP, through the desktop or to your deployed streaming server, you
+// will need to modify the corresponding stanzas below.
+// **************************************************************************************************************
+{
+    "sessions": {
+        // The default specification is utilized when creating a generic session using:
+        //      ISession session = Session.Definition().GetSession()
+        //
+        // Syntax: "default": "platform|desktop[.<namedSession>]"
+        // Eg: "default": "platform"
+        //          - Refers to the 'default' specification within the platform stanza
+        //     "default": "platform.mySession"
+        //          - Refers to 'mySession' defined within the platform stanza
+        //     "default": "desktop"
+        //          - Refers to the 'default' specification within the desktop stanza
+        //     "default": "desktop.mySession"
+        //          - Refers to 'mySession' defined within the desktop stanza
+        "default": "platform",
+
+        "platform": {
+            // The default specification is utilized when creating a platform session using:
+            //      IPlatformSession session = PlatformSession.Definition().GetSession()
+            //
+            // Syntax: "default": "<namedSession>"
+            // Eg: "default": "rdpSession" - referring to 'rdpSession' defined within this stanza
+            "default": "rdpSession",
+
+            "rdpSession": {
+                "rdp-credentials": {
+                    "app-key": "<Application Key>",
+
+                    "password-grant": {
+                        "machine-id": "<RDP Machine ID>",
+                        "password": "<RDP Password>"
+                    }
+                }
+            },
+
+            "ads": {
+                "ads-credentials": {
+                    "host": "<server>:<port>"
+
+                    // If applicable, uncomment and update DACs credentials
+                    //"dacs": {
+                    //    "username": "Environment.UserName", // If not defined, applies machine login username
+                    //    "application-id": 256,
+                    //    "position": "<position>"
+                    //}
+                }
+            }
+        },
+
+        "desktop": {
+            // The default specification is utilized when creating a desktop session using:
+            //      IDesktopSession session = DesktopSession.Definition().GetSession()
+            //
+            // Syntax: "default": "<namedSession>"
+            // Eg: "default": "mySession" - referring to 'mySession' defined within this stanza
+            //
+            // Note: Any specified named session will be merged with the _default_library_settings_.
+            //       If applicable, any user configuration properties will override default properties.
+            "default": "workspace",
+
+            "workspace": {
+                "app-key": "<Application Key>"
+            }
+        }
+    }
+}
