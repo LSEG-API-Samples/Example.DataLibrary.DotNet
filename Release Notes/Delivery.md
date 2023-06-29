@@ -1,11 +1,22 @@
-## Delivery (Refinitiv.Data) Release Notes
+﻿## Delivery (Refinitiv.Data) Release Notes
+
+### 1.0.0-beta5
+- Added support for new OAuth version 2 (Client Credentials) authentication
+	o Support for Client ID/Client Secret
+- Fixed URL endpoint mapping issue on Linux-based systems
+- Updated configuration discovery to recognize the users HOME directory for all platforms (Windows/MacOS/Linux)
+- Apply escaped representation of string values applied to any GET endpoint request within the PATH parameter
+- Resolved directory issue locating desktop .portInUse file within MacOS/Linux-based environments
+- Sessions now support an optional specification of either a Stream or Json object (JObject) as a way to configure
+  applications. This replaces the DataLibraryConfig.SetConfigStream() and DataLibraryConfig.SetConfigFile().
+  See example: 5.1-Session
 
 ### 1.0.0-beta4
 - New streaming services
-   - Added RDPStream to support new RDP streaming services (Quantitative Analytics, Custom Instruments and Benchmarks)
-   - Added capability to dynamically discover and request OMM and RDP streams
-   - Added OMMStream.Definition.Api to support additional OMM streaming services
-   - Streaming services have been made available in both Platform and Desktop sessions
+	o Added RDPStream to support new RDP streaming services (Quantitative Analytics, Custom Instruments and Benchmarks)
+	o Added capability to dynamically discover and request OMM and RDP streams
+	o Added OMMStream.Definition.Api to support additional OMM streaming services
+	o Streaming services have been made available in both Platform and Desktop sessions
 - Updated IPlatformSession.OnStreamingEndpoint signature to include additional streaming services 
 - Fixed issue as reported in case: 11209155 to handle duplicate endpoints reported in stream discovery
 

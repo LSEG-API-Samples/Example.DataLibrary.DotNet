@@ -1,5 +1,21 @@
 ﻿## Content (Refinitiv.Data.Content) Release Notes
 
+### 1.0.0-beta5
+- Added new TimeSeries (TS) capabilities to the Historical Pricing service to request for streaming TimeSeries 
+  bars based on the request frequencies including: Events, Intraday and Interday intervals	
+  o Desktop session
+  o Requires minumum Proxy ver: 3.6.0
+- Updated Historical Pricing Summaries.Sessions to HistoricalPricing.Sessions.  The property is now available
+  for Intraday, events and single-events interfaces.
+- Fixed issue when specifying 'EventTypes', 'Adjustments' or 'Sessions' for Historical Events requesting for 
+  multiple instruments
+- Fixed issue when specifying 'Adjustments' or 'Sessions' for Historical Interday Summaries requesting for 
+  multiple instruments
+- Provided configuration options to control the differences within RDP news story services available within
+  the desktop vs the platform implementation
+- Updated DataTable data type properties for each defined cell to respect the native data types returned by 
+  the backend service.
+
 ### 1.0.0-beta4
 - IPA
 	- Standardized Financial-Contracts interface to support all available assets allowing the specification
