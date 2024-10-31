@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
-using Refinitiv.Data.Core;
-using Refinitiv.Data.Delivery.Request;
+using LSEG.Data.Core;
+using LSEG.Data.Delivery.Request;
 using System;
 
 namespace _3._2._01_Endpoint_HistoricalPricing

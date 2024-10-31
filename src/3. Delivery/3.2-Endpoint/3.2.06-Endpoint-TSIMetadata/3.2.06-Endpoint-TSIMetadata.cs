@@ -1,5 +1,5 @@
-﻿using Refinitiv.Data.Core;
-using Refinitiv.Data.Delivery.Request;
+﻿using LSEG.Data.Core;
+using LSEG.Data.Delivery.Request;
 
 // **********************************************************************************************************************
 // 3.2.06-Endpoint-TSIMetadata

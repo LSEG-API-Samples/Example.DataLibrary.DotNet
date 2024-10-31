@@ -1,5 +1,5 @@
-﻿using Refinitiv.Data.Content.ESG;
-using Refinitiv.Data.Core;
+﻿using LSEG.Data.Content.ESG;
+using LSEG.Data.Core;
 using System;
 using Configuration;
 using Common_Examples;
@@ -21,7 +21,7 @@ namespace _2._4._02_ESG_Measures
             try
             {
                 // Create a session into the platform...
-                using ISession session = Sessions.GetSession(Sessions.SessionTypeEnum.RDP);
+                using ISession session = Sessions.GetSession(Sessions.SessionTypeEnum.RDPv1);
 
                 // Open the session
                 if (session.Open() == Session.State.Opened)

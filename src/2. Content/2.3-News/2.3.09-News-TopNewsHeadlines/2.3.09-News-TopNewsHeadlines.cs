@@ -1,5 +1,5 @@
-﻿using Refinitiv.Data.Content.News;
-using Refinitiv.Data.Core;
+﻿using LSEG.Data.Content.News;
+using LSEG.Data.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,13 +8,25 @@ using BetterConsoles.Tables.Models;
 using System.Drawing;
 using BetterConsoles.Tables.Builders;
 using BetterConsoles.Tables.Configuration;
+using System.Text;
 
 namespace _2._3._09_News_TopNewsHeadlines
 {
+    // **********************************************************************************************************************
+    // 2.3.09-News-TopNewsHeadlines
+    // The following example presents the top news headlines.
+    //
+    // Note: To configure settings for your environment, visit the following files within the .Solutions folder:
+    //      1. Configuration.Session to specify the access channel into the platform. Default: RDP (PlatformSession).
+    //      2. Configuration.Credentials to define your login credentials for the specified access channel.
+    // **********************************************************************************************************************
     class Program
     {
         static void Main(string[] _)
         {
+            // Set console encoding to UTF-8
+            Console.OutputEncoding = Encoding.UTF8;
+
             try
             {
                 // Create a session into the platform

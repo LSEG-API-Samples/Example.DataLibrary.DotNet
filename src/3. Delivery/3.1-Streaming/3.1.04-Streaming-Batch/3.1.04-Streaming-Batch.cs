@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
-using Refinitiv.Data.Core;
-using Refinitiv.Data.Delivery.Stream;
+using LSEG.Data.Core;
+using LSEG.Data.Delivery.Stream;
 using System;
 
 namespace _3._1._04_Streaming_Batch
@@ -33,10 +33,11 @@ namespace _3._1._04_Streaming_Batch
                                                     .OnStatus((item, msg, s) => Console.WriteLine(msg))
                                                     .OnComplete(s => Console.WriteLine("\nInitial response for all instruments complete.  Updates will follow based on changes in the market..."));
                     // Open the stream...
-                    stream.Open();
-
-                    // Wait for data to come in then hit any key to close the stream...
-                    Console.ReadKey();
+                    if (stream.Open() == Stream.State.Opened)
+                    {
+                        // Wait for data to come in then hit any key to close the stream...
+                        Console.ReadKey();
+                    }
                 }
             }
             catch (Exception e)

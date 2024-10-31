@@ -1,5 +1,5 @@
-﻿using Refinitiv.Data.Content.News;
-using Refinitiv.Data.Core;
+﻿using LSEG.Data.Content.News;
+using LSEG.Data.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,13 +7,25 @@ using BetterConsoles.Tables.Builders;
 using BetterConsoles.Tables.Models;
 using System.Drawing;
 using BetterConsoles.Tables.Configuration;
+using System.Text;
 
 namespace _2._3._08_News_TopNews
 {
+    // **********************************************************************************************************************
+    // 2.3.08-News-TopNews
+    // The following example presents the top news categories.
+    //
+    // Note: To configure settings for your environment, visit the following files within the .Solutions folder:
+    //      1. Configuration.Session to specify the access channel into the platform. Default: RDP (PlatformSession).
+    //      2. Configuration.Credentials to define your login credentials for the specified access channel.
+    // **********************************************************************************************************************
     class Program
     {
         static void Main(string[] _)
         {
+            // Set console encoding to UTF-8
+            Console.OutputEncoding = Encoding.UTF8;
+
             try
             {
                 // Create a session into the platform
@@ -24,7 +36,10 @@ namespace _2._3._08_News_TopNews
                     // Top News
                     var top = TopNews.Definition().GetData();
 
-                    DisplayNews(top);
+                    if (top.IsSuccess)
+                        DisplayNews(top);
+                    else
+                        Console.WriteLine($"Failed to execute request: {top.HttpHeaders}");
                 }
             }
             catch (Exception e)

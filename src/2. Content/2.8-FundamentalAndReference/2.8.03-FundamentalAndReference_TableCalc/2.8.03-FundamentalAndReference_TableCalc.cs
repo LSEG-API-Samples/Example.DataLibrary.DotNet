@@ -1,12 +1,12 @@
 ﻿using Common_Examples;
 using Configuration;
-using Refinitiv.Data.Content.Data;
-using Refinitiv.Data.Core;
+using LSEG.Data.Content.Data;
+using LSEG.Data.Core;
 
 try
 {
     // Create a session into the platform
-    ISession session = Sessions.GetSession(Sessions.SessionTypeEnum.DESKTOP);
+    ISession session = Sessions.GetSession();
 
     session.Open();
 
@@ -24,7 +24,7 @@ try
                                                     .GetData();
 
     // Perform some table maintenance
-    if (table.IsSuccess)
+    if (baseVals.IsSuccess && table.IsSuccess)
     {
         var dt = table.Data.Table;
 
@@ -42,7 +42,7 @@ try
     }
     else
     {
-        Console.WriteLine($"Failed to execute request: {table.HttpStatus}");
+        Console.WriteLine($"Failed to execute request: {(baseVals.IsSuccess ? table.HttpStatus : baseVals.HttpStatus)}");
     }
 }
 catch (Exception e)

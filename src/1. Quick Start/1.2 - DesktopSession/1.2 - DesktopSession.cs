@@ -1,6 +1,6 @@
 ﻿using Configuration;
-using Refinitiv.Data;
-using Refinitiv.Data.Core;
+using LSEG.Data;
+using LSEG.Data.Core;
 using System;
 
 namespace _1._2___DesktopSession
@@ -9,7 +9,7 @@ namespace _1._2___DesktopSession
     {
         static void Main(string[] _)
         {
-            // Programmatically override the default log level defined for the Refinitiv Data Library.
+            // Programmatically override the default log level defined for the LSEG Data Library.
             Log.Level = NLog.LogLevel.Debug;
 
             try

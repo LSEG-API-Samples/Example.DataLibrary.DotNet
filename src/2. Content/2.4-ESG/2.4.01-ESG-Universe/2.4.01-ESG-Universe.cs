@@ -1,6 +1,6 @@
 ﻿using Common_Examples;
-using Refinitiv.Data.Content.ESG;
-using Refinitiv.Data.Core;
+using LSEG.Data.Content.ESG;
+using LSEG.Data.Core;
 using System;
 using Configuration;
 
@@ -21,7 +21,7 @@ namespace _2._4._01_ESG_Universe
             try
             {
                 // Create a session into the platform...
-                using ISession session = Sessions.GetSession(Sessions.SessionTypeEnum.RDP);
+                using ISession session = Sessions.GetSession(Sessions.SessionTypeEnum.RDPv1);
 
                 // Open the session
                 if (session.Open() == Session.State.Opened)

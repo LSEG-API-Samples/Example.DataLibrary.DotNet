@@ -1,8 +1,8 @@
 ﻿using Common_Examples;
 using Configuration;
 using Newtonsoft.Json.Linq;
-using Refinitiv.Data.Content.SearchService;
-using Refinitiv.Data.Core;
+using LSEG.Data.Content.SearchService;
+using LSEG.Data.Core;
 using System;
 using System.Collections.Generic;
 

@@ -1,8 +1,52 @@
-﻿## Delivery (Refinitiv.Data) Release Notes
+﻿## Delivery (LSEG.Data) Release Notes
+
+### 2.0.12
+- Fixed issue when processing FidValues for Summaries streaming data
+- Improved CPU usage when processing Summaries streaming data
+
+### 2.0.11
+- Fix service assigning for Summaries Definition
+- Fix websocket outstanding operation problem when opening multiple streams using Task.WhenAll
+
+### 2.0.10
+- Improved library memory usage and processing speed for Summaries streaming of price data
+
+### 2.0.9
+- Fixed current bar timestamping for intraday periods 
+
+### 2.0.8
+- Fixed cloud credentials refresh for messaging services at session reconnect
+ 
+### 2.0.7
+- Fixed corner case bug related to qualifier actions filtering for Summaries streaming price data
+
+### 2.0.6
+- Fixed corner case bug for Chain Streams on stream reconnect 
+- Implemented additional callbacks to Chain Streams to detect complete refresh and update flows
+
+### 2.0.5
+- Fixed minor bug when handling columns of DBNull type
+- Fixed minor bug when filtering data table fields based on qualifier actions
+
+### 2.0.4
+- Fixed minor bug about incorrect column types when retrieving summaries data
+
+### 2.0.3 
+- Optimized memory usage of InstrumentMeta objects 
+- Fixed minor issues
+
+### 2.0.0 
+- Rebranding
+	- All namespaces are updated from "Refinitiv..." to "LSEG..."
+	- Updated configurations : all files and folders that contain "Refinitiv" in their name or content, will now contain "LSEG"
+	- Default session has changed from "platform" to "desktop"
+
+### 1.0.0-beta5.1
+- Fixed issue disposing OMM streaming connection
 
 ### 1.0.0-beta5
 - Added support for new OAuth version 2 (Client Credentials) authentication
-	o Support for Client ID/Client Secret
+	- Support for Client ID/Client Secret
 - Fixed URL endpoint mapping issue on Linux-based systems
 - Updated configuration discovery to recognize the users HOME directory for all platforms (Windows/MacOS/Linux)
 - Apply escaped representation of string values applied to any GET endpoint request within the PATH parameter
@@ -12,11 +56,11 @@
   See example: 5.1-Session
 
 ### 1.0.0-beta4
-- New streaming services
-	o Added RDPStream to support new RDP streaming services (Quantitative Analytics, Custom Instruments and Benchmarks)
-	o Added capability to dynamically discover and request OMM and RDP streams
-	o Added OMMStream.Definition.Api to support additional OMM streaming services
-	o Streaming services have been made available in both Platform and Desktop sessions
+- New streaming services		
+	- Added RDPStream to support new RDP streaming services (Quantitative Analytics, Custom Instruments and Benchmarks)
+	- Added capability to dynamically discover and request OMM and RDP streams
+	- Added OMMStream.Definition.Api to support additional OMM streaming services
+	- Streaming services have been made available in both Platform and Desktop sessions
 - Updated IPlatformSession.OnStreamingEndpoint signature to include additional streaming services 
 - Fixed issue as reported in case: 11209155 to handle duplicate endpoints reported in stream discovery
 

@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BetterConsoleTables" Version="2.0.4-rc1" />
-    <PackageReference Include="Refinitiv.Data.Content" Version="1.0.0-beta5" />
+    <PackageReference Include="BetterConsoleTables" Version="2.0.5-rc1" />
+    <PackageReference Include="LSEG.Data.Content" Version="2.0.14" />
   </ItemGroup>
 
   <ItemGroup>

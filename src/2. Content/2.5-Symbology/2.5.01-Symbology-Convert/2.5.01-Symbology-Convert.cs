@@ -1,6 +1,6 @@
 ﻿using Common_Examples;
-using Refinitiv.Data.Content.Symbology;
-using Refinitiv.Data.Core;
+using LSEG.Data.Content.Symbology;
+using LSEG.Data.Core;
 using System;
 using Configuration;
 

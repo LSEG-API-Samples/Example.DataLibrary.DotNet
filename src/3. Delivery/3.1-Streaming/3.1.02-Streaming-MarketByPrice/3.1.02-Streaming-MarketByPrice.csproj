@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Refinitiv.Data" Version="1.0.0-beta5" />
+    <PackageReference Include="LSEG.Data" Version="2.0.14" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,5 +1,5 @@
-﻿using Refinitiv.Data.Core;
-using Refinitiv.Data.Delivery.Stream;
+﻿using LSEG.Data.Core;
+using LSEG.Data.Delivery.Stream;
 using System;
 
 namespace _3._1._01_MarketPrice
@@ -30,10 +30,11 @@ namespace _3._1._01_MarketPrice
                                                                            .OnError((item, err, s) => Console.WriteLine(err))
                                                                            .OnStatus((item, msg, s) => Console.WriteLine(msg));
                 // Open the stream...
-                stream.Open();
-
-                // Wait for data to come in then hit any key to close the stream...
-                Console.ReadKey();
+                if (stream.Open() == Stream.State.Opened)
+                {
+                    // Wait for data to come in then hit any key to close the stream...
+                    Console.ReadKey();
+                }
             }
             catch (Exception e)
             {

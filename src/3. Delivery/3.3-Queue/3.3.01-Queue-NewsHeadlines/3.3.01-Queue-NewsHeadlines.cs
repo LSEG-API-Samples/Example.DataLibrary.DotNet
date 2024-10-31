@@ -1,7 +1,7 @@
 ﻿using Configuration;
 using Newtonsoft.Json.Linq;
-using Refinitiv.Data.Core;
-using Refinitiv.Data.Delivery.Queue;
+using LSEG.Data.Core;
+using LSEG.Data.Delivery.Queue;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +34,7 @@ namespace _3._3._01_Queue_NewsHeadlines
             try
             {
                 // Create the platform session.
-                ISession session = Sessions.GetSession(Sessions.SessionTypeEnum.RDP);
+                ISession session = Sessions.GetSession(Sessions.SessionTypeEnum.RDPv1);
 
                 // Open the session
                 session.Open();

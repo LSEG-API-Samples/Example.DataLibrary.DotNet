@@ -1,8 +1,9 @@
 ﻿using Newtonsoft.Json.Linq;
-using Refinitiv.Data.Content.News;
-using Refinitiv.Data.Core;
+using LSEG.Data.Content.News;
+using LSEG.Data.Core;
 using System;
 using Configuration;
+using System.Text;
 
 namespace _2._3._05_News_Image
 {
@@ -28,7 +29,7 @@ namespace _2._3._05_News_Image
 
                 // Display Image - hardcoded ID
                 Console.WriteLine("\nImage based on hardcoded ID");
-                RetrieveImage("2022-06-16T224431Z_1_OV4_RTRLXPP_2_LYNXPACKAGER__JPG");
+                RetrieveImage("2024-06-14T091915Z_1_IK3_RTRLXPP_2_LYNXPACKAGER__JPG");
 
                 // Display Image - based on OnlineReports query
                 string imageId = null;

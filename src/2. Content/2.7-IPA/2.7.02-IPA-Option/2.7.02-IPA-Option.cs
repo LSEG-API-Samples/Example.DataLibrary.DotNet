@@ -1,8 +1,9 @@
 ﻿using Common_Examples;
 using Newtonsoft.Json.Linq;
-using Refinitiv.Data.Content.IPA;
-using Refinitiv.Data.Core;
+using LSEG.Data.Content.IPA;
+using LSEG.Data.Core;
 using System;
+using Configuration;
 
 namespace _2._7._02_IPA_Option
 {
@@ -22,7 +23,7 @@ namespace _2._7._02_IPA_Option
             try
             {
                 // Create the platform session.
-                using ISession session = Configuration.Sessions.GetSession();
+                using ISession session = Sessions.GetSession();
 
                 // Open the session
                 session.Open();
@@ -35,7 +36,7 @@ namespace _2._7._02_IPA_Option
                         ["instrumentType"] = "Option",
                         ["instrumentDefinition"] = new JObject()
                         {
-                            ["InstrumentCode"] = "AAPLM192420500.U",
+                            ["InstrumentCode"] = "AAPLF182624000.U", //"AAPLM192420500.U",
                             ["underlyingType"] = "Eti"
                         }
                     })

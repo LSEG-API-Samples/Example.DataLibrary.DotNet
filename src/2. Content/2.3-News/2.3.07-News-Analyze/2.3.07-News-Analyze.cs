@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
-using Refinitiv.Data.Content.News;
-using Refinitiv.Data.Core;
-using Refinitiv.Data.Delivery.Queue;
+using LSEG.Data.Content.News;
+using LSEG.Data.Core;
+using LSEG.Data.Delivery.Queue;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -30,10 +30,13 @@ namespace _2._3._07_News_Analyze
         {
             const string newsHeadlinesEndpoint = "https://api.refinitiv.com/message-services/v1/news-headlines/subscriptions";
 
+            // Set console encoding to UTF-8
+            Console.OutputEncoding = Encoding.UTF8;
+
             try
             {
                 // Create the platform session.
-                using ISession session = Sessions.GetSession(Sessions.SessionTypeEnum.RDP);
+                using ISession session = Sessions.GetSession(Sessions.SessionTypeEnum.RDPv1);
 
                 // Open the session
                 session.Open();

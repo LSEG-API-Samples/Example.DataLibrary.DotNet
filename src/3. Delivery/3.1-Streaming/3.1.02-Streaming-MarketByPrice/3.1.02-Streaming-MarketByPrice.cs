@@ -1,8 +1,7 @@
 ﻿using Configuration;
 using Newtonsoft.Json.Linq;
-using Refinitiv.Data;
-using Refinitiv.Data.Core;
-using Refinitiv.Data.Delivery.Stream;
+using LSEG.Data.Core;
+using LSEG.Data.Delivery.Stream;
 using System;
 
 namespace _3._1._02_MarketByPrice
@@ -28,7 +27,7 @@ namespace _3._1._02_MarketByPrice
                 var image = new JObject();
 
                 // Create a session into the platform.
-                using ISession session = Sessions.GetSession(Sessions.SessionTypeEnum.RDP);
+                using ISession session = Sessions.GetSession(Sessions.SessionTypeEnum.RDPv2);
 
                 // Open the session
                 session.Open();
@@ -43,10 +42,11 @@ namespace _3._1._02_MarketByPrice
                                                                                 .OnStatus((item, msg, s) => Console.WriteLine(msg))
                                                                                 .OnError((item, err, s) => Console.WriteLine(err));
                 // Open the stream...
-                stream.Open();
-
-                // Wait for data to come in then hit any key to close the stream...
-                Console.ReadKey();
+                if (stream.Open() == Stream.State.Opened)
+                {
+                    // Wait for data to come in then hit any key to close the stream...
+                    Console.ReadKey();
+                }
             }
             catch (Exception e)
             {

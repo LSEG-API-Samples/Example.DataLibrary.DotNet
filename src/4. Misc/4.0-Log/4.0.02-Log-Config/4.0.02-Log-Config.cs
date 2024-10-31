@@ -1,11 +1,11 @@
 ﻿using NLog;
-using Refinitiv.Data.Core;
+using LSEG.Data.Core;
 
 namespace _4._0._02_LogConfig
 {
     // *******************************************************************************************************************************************
     // 4.0.02-Log-Config
-    // By default, When using the Refinitiv Data Library for .NET, general information log messages will be sent to a unique log file.  
+    // By default, When using the LSEG Data Library for .NET, general information log messages will be sent to a unique log file.
     // However, application developers can choose to override this behavior.
     //
     // The following tutorial demonstrates the ability for an application to configure and use the built-in logging within the library.  
@@ -16,7 +16,7 @@ namespace _4._0._02_LogConfig
     //        logging format, etc.  See NLog.config configuration file included with this project for more details.
     //
     //      - Application logging
-    //        In addition to configuring logging within the Refinitiv Data library for .NET, applications can piggyback off of the 
+    //        In addition to configuring logging within the LSEG Data library for .NET, applications can piggyback off of the 
     //        logging capability by sending their log messages to their own targets.
     //
     // To demonstrate basic functionality, the application simply opens a session and exits. 

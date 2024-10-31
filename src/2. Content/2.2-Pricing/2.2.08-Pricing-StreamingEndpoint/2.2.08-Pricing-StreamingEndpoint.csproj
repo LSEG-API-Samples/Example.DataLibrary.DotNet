@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Refinitiv.Data.Content" Version="1.0.0-beta5" />
+    <PackageReference Include="LSEG.Data.Content" Version="2.0.14" />
   </ItemGroup>
 
   <ItemGroup>
@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="refinitiv-data.config.json">
+    <None Update="lseg-data.config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

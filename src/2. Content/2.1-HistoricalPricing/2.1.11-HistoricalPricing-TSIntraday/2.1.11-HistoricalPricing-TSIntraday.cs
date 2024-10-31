@@ -1,7 +1,7 @@
 ﻿using Common_Examples;
 using Configuration;
-using Refinitiv.Data.Content.HistoricalPricing;
-using Refinitiv.Data.Core;
+using LSEG.Data.Content.HistoricalPricing;
+using LSEG.Data.Core;
 
 // **********************************************************************************************************************
 // 2.1.11-HistoricalPricing-TSIntraday

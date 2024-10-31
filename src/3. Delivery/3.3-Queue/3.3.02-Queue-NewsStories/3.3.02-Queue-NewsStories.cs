@@ -1,7 +1,7 @@
 ﻿using Configuration;
 using Newtonsoft.Json.Linq;
-using Refinitiv.Data.Core;
-using Refinitiv.Data.Delivery.Queue;
+using LSEG.Data.Core;
+using LSEG.Data.Delivery.Queue;
 using System;
 using System.Linq;
 
@@ -26,7 +26,7 @@ namespace _3._3._02_Queue_NewsStories
 
             try
             {
-                using ISession session = Sessions.GetSession(Sessions.SessionTypeEnum.RDP);
+                using ISession session = Sessions.GetSession(Sessions.SessionTypeEnum.RDPv1);
 
                 // Open the session
                 session.Open();

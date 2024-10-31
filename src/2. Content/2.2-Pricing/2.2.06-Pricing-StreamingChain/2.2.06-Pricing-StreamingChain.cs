@@ -1,6 +1,6 @@
-﻿using Refinitiv.Data.Content.Pricing;
-using Refinitiv.Data.Core;
-using Refinitiv.Data.Delivery.Stream;
+﻿using LSEG.Data.Content.Pricing;
+using LSEG.Data.Core;
+using LSEG.Data.Delivery.Stream;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +18,8 @@ namespace _2._2._06_Pricing_StreamingChain
     // **********************************************************************************************************************
     class Program
     {
+        static bool InTransaction = false;
+
         static void Main(string[] _)
         {
             try
@@ -29,12 +31,11 @@ namespace _2._2._06_Pricing_StreamingChain
 
                 // Creating a streaming chain and manage updates
                 ProcessChain(Chain.Definition(".AV.O").GetStream().Streaming(true)
-                                                                  .OnAdd((index, newv, c) =>
-                                                                      Console.WriteLine($"\tNew constituent {newv} added at index: {index}"))
-                                                                  .OnRemove((index, oldv, c) =>
-                                                                      Console.WriteLine($"\tRemoved constituent {oldv} added at index: {index}"))
-                                                                  .OnUpdate((index, oldv, newv, c) =>
-                                                                      Console.WriteLine($"Index {index} within our Chain changed from {oldv} => {newv}"))
+                                                                  .OnAdd((index, newv, c) => AddConstituent(index, newv))
+                                                                  .OnRemove((index, oldv, c) => RemoveConstituent(index, oldv))
+                                                                  .OnUpdate((index, oldv, newv, c) => UpdateConstituent(index, oldv, newv))
+                                                                  .OnRefreshComplete(c => UpdateTransactionState("}", false))
+                                                                  .OnUpdateComplete(c => UpdateTransactionState("}", false))
                                                                   .OnStatus((item, status, c) =>
                                                                       Console.WriteLine($"Status for item: {item} {status}"))
                                                                   .OnError((item, error, c) =>
@@ -48,6 +49,34 @@ namespace _2._2._06_Pricing_StreamingChain
                 Console.WriteLine("***************");
             }
         }
+
+        private static void AddConstituent(int index, string constituent)
+        {
+            if (!InTransaction) 
+                UpdateTransactionState("{", true);
+            Console.WriteLine($"\tNew constituent {constituent} added at index: {index}");
+        }
+
+        private static void RemoveConstituent(int index, string constituent)
+        {
+            if (!InTransaction)
+                UpdateTransactionState("{", true);
+            Console.WriteLine($"\tRemoved constituent {constituent} added at index: {index}");
+        }
+
+        private static void UpdateConstituent(int index, string oldConstituent, string newConstituent)
+        {
+            if (!InTransaction)
+                UpdateTransactionState("{", true);
+            Console.WriteLine($"\tUpdate Index {index} within our Chain from {oldConstituent} => {newConstituent}");
+        }
+
+        private static void UpdateTransactionState(string brace, bool transaction)
+        {
+            Console.WriteLine(brace);
+            InTransaction = transaction;
+        }
+
 
         // ProcessChain
         // Based on the chain request parameters, 

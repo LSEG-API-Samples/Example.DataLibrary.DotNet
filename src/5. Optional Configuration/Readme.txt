@@ -40,19 +40,21 @@ For example:
 	  be modified.
 	
 
-By default, the Refinitiv Data Library for .Net uses the internal database defining default configuration 
+By default, the LSEG Data Library for .Net uses an internal database defining default configuration 
 settings within the library. Users have the ability to utilize their own configuration store to override 
-default settings.  For this project, you can refer to the 'refinitiv-data.config.json' or 
+default settings.  For this project, you can refer to the 'lseg-data.config.json' or 
 'customConfig.json' as a reference.
 
 The following features are available when defining application configuration settings:
 
-o Specification of a Json (JObject) or System.IO.Stream within a Session Definition
+	o Specification of a Json (JObject) or System.IO.Stream within a Session Definition
 
 Otherwise, the libary can pull in configuration settings via a configuration file defined within the file system.
-Note: By default, the library will search for the configuration file: refinitiv-data.config.json
+Note: By default, the library will search for the configuration file: lseg-data.config.json
 
-1. Locate the specified configuration file as defined by the environment variable: RD_LIB_CONFIG_FILE
+The following steps are enforced when locating a file-based configuration file:
+
+1. Locate the specified configuration file as defined by the environment variable: LD_LIB_CONFIG_FILE
 2. Otherwise, locate the default configuration file within your runtime working directory
 3. Otherwise, locate the default configuration file within the users HOME directory
 

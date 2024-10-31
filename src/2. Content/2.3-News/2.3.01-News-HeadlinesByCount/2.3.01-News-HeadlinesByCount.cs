@@ -1,8 +1,10 @@
-﻿using Refinitiv.Data.Content.News;
-using Refinitiv.Data.Core;
+﻿using LSEG.Data.Content.News;
+using LSEG.Data.Core;
 using System;
 using System.Linq;
 using Configuration;
+using System.Diagnostics;
+using System.Text;
 
 namespace _2._3._01_News_HeadlinesByCount
 {
@@ -20,6 +22,9 @@ namespace _2._3._01_News_HeadlinesByCount
     {
         static void Main(string[] _)
         {
+            // Set console encoding to UTF-8
+            Console.OutputEncoding = Encoding.UTF8;
+
             try
             {
                 // Create a session into the platform...

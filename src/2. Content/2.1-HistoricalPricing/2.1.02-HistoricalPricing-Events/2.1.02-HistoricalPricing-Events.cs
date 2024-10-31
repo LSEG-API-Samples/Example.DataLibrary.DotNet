@@ -1,6 +1,6 @@
 ﻿using Common_Examples;
-using Refinitiv.Data.Content.HistoricalPricing;
-using Refinitiv.Data.Core;
+using LSEG.Data.Content.HistoricalPricing;
+using LSEG.Data.Core;
 using System;
 using Configuration;
 
@@ -29,13 +29,13 @@ namespace _2._1._02_HistoricalPricing_Events
 
                 // Retrieve tick pricing events.  Default: 20 rows of data.  Specified trades only and specific columns of data.
                 var response = Events.Definition("VOD.L").EventTypes(Events.EventType.trade)
-                                                         .Fields("RTL", "EVENT_TYPE", "TRDPRC_1", "TRDVOL_1", "QUALIFIERS")
+                                                         .Fields("RTL", "EVENT_TYPE", "TRDVOL_1", "QUALIFIERS")
                                                          .GetData();
                 Common.DisplayTable("Historical Trade events", response);
 
-                // Retrieve tick events for a group of instruments..
+                // Retrieve tick events for a group of instruments. Default events: trades, quotes, corrections.
                 response = Events.Definition().Universe("VOD.L", "MSFT.O", "EUR=")
-                                              .Fields("DATE_TIME", "TRDPRC_1", "MID_PRICE", "CTBTR_1", "BID", "ASK")
+                                              .Fields("DATE_TIME", "MID_PRICE", "CTBTR_1", "BID", "ASK")
                                               .GetData();
                 Common.DisplayTable("Historical events for multiple instruments", response);
             }

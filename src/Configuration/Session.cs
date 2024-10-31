@@ -1,4 +1,4 @@
-﻿using Refinitiv.Data.Core;
+﻿using LSEG.Data.Core;
 using System;
 
 namespace Configuration
@@ -14,14 +14,15 @@ namespace Configuration
         // ***********************************************************************************************
         public enum SessionTypeEnum
         {
-            DESKTOP,                // DesktopSession           - Eikon/Refintiv Workspace
-            RDP,                    // PlatformSession          - Refinitiv Data Platform
+            DESKTOP,                // DesktopSession           - Refintiv Workspace - desktop application
+            RDPv1,                  // PlatformSession          - Refinitiv Data Platform using v1 authentication
+            RDPv2,                  // PlatformSession          - Refinitiv Data Platform using v2 authentication
             DEPLOYED,               // PlatformSession          - Deployed ADS streaming services only
             CONFIG                  // Session                  - Configuration-based session
         };
 
         // Change the type of Session to switch the access channel
-        public static SessionTypeEnum SessionType { get; set; } = SessionTypeEnum.RDP;
+        public static SessionTypeEnum SessionType { get; set; } = SessionTypeEnum.RDPv2;
 
 
 
@@ -35,13 +36,19 @@ namespace Configuration
             session ??= SessionType;
             return session switch
             {
-                SessionTypeEnum.RDP => PlatformSession.Definition().AppKey(Credentials.AppKey)
-                                                                   .OAuthGrantType(new GrantPassword().UserName(Credentials.RDPUser)
-                                                                                                      .Password(Credentials.RDPPassword))
-                                                                   .TakeSignonControl(true)
-                                                                   .GetSession().OnState((state, msg, s) => 
+                SessionTypeEnum.RDPv1 => PlatformSession.Definition().AppKey(Credentials.AppKey)
+                                                                     .OAuthGrantType(new GrantPassword().UserName(Credentials.RDPUser)
+                                                                                                        .Password(Credentials.RDPPassword))
+                                                                     .TakeSignonControl(true)
+                                                                     .GetSession().OnState((state, msg, s) => 
                                                                                         Console.WriteLine($"{DateTime.Now}: State: {state}. {msg}"))
-                                                                                .OnEvent((eventCode, msg, s) => 
+                                                                                  .OnEvent((eventCode, msg, s) => 
+                                                                                        Console.WriteLine($"{DateTime.Now}: Event: {eventCode}. {msg}")),
+                SessionTypeEnum.RDPv2 => PlatformSession.Definition().OAuthGrantType(new ClientCredentials().ClientID(Credentials.RDPClientID)
+                                                                                                            .ClientSecret(Credentials.RDPClientSecret))
+                                                                     .GetSession().OnState((state, msg, s) =>
+                                                                                        Console.WriteLine($"{DateTime.Now}: State: {state}. {msg}"))
+                                                                                  .OnEvent((eventCode, msg, s) =>
                                                                                         Console.WriteLine($"{DateTime.Now}: Event: {eventCode}. {msg}")),
                 SessionTypeEnum.DESKTOP => DesktopSession.Definition().AppKey(Credentials.AppKey)
                                                                       .GetSession().OnState((state, msg, s) => 

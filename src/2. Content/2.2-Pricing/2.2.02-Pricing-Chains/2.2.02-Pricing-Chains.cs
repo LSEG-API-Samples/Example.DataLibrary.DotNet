@@ -1,6 +1,6 @@
 ﻿using Configuration;
-using Refinitiv.Data.Content.Pricing;
-using Refinitiv.Data.Core;
+using LSEG.Data.Content.Pricing;
+using LSEG.Data.Core;
 using System;
 
 namespace _2._2._02_Pricing_Chains
@@ -24,7 +24,7 @@ namespace _2._2._02_Pricing_Chains
             try
             {
                 // Create a session into the platform...
-                using ISession session = Sessions.GetSession(Sessions.SessionTypeEnum.RDP);
+                using ISession session = Sessions.GetSession(Sessions.SessionTypeEnum.RDPv1);
 
                 // Open the session
                 session.Open();

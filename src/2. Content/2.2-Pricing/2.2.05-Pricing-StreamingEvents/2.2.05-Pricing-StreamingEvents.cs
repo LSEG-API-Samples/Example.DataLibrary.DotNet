@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
-using Refinitiv.Data.Content.Pricing;
-using Refinitiv.Data.Core;
+using LSEG.Data.Content.Pricing;
+using LSEG.Data.Core;
 using System;
 using Configuration;
 

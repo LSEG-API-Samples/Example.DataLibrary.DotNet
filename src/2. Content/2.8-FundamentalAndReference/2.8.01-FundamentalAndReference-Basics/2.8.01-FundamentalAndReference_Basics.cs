@@ -1,6 +1,6 @@
 ﻿using Common_Examples;
-using Refinitiv.Data.Content.Data;
-using Refinitiv.Data.Core;
+using LSEG.Data.Content.Data;
+using LSEG.Data.Core;
 using Configuration;
 using System;
 
@@ -14,9 +14,8 @@ namespace _2._8._01_FundamentalAndReference_Basics
 
             try
             {
-                // Create a session into the desktop
-                // Note: The Fundamental and Reference API is only available on the desktop.
-                using ISession session = Sessions.GetSession(Sessions.SessionTypeEnum.DESKTOP);
+                // Create a session into the platform
+                using ISession session = Sessions.GetSession();
 
                 // Open the session
                 session.Open();

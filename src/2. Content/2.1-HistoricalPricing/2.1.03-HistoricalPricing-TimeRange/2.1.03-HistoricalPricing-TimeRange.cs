@@ -1,6 +1,6 @@
 ﻿using Common_Examples;
-using Refinitiv.Data.Content.HistoricalPricing;
-using Refinitiv.Data.Core;
+using LSEG.Data.Content.HistoricalPricing;
+using LSEG.Data.Core;
 using System;
 using Configuration;
 

@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json.Linq;
-using Refinitiv.Data;
-using Refinitiv.Data.Core;
-using Refinitiv.Data.Delivery.Stream;
-using Refinitiv.Data.WebSockets;
+using LSEG.Data;
+using LSEG.Data.Core;
+using LSEG.Data.Delivery.Stream;
+using LSEG.Data.WebSockets;
 using System;
 
 namespace _4._0._01_WebSocket_Register

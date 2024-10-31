@@ -1,12 +1,12 @@
-﻿using Refinitiv.Data;
-using Refinitiv.Data.Core;
+﻿using LSEG.Data;
+using LSEG.Data.Core;
 using System;
 
 namespace _4._0._01_LogAPI
 {
     // *******************************************************************************************************************************************
     // 4.0.01-Log-Api
-    // By default, the Refinitiv Data Library for .NET will send general information log messages to a unique log file.  For applications that
+    // By default, the LSEG Data Library for .NET will send general information log messages to a unique log file.  For applications that
     // utilize their own logging services, the Data Library for .NET log messages can be captured and rerouted for application use.
     // 
     // The following tutorial demonstrates the ability for an application to programmatically manage and control the library logs.
@@ -15,10 +15,10 @@ namespace _4._0._01_LogAPI
     {
         static void Main(string[] _)
         {
-            // Programmatically override the default log level defined for the Refinitiv Data Library.
+            // Programmatically override the default log level defined for the LSEG Data Library.
             Log.Level = NLog.LogLevel.Debug;
 
-            // Intercept all Refinitiv Data Library log messages within a lambda expression. In our case, the lambda expression 
+            // Intercept all LSEG Data Library log messages within a lambda expression. In our case, the lambda expression 
             // simply echos all log messages generated within the library to the console.
             Log.Output = (loginfo, parms) => Console.WriteLine($"Application: {loginfo.Level} - {loginfo.FormattedMessage}");
 

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
-using Refinitiv.Data.Core;
-using Refinitiv.Data.Delivery.Stream;
+using LSEG.Data.Core;
+using LSEG.Data.Delivery.Stream;
 using System;
 
 namespace _3._1._10_Streaming_IPAFxCross
@@ -21,7 +21,7 @@ namespace _3._1._10_Streaming_IPAFxCross
             try
             {
                 // The IPA Streaming service is presently available only on RDP
-                using ISession session = Configuration.Sessions.GetSession(Configuration.Sessions.SessionTypeEnum.RDP);
+                using ISession session = Configuration.Sessions.GetSession(Configuration.Sessions.SessionTypeEnum.RDPv2);
 
                 // Open the session
                 session.Open();

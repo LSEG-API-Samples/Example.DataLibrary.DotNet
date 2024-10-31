@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Refinitiv.Data" Version="1.0.0-beta5" />
-  </ItemGroup>
+    <PackageReference Include="LSEG.Data" Version="2.0.14" />
+  </ItemGroup>	
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Configuration\Configuration.csproj" />
-  </ItemGroup>
+	<ProjectReference Include="..\..\Configuration\Configuration.csproj" />
+  </ItemGroup>	
 
 </Project>

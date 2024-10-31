@@ -1,7 +1,8 @@
-﻿using Refinitiv.Data.Content.News;
-using Refinitiv.Data.Core;
+﻿using LSEG.Data.Content.News;
+using LSEG.Data.Core;
 using System;
 using Configuration;
+using System.Text;
 
 namespace _2._3._04_News_OnlineReports
 {
@@ -17,10 +18,13 @@ namespace _2._3._04_News_OnlineReports
     {
         static void Main(string[] _)
         {
+            // Set console encoding to UTF-8
+            Console.OutputEncoding = Encoding.UTF8;
+
             try
             {
                 // Create a session into the platform...
-                using ISession session = Sessions.GetSession(Sessions.SessionTypeEnum.RDP);
+                using ISession session = Sessions.GetSession(Sessions.SessionTypeEnum.RDPv1);
 
                 // Open the session
                 session.Open();

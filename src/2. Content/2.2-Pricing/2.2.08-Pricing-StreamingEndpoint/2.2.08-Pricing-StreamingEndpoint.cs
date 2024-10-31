@@ -1,14 +1,15 @@
 ﻿using Configuration;
 using Newtonsoft.Json.Linq;
-using Refinitiv.Data.Content.Pricing;
+using LSEG.Data.Content.Pricing;
 using System;
+using LSEG.Data;
 
 namespace _2._2._08_Pricing_StreamingEndpoint
 {
     // **********************************************************************************************************************
     // 2.2.08-Pricing-StreamingEndpoint
     // The following example demonstrates how to override the default streaming endpoint when connecting to RDP.  The example
-    // utilizes the configuration file: refinitiv-data.config.json located within this project.
+    // utilizes the configuration file: lseg-data.config.json located within this project.
     //
     // The example demonstrates the same functionality defined within example: 2.2.05-Pricing-StreamingEvents.  However,
     // through configuration, will define the region to control the endpoint driving the streaming data.
@@ -21,10 +22,26 @@ namespace _2._2._08_Pricing_StreamingEndpoint
     {
         static void Main(string[] _)
         {
+            Log.Level = NLog.LogLevel.Trace;
+
+            // *************************
+            // * Environment management.
+            // * Manage the configuration environment variable in the event it is defined.
+            // *************************
+            const string envVarName = "LD_LIB_CONFIG_FILE";
+            string initialValue = Environment.GetEnvironmentVariable(envVarName);
+
             try
             {
+                // Disable the environment variable if it is defined
+                if (initialValue != null)
+                {
+                    Environment.SetEnvironmentVariable(envVarName, null);
+                    Console.WriteLine($"{envVarName} is temporarily disabled.");
+                }
+
                 // This example requires a platform session to demonstrate how to override the default region
-                var session = Sessions.GetSession(Sessions.SessionTypeEnum.RDP);
+                var session = Sessions.GetSession(Sessions.SessionTypeEnum.RDPv2);
 
                 // Open the session
                 session.Open();
@@ -47,6 +64,15 @@ namespace _2._2._08_Pricing_StreamingEndpoint
                 Console.WriteLine($"Exception: {e.GetType().Name} {e.Message}");
                 if (e.InnerException is not null) Console.WriteLine(e.InnerException);
                 Console.WriteLine("***************");
+            }
+            finally
+            {
+                // Restore the environment variable if it was initially defined
+                if (initialValue != null)
+                {
+                    Environment.SetEnvironmentVariable(envVarName, initialValue);
+                    Console.WriteLine($"{envVarName} has been restored to its original value.");
+                }
             }
         }
 

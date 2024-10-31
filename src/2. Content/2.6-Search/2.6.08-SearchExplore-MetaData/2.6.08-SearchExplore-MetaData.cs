@@ -1,7 +1,7 @@
 ﻿using Common_Examples;
 using Configuration;
-using Refinitiv.Data.Content.SearchService;
-using Refinitiv.Data.Core;
+using LSEG.Data.Content.SearchService;
+using LSEG.Data.Core;
 using System;
 
 namespace _2._6._08_SearchExplore_MetaData
@@ -40,6 +40,8 @@ namespace _2._6._08_SearchExplore_MetaData
                         result = table.Select("Property = 'RCSCountryGenealogy'");
                         Console.WriteLine($"Property {result[0]["Property"]}: Navigable: {result[0]["Navigable"]}, Sortable: {result[0]["Sortable"]}");
                     }
+                    else
+                        Console.WriteLine($"IsSuccess: {response.IsSuccess}\n{response.HttpStatus}");
                 }
             }
             catch (Exception e)

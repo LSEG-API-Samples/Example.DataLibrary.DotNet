@@ -1,9 +1,8 @@
 ﻿using Configuration;
 using Newtonsoft.Json.Linq;
-using Refinitiv.Data.Core;
-using Refinitiv.Data.Delivery.Queue;
+using LSEG.Data.Core;
+using LSEG.Data.Delivery.Queue;
 using System;
-using System.Collections.Generic;
 
 namespace _3._3._03_Queue_Research
 {
@@ -25,7 +24,7 @@ namespace _3._3._03_Queue_Research
 
             try
             {
-                using ISession session = Sessions.GetSession(Sessions.SessionTypeEnum.RDP);
+                using ISession session = Sessions.GetSession(Sessions.SessionTypeEnum.RDPv1);
 
                 if (session.Open() == Session.State.Opened)
                 {
@@ -46,7 +45,7 @@ namespace _3._3._03_Queue_Research
                             ["transportType"] = "AWS-SQS"
                         },
                         ["payloadVersion"] = "2.0",
-                        ["userID"] = Configuration.Credentials.ResearchID
+                        ["userID"] = Credentials.ResearchID
                     };
 
                     // If no existing queue exists, create one.

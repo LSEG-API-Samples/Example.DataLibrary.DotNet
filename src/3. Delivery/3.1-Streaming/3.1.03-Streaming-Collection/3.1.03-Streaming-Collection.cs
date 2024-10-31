@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
-using Refinitiv.Data.Core;
-using Refinitiv.Data.Delivery.Stream;
+using LSEG.Data.Core;
+using LSEG.Data.Delivery.Stream;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

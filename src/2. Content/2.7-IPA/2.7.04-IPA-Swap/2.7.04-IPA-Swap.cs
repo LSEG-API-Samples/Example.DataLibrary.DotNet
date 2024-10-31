@@ -1,8 +1,9 @@
 ﻿using Common_Examples;
 using Newtonsoft.Json.Linq;
-using Refinitiv.Data.Content.IPA;
-using Refinitiv.Data.Core;
+using LSEG.Data.Content.IPA;
+using LSEG.Data.Core;
 using System;
+using Configuration;
 
 namespace _2._7._04_IPA_Swap
 {
@@ -22,7 +23,7 @@ namespace _2._7._04_IPA_Swap
             try
             {
                 // Create the platform session.
-                using ISession session = Configuration.Sessions.GetSession();
+                using ISession session = Sessions.GetSession();
 
                 // Open the session
                 session.Open();

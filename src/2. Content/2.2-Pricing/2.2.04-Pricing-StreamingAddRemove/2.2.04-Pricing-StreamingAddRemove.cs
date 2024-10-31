@@ -1,6 +1,6 @@
-﻿using Refinitiv.Data.Content.Pricing;
-using Refinitiv.Data.Core;
-using Refinitiv.Data.Delivery.Stream;
+﻿using LSEG.Data.Content.Pricing;
+using LSEG.Data.Core;
+using LSEG.Data.Delivery.Stream;
 using System;
 using Configuration;
 

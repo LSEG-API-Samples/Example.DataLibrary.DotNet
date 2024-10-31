@@ -1,7 +1,7 @@
 ﻿using Common_Examples;
 using Configuration;
-using Refinitiv.Data.Content.Data;
-using Refinitiv.Data.Core;
+using LSEG.Data.Content.Data;
+using LSEG.Data.Core;
 using System;
 
 namespace _2._8._02_FundamentalAndReference_Screener
@@ -14,8 +14,8 @@ namespace _2._8._02_FundamentalAndReference_Screener
 
             try
             {
-                // Create the platform session.
-                using ISession session = Sessions.GetSession(Sessions.SessionTypeEnum.DESKTOP);
+                // Create a session into the platform
+                using ISession session = Sessions.GetSession();
 
                 // Open the session
                 session.Open();

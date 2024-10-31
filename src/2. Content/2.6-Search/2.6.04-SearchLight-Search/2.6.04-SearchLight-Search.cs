@@ -1,6 +1,6 @@
 ﻿using Common_Examples;
-using Refinitiv.Data.Content.SearchService;
-using Refinitiv.Data.Core;
+using LSEG.Data.Content.SearchService;
+using LSEG.Data.Core;
 using Configuration;
 using System;
 

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
-using Refinitiv.Data.Core;
-using Refinitiv.Data.Delivery.Stream;
+using LSEG.Data.Core;
+using LSEG.Data.Delivery.Stream;
 using System;
 
 namespace _3._1._12_Streaming_Wealth
@@ -24,7 +24,7 @@ namespace _3._1._12_Streaming_Wealth
             try
             {
                 // The Wealth service is presently only available to RDP customers
-                using ISession session = Configuration.Sessions.GetSession(Configuration.Sessions.SessionTypeEnum.RDP);
+                using ISession session = Configuration.Sessions.GetSession(Configuration.Sessions.SessionTypeEnum.RDPv2);
 
                 // Open the session
                 session.Open();
