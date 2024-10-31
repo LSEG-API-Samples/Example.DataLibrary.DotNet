@@ -1,0 +1,57 @@
+﻿// **************************************************************************************************************
+// LSEG Data Library for .NET Configuration
+//
+// Override the default streaming endpoint.
+// **************************************************************************************************************
+{
+    "sessions": {
+        "platform": {
+            // When a platform session is created, By default, the following configuration details will be used.
+            "default": "mySession",
+
+            // The following session overrides the default streaming properties for the platform session.
+            "mySession": {
+                "apis": {
+                    "streaming": {
+                        "pricing": {
+                            "endpoints": {
+                                // Locations
+                                // Optional region specifier to determine the default selection of the streaming endpoint.
+                                //
+                                // Upon creation of a Platform Session, a number of possible streaming endpoints, spanning multiple regions, are 
+                                // available for use.  This setting will guide the session to determine which endpoint to choose to stream, based on 
+                                // a location property defined within each endpoint.
+                                //
+                                // For context, the following stanza is an example returned during discovery representing a single streaming endpoint:
+                                //
+                                // {
+                                //      "port": 443,
+                                //      "location": ["ap-southeast-1a", "ap-southeast-1b"],
+                                //      "transport": "websocket",
+                                //      "provider": "aws",
+                                //      "endpoint": "ap-southeast-1-aws-3-lrg.optimized-pricing-api.refinitiv.net",
+                                //      "dataFormat": ["tr_json2"]
+                                // }
+                                //
+                                // In some cases, there may be multiple locations, or zones (AZ's), (e.g. location: [ap-southeast-1a, ap-southeast-1b]) 
+                                // available for a given endpoint.  When determining which endpoint to select, the first endpoint that contains 
+                                // the most location matches, based on a partial match, will be chosen.  If an exact match based on the location 
+                                // is determined, the endpoint that has exactly 1 location will be chosen.
+                                //
+                                // Suggested locations to define:
+                                //  Asia:   "ap-southeast"
+                                //  Euro:   "eu-west"
+                                //  US:     "us-east"  (default)
+                                //
+                                // For streaming services provided within the cloud, it is recommended to choose a location that provides 2 AZ's.  By doing
+                                // this, if a disconnect occurs, the library can attempt to connect back into the same endpoint and the backend service will
+                                // choose the active connection automatically.
+                                "locations": [ "eu-west" ]
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
