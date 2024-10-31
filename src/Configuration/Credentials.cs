@@ -8,6 +8,12 @@ namespace Configuration
     //
     // Depending on the credentials provided to you, modify the specific section outlined below.
     //
+    // **Note**
+    // The following settings are optional.  That is, if you choose to control your credentials within a configuration file,
+    // you can set the SessionType within the 'Session.cs' file to use your configuration file:
+    //
+    // public static SessionTypeEnum SessionType { get; set; } = SessionTypeEnum.CONFIG;
+    //
     public static class Credentials
     {
         // ********************************************************************

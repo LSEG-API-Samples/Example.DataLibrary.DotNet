@@ -167,7 +167,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "4.0.01-Log-Api", "4. Extras
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "4.0.02-Log-Config", "4. Extras\4.0-Log\4.0.02-Log-Config\4.0.02-Log-Config.csproj", "{4FF96458-F649-426C-965F-A1FF339AD0A3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "4.1-Configuration-Session", "4. Extras\4.1-Configuration\4.1-Configuration-Session.csproj", "{290C5990-EB6B-4AA6-A28C-D624FC890644}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "4.1.01-Configuration-Session", "4. Extras\4.1-Configuration\4.1.01-Configuration-Session.csproj", "{290C5990-EB6B-4AA6-A28C-D624FC890644}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
