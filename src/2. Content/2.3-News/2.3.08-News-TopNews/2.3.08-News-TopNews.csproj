@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <RootNamespace>_2._3._08_News_TopNews</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="BetterConsoleTables" Version="2.0.5-rc1" />
-    <PackageReference Include="LSEG.Data.Content" Version="2.0.14" />
+    <PackageReference Include="LSEG.Data.Content" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -90,7 +90,10 @@ namespace _3._3._01_Queue_NewsHeadlines
                         {
                             while (!task.IsCancellationRequested)
                             {
-                                subscriber.GetNextMessage(20, (headline, s) => DisplayHeadline(headline), task.Token);
+                                var nick = subscriber.GetNextMessage();
+                                Console.WriteLine(nick.IsMessageAvailable);
+                                if (nick.IsMessageAvailable) DisplayHeadline(nick);
+                                //subscriber.GetNextMessage(20, (headline, s) => DisplayHeadline(headline), task.Token);
                             }
                         }
                         catch (TaskCanceledException)

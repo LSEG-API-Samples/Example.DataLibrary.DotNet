@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <RootNamespace>_2._2._06_Pricing_StreamingChain</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="LSEG.Data.Content" Version="2.0.14" />
+    <PackageReference Include="LSEG.Data.Content" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>

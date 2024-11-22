@@ -10,7 +10,7 @@ namespace Configuration
         //
         // Note: Users can utilize their own configuration by setting the connection type as: CONFIG.
         //       This setting allows users to define their own application configuration within their
-        //       environment.  Refer to section 5 - Optional Configuration for more details.
+        //       environment.  Refer to section 4. Extras for more details.
         // ***********************************************************************************************
         public enum SessionTypeEnum
         {
@@ -22,7 +22,7 @@ namespace Configuration
         };
 
         // Change the type of Session to switch the access channel
-        public static SessionTypeEnum SessionType { get; set; } = SessionTypeEnum.RDPv2;
+        public static SessionTypeEnum SessionType { get; set; } = SessionTypeEnum.DESKTOP;
 
 
 
