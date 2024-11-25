@@ -24,8 +24,6 @@
 	- Corrected a minor bug when handling columns of DBNull type.
 	- Fixed a minor issue when filtering data table fields based on qualifier actions.
 	- Resolved a bug related to incorrect column types when retrieving summaries data.
-
-## 1.0.0-beta5.1  
 - **LSEG.Data**  
   - Fixed issue disposing of OMM streaming connection.  
 - **LSEG.Data.Content**  
@@ -33,7 +31,7 @@
   - Added support for Historical Pricing interfaces to prepend a forward slash (`/`) to instruments. This applies a delayed QoS to the request.  
 
 ## 1.0.0-beta5  
-- **LSEG.Data**  
+- **Refinitiv.Data**  
   - Added support for new OAuth 2.0 (Client Credentials) authentication:  
     - Client ID/Client Secret support.  
   - Fixed URL endpoint mapping issue on Linux-based systems.  
@@ -42,7 +40,7 @@
   - Resolved directory issue locating the `.portInUse` file on MacOS/Linux-based systems.  
   - Sessions now support optional specification of either a `Stream` or `Json` object (`JObject`) for application configuration. This replaces `DataLibraryConfig.SetConfigStream()` and `DataLibraryConfig.SetConfigFile()`.  
 
-- **LSEG.Data.Content**  
+- **Refinitiv.Data.Content**  
   - Added new TimeSeries (TS) capabilities for the Historical Pricing service, enabling streaming TimeSeries bars based on various request frequencies (Events, Intraday, and Interday intervals). Requires Proxy version 3.6.0.  
   - Updated `Historical Pricing Summaries.Sessions` to `HistoricalPricing.Sessions`.  
   - Fixed issues with:  
@@ -52,7 +50,7 @@
   - Enhanced configuration options for RDP news story services to handle desktop vs. platform implementations.  
 
 ## 1.0.0-beta4  
-- **LSEG.Data**  
+- **Refinitiv.Data**  
   - Introduced new streaming services:  
     - Added `RDPStream` to support Quantitative Analytics, Custom Instruments, and Benchmarks.  
     - Dynamic discovery and request capabilities for OMM and RDP streams.  
@@ -60,7 +58,7 @@
   - Updated `IPlatformSession.OnStreamingEndpoint` signature to include more streaming services.  
   - Fixed duplicate endpoint handling in stream discovery.  
 
-- **LSEG.Data.Content**  
+- **Refinitiv.Data.Content**  
   - Standardized Financial Contracts interface in IPA to support all assets with JSON requests.  
   - Added a streaming interface to IPA Financial Contracts.  
   - Enhanced QoS settings for all HistoricalPricing interfaces.  
@@ -68,30 +66,30 @@
   - Updated the Chain interface for compatibility with the new RDP endpoint service.  
 
 ## 1.0.0-beta3  
-- **Shared Features (LSEG.Data & LSEG.Data.Content)**  
+- **Shared Features (Refinitiv.Data & Refinitiv.Data.Content)**  
   - Minimum support for .NET Framework 4.8, .NET Standard 2.0, .NET Core, and .NET 6.  
   - Fixed issues related to OpenState reporting, item caching, and stream closures.  
   - Added `CancellationToken` support across relevant interfaces.  
   - Introduced new APIs and properties for improved session and pricing state handling.  
 
-- **Unique Updates for LSEG.Data.Content**  
+- **Unique Updates for Refinitiv.Data.Content**  
   - Updated ESG endpoint to v2, adding new scoring and measurement interfaces.  
   - Renamed `DataGrid` interface to `FundamentalAndReference`.  
   - Introduced TimestampLabel to `HistoricalPricing Summaries`.  
 
 ## 1.0.0-beta2  
-- **LSEG.Data**  
+- **Refinitiv.Data**  
   - Moved `OMMStream.Streaming()` specification from Definition into Stream interface.  
 
-- **LSEG.Data.Content**  
+- **Refinitiv.Data.Content**  
   - Moved Pricing `.Streaming()` specifications to Stream interface.  
   - Enhanced Pricing cache updates for null values.  
 
 ## 1.0.0-beta1  
-- **Shared Updates (LSEG.Data & LSEG.Data.Content)**  
+- **Shared Updates (Refinitiv.Data & Refinitiv.Data.Content)**  
   - Renamed Namespace and NuGet package.  
   - Standardized callback signatures across Stream, Request, Queue, and Endpoint interfaces.  
 
-- **Unique Updates for LSEG.Data.Content**  
+- **Unique Updates for Refinitiv.Data.Content**  
   - Introduced new interfaces, including `Search/Metadata`, `News/TopNews`, and `DataGrid`.  
   - Standardized library interfaces to support both request/reply and streaming semantics.  
