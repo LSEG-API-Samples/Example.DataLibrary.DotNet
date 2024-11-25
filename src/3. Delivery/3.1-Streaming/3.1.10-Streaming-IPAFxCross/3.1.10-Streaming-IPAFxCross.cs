@@ -9,19 +9,20 @@ namespace _3._1._10_Streaming_IPAFxCross
     {
         // **********************************************************************************************************************
         // 3.1.10-Streaming-IPAFxCross
-        // The following example demonstrates the use of streaming IPA (Instrument Pricing Analytics) using the RDP Streaming
-        // services.  Using the IPA Fx Cross services, the example will show realtime updates to changes in the cross rates.
+        // The following example demonstrates the use of streaming IPA (Instrument Pricing Analytics) using the available
+        // Streaming services.  Using the IPA Fx Cross services, the example will show realtime updates to changes in the cross
+        // rates.
         //
         // Note: To configure settings for your environment, visit the following files within the .Solutions folder:
-        //      1. Configuration.Session to specify the access channel into the platform. Default: RDP (PlatformSession).
+        //      1. Configuration.Session to specify the access channel into the platform. Default: Desktop
         //      2. Configuration.Credentials to define your login credentials for the specified access channel.
         // **********************************************************************************************************************
         static void Main(string[] _)
         {
             try
             {
-                // The IPA Streaming service is presently available only on RDP
-                using ISession session = Configuration.Sessions.GetSession(Configuration.Sessions.SessionTypeEnum.RDPv2);
+                // Create the session...
+                using ISession session = Configuration.Sessions.GetSession();
 
                 // Open the session
                 session.Open();

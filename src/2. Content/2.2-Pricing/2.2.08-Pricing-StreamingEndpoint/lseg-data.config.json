@@ -22,8 +22,7 @@
                                 // available for use.  This setting will guide the session to determine which endpoint to choose to stream, based on 
                                 // a location property defined within each endpoint.
                                 //
-                                // For context, the following stanza is an example returned during discovery representing a single streaming endpoint:
-                                //
+                                // For context, the following stanza is 1 of many typical streaming node definitions returned during discovery:
                                 // {
                                 //      "port": 443,
                                 //      "location": ["ap-southeast-1a", "ap-southeast-1b"],
@@ -33,10 +32,15 @@
                                 //      "dataFormat": ["tr_json2"]
                                 // }
                                 //
-                                // In some cases, there may be multiple locations, or zones (AZ's), (e.g. location: [ap-southeast-1a, ap-southeast-1b]) 
-                                // available for a given endpoint.  When determining which endpoint to select, the first endpoint that contains 
-                                // the most location matches, based on a partial match, will be chosen.  If an exact match based on the location 
-                                // is determined, the endpoint that has exactly 1 location will be chosen.
+                                // The 2 key details above that are relevant are the 'location' and 'endpoint'. In many cases, there is only 1 location
+                                // available for a streaming node.  However, there may be multiple locations, or zones (AZ's) available for a given endpoint, 
+                                // for example: [ap-southeast-1a, ap-southeast-1b]. And for each node, will be the specific endpoint that the library 
+                                // ultimately connects into to retrieve streaming data.
+                                //
+                                // When determining which endpoint to select, the first endpoint that contains the most locations, based on a partial
+                                // match, will be chosen. For example, if we choose a location expression such as: 'ap-south', there will be many matches 
+                                // within the streaming nodes found.  However, the winner will be the node that contains the most locations defined.  If an 
+                                // exact match based on the location is determined, the endpoint that has exactly 1 location will be chosen.
                                 //
                                 // Suggested locations to define:
                                 //  Asia:   "ap-southeast"
@@ -44,8 +48,8 @@
                                 //  US:     "us-east"  (default)
                                 //
                                 // For streaming services provided within the cloud, it is recommended to choose a location that provides 2 AZ's.  By doing
-                                // this, if a disconnect occurs, the library can attempt to connect back into the same endpoint and the backend service will
-                                // choose the active connection automatically.
+                                // this, if a disconnect occurs in the backend, the server will attempt to connect into the next available location during
+                                // recovery.
                                 "locations": [ "eu-west" ]
                             }
                         }

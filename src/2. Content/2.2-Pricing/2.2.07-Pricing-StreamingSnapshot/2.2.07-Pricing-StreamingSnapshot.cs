@@ -18,10 +18,10 @@ namespace _2._2._07_Pricing_StreamingSnapshot
     //
     // Suggestion: This example uses streaming services.  For users that do not have access to streaming services, but do
     //             have access to the snapshot pricing service within RDP, you can refer to the 2.2.01-Pricing-Snapshot
-    //             or 2.2.01-Pricing-Chains examples.
+    //             or 2.2.02-Pricing-Chains examples.
     //
     // Note: To configure settings for your environment, visit the following files within the .Solutions folder:
-    //      1. Configuration.Session to specify the access channel into the platform. Default: RDP (PlatformSession).
+    //      1. Configuration.Session to specify the access channel into the platform. Default: Desktop
     //      2. Configuration.Credentials to define your login credentials for the specified access channel.
     // **********************************************************************************************************************
     class Program
@@ -57,11 +57,9 @@ namespace _2._2._07_Pricing_StreamingSnapshot
         {
             // Specify a list of items and fields to retrieve. Retrieve the stream, indicating a snapshot, i.e. streaming=false.
             using var prices = Pricing.Definition("EUR=", "CAD=", "USD=").Fields("DSPLY_NAME", "BID", "ASK")
-                                                                         .GetStream()
-                                                              // This flag turns the request into a snapshot/refresh only
-                                                              .Streaming(false)
-                                                              .OnStatus((item, status, s) => Console.WriteLine(status))
-                                                              .OnError((item, err, s) => Console.WriteLine(err));
+                                                                         .GetStream().Streaming(false)  // Request snapshot only
+                                                                                     .OnStatus((item, status, s) => Console.WriteLine(status))
+                                                                                     .OnError((item, err, s) => Console.WriteLine(err));
 
             prices.Open();
 

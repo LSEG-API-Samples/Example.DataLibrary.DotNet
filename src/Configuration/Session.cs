@@ -50,8 +50,7 @@ namespace Configuration
                                                                                         Console.WriteLine($"{DateTime.Now}: State: {state}. {msg}"))
                                                                                   .OnEvent((eventCode, msg, s) =>
                                                                                         Console.WriteLine($"{DateTime.Now}: Event: {eventCode}. {msg}")),
-                SessionTypeEnum.DESKTOP => DesktopSession.Definition().AppKey(Credentials.AppKey)
-                                                                      .GetSession().OnState((state, msg, s) => 
+                SessionTypeEnum.DESKTOP => DesktopSession.Definition().GetSession().OnState((state, msg, s) => 
                                                                                         Console.WriteLine($"{DateTime.Now}: State: {state}. {msg}"))
                                                                       .OnEvent((eventCode, msg, s) => 
                                                                                         Console.WriteLine($"{DateTime.Now}: Event: {eventCode}. {msg}")),

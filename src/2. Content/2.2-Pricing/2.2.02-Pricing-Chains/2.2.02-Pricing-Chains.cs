@@ -11,11 +11,11 @@ namespace _2._2._02_Pricing_Chains
     //
     // Suggestion: This example uses the pricing chain endpoint service within RDP. For users that do not have access
     //             to this endpoint, but do have access to the streaming services, you can instead retrieve chains through
-    //             the streaming interfaces.  Refer to example 2.2.07-Pricing-StreamingSnapshot.
+    //             the streaming interfaces.  Refer to example 2.2.06-Pricing-StreamingChain.
     //
-    // Note: To configure settings for your environment, visit the following files within the .Solutions folder:
-    //      1. Configuration.Session to specify the access channel into the platform. Default: RDP (PlatformSession).
-    //      2. Configuration.Credentials to define your login credentials for the specified access channel.
+    // Note: The service is only available within RDP. Refer to the .Solutions folder Configuration.Credentials file to
+    //       specify the required RDP credentials. Alternatively, users to specify credentials within their own
+    //       configuration file.
     // **********************************************************************************************************************
     internal class Program
     {

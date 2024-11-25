@@ -10,7 +10,7 @@ namespace _3._1._04_Streaming_Batch
     // The following example demonstrates the use of retrieving multiple instruments by specifying a batch.
     //
     // Note: To configure settings for your environment, visit the following files within the .Solutions folder:
-    //      1. Configuration.Session to specify the access channel into the platform. Default: RDP (PlatformSession).
+    //      1. Configuration.Session to specify the access channel into the platform. Default: Desktop
     //      2. Configuration.Credentials to define your login credentials for the specified access channel.
     // **********************************************************************************************************************
     class Program

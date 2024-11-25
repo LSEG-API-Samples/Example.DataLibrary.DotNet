@@ -20,9 +20,9 @@ namespace _2._3._07_News_Analyze
     // expression - see CreateQueue() below.  The example will (retrieve/create/delete) a queue to deliver news headlines.
     // Prior to exit, the user is presented with the decision to delete the queue.
     //
-    // Note: To configure settings for your environment, visit the following files within the .Solutions folder:
-    //      1. Configuration.Session to specify the access channel into the platform. Default: RDP (PlatformSession).
-    //      2. Configuration.Credentials to define your login credentials for the specified access channel.
+    // Note: The service is only available within RDP. Refer to the .Solutions folder Configuration.Credentials file to
+    //       specify the required RDP credentials. Alternatively, users to specify credentials within their own
+    //       configuration file.
     // **********************************************************************************************************************
     class Program
     {

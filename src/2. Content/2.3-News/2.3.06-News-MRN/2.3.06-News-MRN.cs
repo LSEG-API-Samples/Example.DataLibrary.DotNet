@@ -11,9 +11,9 @@ namespace _2._3._06_News_MRN
     // The following example demonstrates how to subscribe to the Machine Readable News (MRN) service to retrieve any of the
     // available datafeeds (Headlines/Stories, Analytics Assets or Analytics events) within the MRN service.
     //
-    // Note: To configure settings for your environment, visit the following files within the .Solutions folder:
-    //      1. Configuration.Session to specify the access channel into the platform. Default: RDP (PlatformSession).
-    //      2. Configuration.Credentials to define your login credentials for the specified access channel.
+    // Note: The service is only available within RDP. Refer to the .Solutions folder Configuration.Credentials file to
+    //       specify the required RDP credentials. Alternatively, users to specify credentials within their own
+    //       configuration file.
     // **********************************************************************************************************************
     class Program
     {

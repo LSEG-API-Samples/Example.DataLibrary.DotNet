@@ -8,6 +8,14 @@ namespace _2._8._01_FundamentalAndReference_Basics
 {
     class Program
     {
+        // **********************************************************************************************************************
+        // 2.8.01-FundamentalAndReference-Basics
+        // The following example provides some basic examples of using the Fundamental and References services to retrieve data.
+        //
+        // Note: To configure settings for your environment, visit the following files within the .Solutions folder:
+        //      1. Configuration.Session to specify the access channel into the platform. Default: Desktop
+        //      2. Configuration.Credentials to define your login credentials for the specified access channel.
+        // **********************************************************************************************************************
         static void Main(string[] _)
         {
             Common.ShowUniverse = false;    // Display setting

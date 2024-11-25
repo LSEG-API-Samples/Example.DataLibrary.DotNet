@@ -105,9 +105,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "2.7.02-IPA-Option", "2. Con
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.8-FundamentalAndReference", "2.8-FundamentalAndReference", "{E6A7E5E3-502A-4208-8E5A-A1E402D96586}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "2.8.01-FundamentalAndReference_Basics", "2. Content\2.8-FundamentalAndReference\2.8.01-FundamentalAndReference-Basics\2.8.01-FundamentalAndReference_Basics.csproj", "{76A3AFCC-CA09-46EC-BFCE-28CE858FE3C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "2.8.01-FundamentalAndReference-Basics", "2. Content\2.8-FundamentalAndReference\2.8.01-FundamentalAndReference-Basics\2.8.01-FundamentalAndReference-Basics.csproj", "{76A3AFCC-CA09-46EC-BFCE-28CE858FE3C8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "2.8.02-FundamentalAndReference_Screener", "2. Content\2.8-FundamentalAndReference\2.8.02-FundamentalAndReference-Screener\2.8.02-FundamentalAndReference_Screener.csproj", "{9A2F61EF-213A-4FEE-B3A5-C8AFA8B919C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "2.8.02-FundamentalAndReference-Screener", "2. Content\2.8-FundamentalAndReference\2.8.02-FundamentalAndReference-Screener\2.8.02-FundamentalAndReference-Screener.csproj", "{9A2F61EF-213A-4FEE-B3A5-C8AFA8B919C7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "1.1 - PlatformSession", "1. Quick Start\1.1 - PlatformSession\1.1 - PlatformSession.csproj", "{4BB068EA-6421-4E81-81DC-3E8355D00412}"
 EndProject
@@ -159,7 +159,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "2.1.12-HistoricalPricing-TS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "3.2.06-Endpoint-TSIMetadata", "3. Delivery\3.2-Endpoint\3.2.06-Endpoint-TSIMetadata\3.2.06-Endpoint-TSIMetadata.csproj", "{AF5293D6-8F89-4C10-A4A5-D5957817F9F5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "2.8.03-FundamentalAndReference_TableCalc", "2. Content\2.8-FundamentalAndReference\2.8.03-FundamentalAndReference_TableCalc\2.8.03-FundamentalAndReference_TableCalc.csproj", "{E0221B48-3073-4A8D-83A1-3D6531755AEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "2.8.03-FundamentalAndReference-TableCalc", "2. Content\2.8-FundamentalAndReference\2.8.03-FundamentalAndReference_TableCalc\2.8.03-FundamentalAndReference-TableCalc.csproj", "{E0221B48-3073-4A8D-83A1-3D6531755AEA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.1-Configuration", "4.1-Configuration", "{8E576350-A706-4F9B-A655-920317758AFE}"
 EndProject
@@ -168,8 +168,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "4.0.02-Log-Config", "4. Extras\4.0-Log\4.0.02-Log-Config\4.0.02-Log-Config.csproj", "{4FF96458-F649-426C-965F-A1FF339AD0A3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "4.1.01-Configuration-Session", "4. Extras\4.1-Configuration\4.1.01-Configuration-Session.csproj", "{290C5990-EB6B-4AA6-A28C-D624FC890644}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "3.3.04-Queue-Monitor", "3. Delivery\3.3-Queue\3.3.04-Queue-Monitor\3.3.04-Queue-Monitor.csproj", "{89F62306-CE43-43FC-9E3D-37CFA8C22BBD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -699,14 +697,6 @@ Global
 		{290C5990-EB6B-4AA6-A28C-D624FC890644}.Release|Any CPU.Build.0 = Release|Any CPU
 		{290C5990-EB6B-4AA6-A28C-D624FC890644}.Release|x64.ActiveCfg = Release|Any CPU
 		{290C5990-EB6B-4AA6-A28C-D624FC890644}.Release|x64.Build.0 = Release|Any CPU
-		{89F62306-CE43-43FC-9E3D-37CFA8C22BBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{89F62306-CE43-43FC-9E3D-37CFA8C22BBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{89F62306-CE43-43FC-9E3D-37CFA8C22BBD}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{89F62306-CE43-43FC-9E3D-37CFA8C22BBD}.Debug|x64.Build.0 = Debug|Any CPU
-		{89F62306-CE43-43FC-9E3D-37CFA8C22BBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{89F62306-CE43-43FC-9E3D-37CFA8C22BBD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{89F62306-CE43-43FC-9E3D-37CFA8C22BBD}.Release|x64.ActiveCfg = Release|Any CPU
-		{89F62306-CE43-43FC-9E3D-37CFA8C22BBD}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -790,7 +780,6 @@ Global
 		{9B15AE30-CA07-4632-8E18-9C29CFCCD5F7} = {50B07942-A88E-4233-B8BE-7960B9E71406}
 		{4FF96458-F649-426C-965F-A1FF339AD0A3} = {50B07942-A88E-4233-B8BE-7960B9E71406}
 		{290C5990-EB6B-4AA6-A28C-D624FC890644} = {8E576350-A706-4F9B-A655-920317758AFE}
-		{89F62306-CE43-43FC-9E3D-37CFA8C22BBD} = {1B2AB816-B057-44F5-AE95-50F10538E6E1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {342A7422-A957-456D-9132-D532B687969D}

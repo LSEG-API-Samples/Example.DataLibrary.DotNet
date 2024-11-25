@@ -13,7 +13,7 @@ namespace _2._2._06_Pricing_StreamingChain
     // The following example demonstrates how to request and process chains that are active, such as the Nasdaq Top 25. 
     //
     // Note: To configure settings for your environment, visit the following files within the .Solutions folder:
-    //      1. Configuration.Session to specify the access channel into the platform. Default: RDP (PlatformSession).
+    //      1. Configuration.Session to specify the access channel into the platform. Default: Desktop
     //      2. Configuration.Credentials to define your login credentials for the specified access channel.
     // **********************************************************************************************************************
     class Program
@@ -100,14 +100,16 @@ namespace _2._2._06_Pricing_StreamingChain
 
         private static void DisplayChain(string name, IList<string> constituents)
         {
+            const int maxVisible = 30;
+
             Console.WriteLine($"\nRetrieved Chain RIC: {name}");
 
             // Display the 30 first elements of the chain
             int idx = 0;
-            foreach (string constituent in constituents.Take(30))
+            foreach (string constituent in constituents.Take(maxVisible))
                 Console.WriteLine($"\t{++idx,2}. {constituent}");
 
-            if (constituents.Count > 30)
+            if (constituents.Count > maxVisible)
                 Console.WriteLine($"\t...\n\t<total of {constituents.Count} elements.>");
         }
     }

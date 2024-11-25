@@ -10,10 +10,7 @@ using LSEG.Data.Core;
 //
 // The example uses a common method to display the table of updates and inserts.
 //
-// Note: To configure settings for your environment, visit the following files within the .Solutions folder.
-//       The TS capabilities are presently supported for Desktop sessions only.
-//      1. Ensure the Configuration.Session defines the 'Desktop' access channel.
-//      2. Configuration.Credentials to define your login credentials for the specified access channel.
+// Note: Streaming timeseries bars are presently supported for Desktop sessions only.
 // **********************************************************************************************************************
 try
 {
@@ -27,6 +24,7 @@ try
 
     // Create a Historical Pricing stream retrieve pricing events
     var stream = Events.Definition("VOD.L").Fields("RTL", "EVENT_TYPE", "TRDPRC_1", "TRDVOL_1", "QUALIFIERS")
+                                           .Sessions(HistoricalPricing.Sessions.normal)
                                            .Count(5)
                                            .GetStream();
 

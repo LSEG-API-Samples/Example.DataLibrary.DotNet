@@ -3,6 +3,15 @@ using Configuration;
 using LSEG.Data.Content.Data;
 using LSEG.Data.Core;
 
+// **********************************************************************************************************************
+// 2.8.03-FundamentalAndReference-TableCalc
+// The following example demonstrates some common table calculations, similar to Pandas Dataframes, but utilizing the
+// .Net DataTable structure and its capabilities.
+//
+// Note: To configure settings for your environment, visit the following files within the .Solutions folder:
+//      1. Configuration.Session to specify the access channel into the platform. Default: Desktop
+//      2. Configuration.Credentials to define your login credentials for the specified access channel.
+// **********************************************************************************************************************
 try
 {
     // Create a session into the platform

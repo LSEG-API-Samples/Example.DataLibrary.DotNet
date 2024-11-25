@@ -9,14 +9,14 @@ namespace _2._2._08_Pricing_StreamingEndpoint
     // **********************************************************************************************************************
     // 2.2.08-Pricing-StreamingEndpoint
     // The following example demonstrates how to override the default streaming endpoint when connecting to RDP.  The example
-    // utilizes the configuration file: lseg-data.config.json located within this project.
+    // utilizes the locally-defined configuration file: lseg-data.config.json.
     //
     // The example demonstrates the same functionality defined within example: 2.2.05-Pricing-StreamingEvents.  However,
-    // through configuration, will define the region to control the endpoint driving the streaming data.
+    // through configuration, overrides the streaming region to control the endpoint driving the streaming data.
     //
-    // Note: To configure settings for your environment, visit the following files within the .Solutions folder:
-    //      1. Configuration.Session to specify the access channel into the platform. Default: RDP (PlatformSession).
-    //      2. Configuration.Credentials to define your login credentials for the specified access channel.
+    // Note: The service is only available within RDP. Refer to the .Solutions folder Configuration.Credentials file to
+    //       specify the required RDP credentials. Alternatively, users to specify credentials within their own
+    //       configuration file.
     // **********************************************************************************************************************
     internal class Program
     {
@@ -41,7 +41,7 @@ namespace _2._2._08_Pricing_StreamingEndpoint
                 }
 
                 // This example requires a platform session to demonstrate how to override the default region
-                var session = Sessions.GetSession(Sessions.SessionTypeEnum.RDPv2);
+                var session = Sessions.GetSession(Sessions.SessionTypeEnum.RDPv1);
 
                 // Open the session
                 session.Open();

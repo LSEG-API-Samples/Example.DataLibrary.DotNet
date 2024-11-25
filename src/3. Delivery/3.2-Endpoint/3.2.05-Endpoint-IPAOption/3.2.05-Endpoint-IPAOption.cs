@@ -10,7 +10,7 @@ namespace _3._2._05_Endpoint_IPAOption
     // The following example demonstrates the Instrument Pricing Analytics (IPA) API demonstrating Option Pricing.
     //
     // Note: To configure settings for your environment, visit the following files within the .Solutions folder:
-    //      1. Configuration.Session to specify the access channel into the platform. Default: RDP (PlatformSession).
+    //      1. Configuration.Session to specify the access channel into the platform. Default: Desktop
     //      2. Configuration.Credentials to define your login credentials for the specified access channel.
     // **********************************************************************************************************************
     class Program
@@ -44,7 +44,7 @@ namespace _3._2._05_Endpoint_IPAOption
                                                                                    ["instrumentType"] = "Option",
                                                                                    ["instrumentDefinition"] = new JObject()
                                                                                    {
-                                                                                       ["instrumentCode"] = "AAPLJ182424000.U",
+                                                                                       ["instrumentCode"] = "AAPLF182624000.U",
                                                                                        ["underlyingType"] = "Eti"
                                                                                    },
                                                                                    ["pricingParameters"] = new JObject()

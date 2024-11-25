@@ -13,9 +13,9 @@ namespace _3._1._02_MarketByPrice
     // the initial refresh message in multiple segments.  We utilize the power of the NewtonSoft JSON libraries to merge the
     // segments into 1 complete image.
     //
-    // Note: To configure settings for your environment, visit the following files within the .Solutions folder:
-    //      1. Configuration.Session to specify the access channel into the platform. Default: RDP (PlatformSession).
-    //      2. Configuration.Credentials to define your login credentials for the specified access channel.
+    // Note: The service is only available within RDP. Refer to the .Solutions folder Configuration.Credentials file to
+    //       specify the required RDP credentials. Alternatively, users to specify credentials within their own
+    //       configuration file.
     // **********************************************************************************************************************
     class Program
     {

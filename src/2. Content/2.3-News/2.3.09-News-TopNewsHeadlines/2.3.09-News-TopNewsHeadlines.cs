@@ -17,7 +17,7 @@ namespace _2._3._09_News_TopNewsHeadlines
     // The following example presents the top news headlines.
     //
     // Note: To configure settings for your environment, visit the following files within the .Solutions folder:
-    //      1. Configuration.Session to specify the access channel into the platform. Default: RDP (PlatformSession).
+    //      1. Configuration.Session to specify the access channel into the platform. Default: Desktop
     //      2. Configuration.Credentials to define your login credentials for the specified access channel.
     // **********************************************************************************************************************
     class Program

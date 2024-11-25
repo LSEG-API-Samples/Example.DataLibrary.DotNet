@@ -15,9 +15,9 @@ namespace _2._2._01_Pricing_Snapshot
     //             to this endpoint, but do have access to the streaming services, you can instead retrieve snapshot prices
     //             through the streaming interfaces.  Refer to example 2.2.07-Pricing-StreamingSnapshot.
     //
-    // Note: To configure settings for your environment, visit the following files within the .Solutions folder:
-    //      1. Configuration.Session to specify the access channel into the platform. Default: RDP (PlatformSession).
-    //      2. Configuration.Credentials to define your login credentials for the specified access channel.
+    // Note: The service is only available within RDP. Refer to the .Solutions folder Configuration.Credentials file to
+    //       specify the required RDP credentials. Alternatively, users to specify credentials within their own
+    //       configuration file.
     // **********************************************************************************************************************
     class Program
     {
@@ -28,7 +28,7 @@ namespace _2._2._01_Pricing_Snapshot
             try
             {
                 // Create a session into the platform...
-                using ISession session = Sessions.GetSession(Sessions.SessionTypeEnum.CONFIG);
+                using ISession session = Sessions.GetSession(Sessions.SessionTypeEnum.RDPv1);
 
                 // Open the session
                 session.Open();

@@ -42,14 +42,11 @@ For example:
 
 By default, the LSEG Data Library for .Net uses an internal database defining default configuration 
 settings within the library. Users have the ability to utilize their own configuration store to override 
-default settings.  For this project, you can refer to the 'lseg-data.config.json' or 
-'customConfig.json' as a reference.
+default settings.  For this project, you can refer to the 'lseg-data.config.json' as a reference.
 
-The following features are available when defining application configuration settings:
+The libary can pull in configuration settings via a configuration file defined within the file system, a
+JSON object and an embedded resource via a Stream.
 
-	o Specification of a Json (JObject) or System.IO.Stream within a Session Definition
-
-Otherwise, the libary can pull in configuration settings via a configuration file defined within the file system.
 Note: By default, the library will search for the configuration file: lseg-data.config.json
 
 The following steps are enforced when locating a file-based configuration file:

@@ -9,10 +9,10 @@ namespace _2._2._04_Pricing_StreamingAddRemove
     // **********************************************************************************************************************
     // 2.2.04-Pricing-StreamingAddRemove
     // The following example demonstrates how to add to or remove items from your streaming cache.  Items added will be
-    // automatically opened if the stream is already opened.
+    // automatically opened if the streaming connection is already opened.
     //
     // Note: To configure settings for your environment, visit the following files within the .Solutions folder:
-    //      1. Configuration.Session to specify the access channel into the platform. Default: RDP (PlatformSession).
+    //      1. Configuration.Session to specify the access channel into the platform. Default: Desktop
     //      2. Configuration.Credentials to define your login credentials for the specified access channel.
     // **********************************************************************************************************************
     class Program

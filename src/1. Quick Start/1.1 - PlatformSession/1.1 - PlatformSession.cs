@@ -17,7 +17,7 @@ namespace _1._1___PlatformSession
                 ISession session = null;
 
                 // Prompt the user to select authentication credentials
-                Console.Write("\nChoose v1 (1) or v2 (2) authentication credentials: ");
+                Console.Write("\nChoose v1 (1) or v2 (2) authentication credentials (1,2) => ");
                 var cred = Console.ReadLine();
 
                 switch (cred)

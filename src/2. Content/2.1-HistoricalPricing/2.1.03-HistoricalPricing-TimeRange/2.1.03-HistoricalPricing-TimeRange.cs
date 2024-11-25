@@ -6,6 +6,15 @@ using Configuration;
 
 namespace _2._1._03_HistoricalPricing_TimeRange
 {
+    // **********************************************************************************************************************
+    // 2.1.03-HistoricalPricing-TimeRange
+    // The HistoricalPricing TimeRange example demonstrates how to retrieve historical content based on time ranges.
+    // The example uses a common method to display the table of data returned.
+    //
+    // Note: To configure settings for your environment, visit the following files within the .Solutions folder:
+    //      1. Configuration.Session to specify the access channel into the platform. Default: Desktop.
+    //      2. Configuration.Credentials to define your login credentials for the specified access channel.
+    // **********************************************************************************************************************
     class Program
     {
         static void Main(string[] _)

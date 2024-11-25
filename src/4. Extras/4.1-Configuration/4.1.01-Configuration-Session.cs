@@ -20,7 +20,7 @@ namespace _4._1_._01_Configuration_Session
         //          b) platform configuration (Example 2)
         //          c) desktop configuration (Example 3)
         //          d) deployed ADS configuration (Example 4)
-        //     2. Programatically loading a local configuration file (customConfig.json)
+        //     2. Programatically loading a local configuration file (lseg-data.config.json)
         //          a) default configuration (Example 5)
         //
         // In the above examples (Example 1, Example 5), we are utilizing the default configuration as defined within these 
@@ -213,7 +213,7 @@ namespace _4._1_._01_Configuration_Session
             // File-based configuration (loaded a JObject)
             Console.Write("<Enter> to load Json configuration from file and open the default session..."); Console.ReadLine();
 
-            var json = JObject.Parse(File.ReadAllText("customConfig.json"));
+            var json = JObject.Parse(File.ReadAllText("lseg-data.config.json"));
 
             // Define Sessions
             var session = Session.Definition(json).GetSession().OnState((state, msg, s) =>
