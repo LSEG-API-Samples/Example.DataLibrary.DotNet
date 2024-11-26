@@ -15,8 +15,7 @@ namespace _1._2___DesktopSession
             try
             {
                 // Create a session into the desktop application
-                var session = DesktopSession.Definition().AppKey(Credentials.AppKey)
-                                                         .GetSession().OnState((state, msg, s) => Console.WriteLine($"State: {state}. {msg}"))
+                var session = DesktopSession.Definition().GetSession().OnState((state, msg, s) => Console.WriteLine($"State: {state}. {msg}"))
                                                                       .OnEvent((eventCode, msg, s) => Console.WriteLine($"Event: {eventCode}. {msg}"));
 
                 if (session.Open() == Session.State.Opened)
