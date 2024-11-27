@@ -16,12 +16,12 @@ namespace Configuration
     //
     public static class Credentials
     {
-        // ********************************************************************
+        // ****************************************************************************
         // RDP/RTO in Cloud Global Authentication parameters
         //
         // Note: Parameters in this section are only applicable if you were
-        //       provided RDP (v1 and v2) or ERT in Cloud credentials.
-        // ********************************************************************
+        //       provided Refinitiv Data Platform (RDP) (v1 or v2) cloud credentials.
+        // ****************************************************************************
 
         // *****************************************
         // v1 (OAuth 2.0 - Password Grant)

@@ -14,7 +14,7 @@ namespace Configuration
         // ***********************************************************************************************
         public enum SessionTypeEnum
         {
-            DESKTOP,                // DesktopSession           - Refintiv Workspace - desktop application
+            DESKTOP,                // DesktopSession           - LSEG Workspace - desktop application
             RDPv1,                  // PlatformSession          - Refinitiv Data Platform using v1 authentication
             RDPv2,                  // PlatformSession          - Refinitiv Data Platform using v2 authentication
             DEPLOYED,               // PlatformSession          - Deployed ADS streaming services only
