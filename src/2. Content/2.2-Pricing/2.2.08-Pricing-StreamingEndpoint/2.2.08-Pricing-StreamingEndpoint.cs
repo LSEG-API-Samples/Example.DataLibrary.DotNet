@@ -2,7 +2,6 @@
 using Newtonsoft.Json.Linq;
 using LSEG.Data.Content.Pricing;
 using System;
-using LSEG.Data;
 
 namespace _2._2._08_Pricing_StreamingEndpoint
 {
@@ -22,8 +21,6 @@ namespace _2._2._08_Pricing_StreamingEndpoint
     {
         static void Main(string[] _)
         {
-            Log.Level = NLog.LogLevel.Trace;
-
             // *************************
             // * Environment management.
             // * Manage the configuration environment variable in the event it is defined.

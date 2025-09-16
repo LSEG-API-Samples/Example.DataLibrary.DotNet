@@ -3,7 +3,7 @@ using Newtonsoft.Json.Linq;
 using LSEG.Data.Core;
 using LSEG.Data.Delivery.Queue;
 using System;
-using System.Linq;
+using System.Threading.Tasks;
 
 namespace _3._3._02_Queue_NewsStories
 {
@@ -20,7 +20,7 @@ namespace _3._3._02_Queue_NewsStories
     // **********************************************************************************************************************
     class Program
     {
-        static void Main(string[] _)
+        static async Task Main(string[] _)
         {
             const string newsStoriesEndpoint = "https://api.refinitiv.com/message-services/v1/news-stories/subscriptions";
 
@@ -61,8 +61,8 @@ namespace _3._3._02_Queue_NewsStories
                     Console.ReadKey();
 
                     // Close the subscription - stops polling for messages
-                    subscriber.StopPolling();
-                    task.GetAwaiter().GetResult();
+                    await subscriber.StopPollingAsync();
+                    await task;
                     Console.WriteLine("Stopped polling for messages from the queue.");
 
                     // Prompt the user to delete the queue
@@ -100,7 +100,7 @@ namespace _3._3._02_Queue_NewsStories
                     // Determine if the headline is usable, i.e. if we want to display it
                     if (msg.SelectToken("payload.newsItem.itemMeta.pubStatus._qcode") is JValue pubStatus)
                     {
-                        if (pubStatus.Contains("usable"))
+                        if (pubStatus.Value.ToString().Contains("usable"))
                         {
                             DateTime local = DateTime.Parse(msg["distributionTimestamp"].ToString()).ToLocalTime();
 

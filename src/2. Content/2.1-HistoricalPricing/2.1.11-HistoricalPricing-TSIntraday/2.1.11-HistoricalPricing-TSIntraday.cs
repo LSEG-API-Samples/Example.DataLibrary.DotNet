@@ -23,11 +23,11 @@ try
     session.Open();
 
     // Create a Historical Pricing stream - specifying the desired 'intraday' interval
-    var stream = Summaries.Definition("VOD.L").Fields("BID", "ASK", "HIGH_1", "LOW_1", "TRDPRC_1", "ACVOL_UNS", "NUM_MOVES")
-                                              .Interval(Summaries.Interval.PT1M)
-                                              .Sessions(HistoricalPricing.Sessions.normal)
-                                              .Count(5)
-                                              .GetStream();
+    var stream = Summaries.Definition("AAPL.O").Fields("BID", "ASK", "HIGH_1", "LOW_1", "TRDPRC_1", "ACVOL_UNS", "NUM_MOVES")
+                                               .Interval(Summaries.Interval.PT1M)
+                                               .Sessions(HistoricalPricing.Sessions.normal)
+                                               .Count(5)
+                                               .GetStream();
 
     // Specify the TSI lambda expressions to capture 'Insert' and 'Update' events
     stream.OnInsert((data, stream) => Common.DisplayTable($"INSERT: {DateTime.Now}", data.Table))

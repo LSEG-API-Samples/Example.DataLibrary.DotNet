@@ -30,8 +30,9 @@ namespace _2._3._03_News_Story
                 if (session.Open() == Session.State.Opened)
                 {
 
-                    // Retrieve the most recent headline about Apple
-                    var headline = Headlines.Definition().Query("L:EN and Apple")
+                    // Retrieve a major breaking news headline from yesterday
+                    var yesterday = DateTime.Now.AddDays(-1);
+                    var headline = Headlines.Definition().Query($"NEWS1 SINCE {yesterday:yyyy-MM-dd}")
                                                          .Count(1)
                                                          .GetData();
 

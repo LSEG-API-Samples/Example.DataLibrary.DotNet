@@ -1,8 +1,8 @@
-﻿using LSEG.Data.Content.News;
+﻿using Configuration;
+using LSEG.Data.Content.News;
 using LSEG.Data.Core;
 using System;
 using System.Linq;
-using Configuration;
 using System.Text;
 
 namespace _2._3._02_News_HeadlinesByDate
@@ -74,7 +74,7 @@ namespace _2._3._02_News_HeadlinesByDate
             {
                 Console.WriteLine($"Retrieved a total of {headlines.Data.Headlines.Count} headlines.  Small sample:");
                 foreach (var headline in headlines.Data.Headlines.Take(5))
-                    Console.WriteLine($"\t{headline.CreationDate}\t{headline.HeadlineTitle}");
+                    Console.WriteLine($"\t{headline.UpdateDate}\t{headline.HeadlineTitle}");
             }
             else
                 Console.WriteLine($"Issue retrieving headlines: {headlines.HttpStatus}");

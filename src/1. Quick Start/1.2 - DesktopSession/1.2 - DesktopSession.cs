@@ -1,5 +1,4 @@
-﻿using Configuration;
-using LSEG.Data;
+﻿using LSEG.Data;
 using LSEG.Data.Core;
 using System;
 

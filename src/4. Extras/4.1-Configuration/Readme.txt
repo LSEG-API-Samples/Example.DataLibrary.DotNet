@@ -24,20 +24,21 @@ default configuration settings.
 
 For example:
 
-	o Define credentials
-	  Users can have complete control where credentials are defined and feed them into their application(s).
+	o Credentials
+	  While credentials are typically specified directly within API calls, users can optionally choose to 
+	  control user credential settings via a configuration store, eg file.
 
-	o Override default Session settings
-	  Some behavior can be controlled through specific session parameters, such as timeouts, or server
-	  settings that may change.
+	o Sessions
+	  Library behavior can be modified or tuned via session parameters, such as timeouts, server specifications 
+	  or API endpoints.
 
-	o Control multiple testing environments
+	o Testing environments
 	  Using named stanza's, multiple environments can be setup to control where and how you connect into
 	  the environment.
 
-	o Override default API endpoints
+	o API endpoints
 	  Endpoint specifications that drive data delivery may change and thus require default settings to 
-	  be modified.
+	  be modified via session-specific stanzas.
 	
 
 By default, the LSEG Data Library for .Net uses an internal database defining default configuration 

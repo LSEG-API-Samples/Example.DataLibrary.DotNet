@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="LSEG.Data" Version="2.0.0" />
+    <PackageReference Include="LSEG.Data" Version="2.2.1" />
   </ItemGroup>
 
   <ItemGroup>

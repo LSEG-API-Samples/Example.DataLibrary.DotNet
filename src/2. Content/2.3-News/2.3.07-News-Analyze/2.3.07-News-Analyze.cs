@@ -1,19 +1,19 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Configuration;
 using LSEG.Data.Content.News;
 using LSEG.Data.Core;
 using LSEG.Data.Delivery.Queue;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Configuration;
 
 namespace _2._3._07_News_Analyze
 {
     // **********************************************************************************************************************
     // 2.3.07-News-Analyze
-    // The News Analyze service converts a textual news query into a JSON tree expression used by other news services as a
-    // means to filter the news of interest.  For example, the queue-based services, news headlines or headlines and stories,
-    // utilize a tree expression that filter data delivered to message queues within the cloud.
+    // The News Analyze service converts a textual news query, for example "AA" which represents News Alert, into a JSON tree
+    // expression. This resulting JSON message is used by the queue-based message service which will deliver these realtime
+    // news headlines.
     //
     // The following example demonstrates how to request for news headlines from the platforms' message services using a
     // simple news query expression. The Analyze service will perform the task of converting the query into a JSON tree
@@ -68,15 +68,15 @@ namespace _2._3._07_News_Analyze
                     //       poll the queue for new messages.  The second mechanism is to define a callback/lambda expression and notify the
                     //       the subscriber to poll for messages as they come in - this mechansim provides a near realtime result.
                     //
-                    // The following example demonstrates the first mechanism.
+                    // The following example demonstrates the second mechanism.
                     var subscriber = definition.CreateAWSSubscriber(queue);
 
                     // Poll the queue until we hit any key on the keyboard.
-                    // Each poll will timeout after 2 seconds if no messages arrive.
-                    while (!Console.KeyAvailable)
+                    subscriber.StartPollingAsync((alert, s) =>
                     {
-                        subscriber.GetNextMessage(2, (headline, s) => DisplayHeadline(headline));
-                    }
+                        DisplayHeadline(alert);
+                    });
+
                     Console.ReadKey();
 
                     // Prompt the user to delete the queue
@@ -127,24 +127,31 @@ namespace _2._3._07_News_Analyze
         {
             try
             {
-                if (response.IsMessageAvailable)
+                if (response.IsSuccess)
                 {
                     var msg = response.Data.Raw;
 
                     // Determine if the headline is usable, i.e. if we want to display it
-                    var pubStatus = msg["payload"]?["newsItem"]?["itemMeta"]?["pubStatus"]?["_qcode"]?.ToString();
-                    if (pubStatus is not null && pubStatus.Contains("usable"))
+                    if (msg.SelectToken("payload.newsItem.itemMeta.pubStatus._qcode") is JValue pubStatus)
                     {
-                        DateTime local = DateTime.Parse(msg["distributionTimestamp"].ToString()).ToLocalTime();
-
-                        // Determine if this is an actual headline
-                        if (msg.SelectToken("payload.newsItem.contentMeta.headline") is JArray headline)
+                        if (pubStatus.Value.ToString().Contains("usable"))
                         {
-                            if (headline?.Count > 0 && headline[0]["$"] is JToken value)
-                                Console.WriteLine($"{local}: {value}".Indent(110));
+                            DateTime local = DateTime.Parse(msg["distributionTimestamp"].ToString()).ToLocalTime();
+
+                            // Determine if this is an actual headline
+                            if (msg.SelectToken("payload.newsItem.contentMeta.headline") is JArray headline)
+                            {
+                                if (headline?.Count > 0 && headline[0]["$"] is JToken value)
+                                    Console.WriteLine($"{local}: {value}".Indent(110));
+                            }
                         }
                     }
                 }
+                else
+                {
+                    Console.WriteLine($"Response failed: {response.Error}");
+                }
+
             }
             catch (Exception e)
             {

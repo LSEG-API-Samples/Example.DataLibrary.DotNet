@@ -2,7 +2,6 @@
 using LSEG.Data.Core;
 using System;
 using Configuration;
-using LSEG.Data;
 
 namespace _2._2._01_Pricing_Snapshot
 {
@@ -23,8 +22,6 @@ namespace _2._2._01_Pricing_Snapshot
     {
         static void Main(string[] _)
         {
-            Log.Level = NLog.LogLevel.Trace;
-
             try
             {
                 // Create a session into the platform...

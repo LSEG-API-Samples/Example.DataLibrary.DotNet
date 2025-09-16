@@ -48,6 +48,16 @@ namespace _2._1._03_HistoricalPricing_TimeRange
                                                         .End(end)
                                                         .GetData();
                 Common.DisplayTable("Historical monthly Summaries - last calendar year", response);
+
+                // Using a more natural way to create interday dates
+                var sd = new DateTime(lastYear, 1, 1);
+                var ed = new DateTime(lastYear, 12, 31);
+                response = Summaries.Definition("VOD.L").Interval(Summaries.Interval.P1M)
+                                                        .Fields("TRDPRC_1", "LOW_1", "HIGH_1")
+                                                        .Start(start)
+                                                        .End(end)
+                                                        .GetData();
+                Common.DisplayTable("Historical monthly Summaries - last calendar year", response);
             }
             catch (Exception e)
             {

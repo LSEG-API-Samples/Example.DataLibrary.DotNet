@@ -70,7 +70,7 @@ namespace _2._3._01_News_HeadlinesByCount
             {
                 Console.WriteLine($"\nRetrieved a total of {headlines.Data.Headlines.Count} headlines.  Small sample:");
                 foreach (var headline in headlines.Data.Headlines.Take(5))
-                    Console.WriteLine($"\t{headline.CreationDate}\t{headline.HeadlineTitle}");
+                    Console.WriteLine($"\t{headline.UpdateDate}\t{headline.HeadlineTitle}");
             }
             else
                 Console.WriteLine($"Issue retrieving headlines: {headlines.HttpStatus}");

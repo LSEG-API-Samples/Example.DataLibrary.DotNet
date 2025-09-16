@@ -48,7 +48,7 @@ namespace _3._2._02_Endpoing_News_Headline_and_Story
                     var storyUrl = "https://api.refinitiv.com/data/news/v1/stories/{storyId}";
 
                     // Retrieve and display the story based on the ID we retrieved from the headline
-                    DisplayStory(session, EndpointRequest.Definition(storyUrl).PathParameter("storyId", storyId).GetData());
+                    DisplayStory(EndpointRequest.Definition(storyUrl).PathParameter("storyId", storyId).GetData());
                 }
                 else
                     Console.WriteLine($"Problems retrieving the story ID:{Environment.NewLine}{response.HttpStatus}");
@@ -79,15 +79,12 @@ namespace _3._2._02_Endpoing_News_Headline_and_Story
 
         // DisplayHeadlineAndStory
         // Interrogate the response to pull out the story text.
-        private static void DisplayStory(ISession session, IEndpointResponse response)
+        private static void DisplayStory(IEndpointResponse response)
         {
             if (response.IsSuccess)
             {
                 Console.Write($"{Environment.NewLine}Story: ");
-                if (session is IPlatformSession)
-                    Console.WriteLine(response.Data.Raw.SelectToken("newsItem.contentSet.inlineData[0].$"));
-                else
-                    Console.WriteLine(response.Data.Raw.SelectToken("newsItem.contentSet.inlineData.$"));
+                Console.WriteLine(response.Data.Raw.SelectToken("newsItem.contentSet.inlineData[0].$"));
             }
             else
                 Console.WriteLine($"Failed to retrieve data: {response.HttpStatus}");

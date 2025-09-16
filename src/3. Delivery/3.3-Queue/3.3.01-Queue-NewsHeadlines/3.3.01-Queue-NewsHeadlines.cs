@@ -78,20 +78,25 @@ namespace _3._3._01_Queue_NewsHeadlines
                     //       poll the queue for new messages.  The second mechanism is to define a callback/lambda expression and notify the
                     //       the subscriber to poll for messages as they come in - this mechansim provides a near realtime result.
                     //
-                    // The following example demonstrates the first mechanism.
+                    // The following example demonstrates the 2nd mechanism.
                     var subscriber = definition.CreateAWSSubscriber(queue);
 
                     // Poll the queue until we hit any key on the keyboard.
-                    // Each poll will timeout after 2 seconds if no messages arrive.
-                    var task = new CancellationTokenSource();
+                    var task = subscriber.StartPollingAsync((alert, s) => DisplayHeadline(alert));
+                    Console.ReadKey();
+
+                    // Close the subscription - stops polling for messages
+                    subscriber.StopPolling();
+                    task.GetAwaiter().GetResult();
+                    Console.WriteLine("Stopped polling for messages from the queue.");
+
+                    // Poll the queue until we hit any key on the keyboard.
                     var run = Task.Run(() =>
                     {
                         try
                         {
-                            while (!task.IsCancellationRequested)
-                            {
-                                subscriber.GetNextMessage(20, (headline, s) => DisplayHeadline(headline), task.Token);
-                            }
+                            // Poll the queue until we hit any key on the keyboard.
+                            subscriber.StartPollingAsync((alert, s) => DisplayHeadline(alert));
                         }
                         catch (TaskCanceledException)
                         {
@@ -99,8 +104,7 @@ namespace _3._3._01_Queue_NewsHeadlines
                         }
                     });
 
-                    Console.ReadKey();
-                    task.Cancel();
+
                     run.GetAwaiter().GetResult();
                 }
             }
@@ -136,14 +140,14 @@ namespace _3._3._01_Queue_NewsHeadlines
         {
             try
             {
-                if (response.IsMessageAvailable)
+                if (response.IsSuccess)
                 {
                     var msg = response.Data.Raw;
 
                     // Determine if the headline is usable, i.e. if we want to display it
-                    if (msg.SelectToken("payload.newsItem.itemMeta.pubStatus._quote") is JValue pubStatus)
+                    if (msg.SelectToken("payload.newsItem.itemMeta.pubStatus._qcode") is JValue pubStatus)
                     {
-                        if (pubStatus.Contains("usable"))
+                        if (pubStatus.Value.ToString().Contains("usable"))
                         {
                             DateTime local = DateTime.Parse(msg["distributionTimestamp"].ToString()).ToLocalTime();
 
@@ -155,6 +159,10 @@ namespace _3._3._01_Queue_NewsHeadlines
                             }
                         }
                     }
+                }
+                else
+                {
+                    Console.WriteLine($"Response failed: {response.Error}");
                 }
             }
             catch (Exception e)
