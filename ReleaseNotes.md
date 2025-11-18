@@ -1,5 +1,13 @@
 ## LSEG.Data and LSEG.Data.Content Release Notes
 
+## 2.2.2 (Nov 18, 2025)
+- Improved platform session reconnection/recovery logic to better handle transient network issues.
+- Designed a synchronization mechanism to avoid race conditions during session reconnection and stream reinitializations.
+- Enhanced logging and diagnostics to provide better insights into session and stream states during reconnection attempts.
+- Updated the library config to support configurable retry intervals and token expiration thresholds.
+- Updated the platform revoke API to call the correct endpoint for token revocation.
+- If revoke fails, the first session reconnect won't take exclusive control, but subsequent attempts will. Endless loops are avoided.
+
 ## 2.2.1 (Sep 09, 2025)
 - Reverted to previous implementation for cf_fields (on df-streaming side) due to stability and compatibility considerations.
 - Removed the LSEG.Data.Plugins package from this release. The package requires further revision and will be reintroduced once it is integrated at Delivery Layer.
