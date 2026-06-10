@@ -1,4 +1,15 @@
-## LSEG.Data and LSEG.Data.Content Release Notes
+﻿## LSEG.Data and LSEG.Data.Content Release Notes
+
+## 2.2.3 (May 20, 2026)
+- Added **chunking support** for Intraday Summaries for API requests and real-time streaming
+  - `UseChunking(true).GetData()` keeps the API behavior the same (single aggregated result) but retrieves data in chunks internally.
+  - `GetData(Action<IDataSetResponse, IChunkDetails, ISummariesDefinitionParams, ISession> cb, ...)` enables **paged delivery**: 
+	the callback is invoked per chunk as data arrives (with chunk details/context), allowing incremental processing.
+  - `UseChunking(true).GetStream()` behaves similarly to `GetData()`. It emits results as soon as the first insert is received via the `OnInsert` callback.
+  - Notes: Chunking remains **disabled by default**.
+- Fixed **IntradaySummaries DateTime** handling to prevent alteration when `Start/End` are set to midnight (`00:00:00`).
+  - **Intraday, date-only inputs** (`TimeSpan = Zero`) expand to the full day range (e.g., `.Start(new DateTime(2025, 12, 16))` / `.End(new DateTime(2025, 12, 16))` → `Start: 2025-12-16T00:00:00.0000000Z`, `End: 2025-12-16T23:59:59.9999999Z`).
+  - **Intraday, explicit times** are honored as-is.
 
 ## 2.2.2 (Nov 18, 2025)
 - Improved platform session reconnection/recovery logic to better handle transient network issues.
